@@ -20,7 +20,7 @@ try {
       // Notification payloads are displayed automatically by Firebase. Only render
       // data-only pushes here to avoid showing the same notification twice.
       if (payload.notification) return;
-      const title = payload.data?.title || "Iteration 13 update";
+      const title = payload.data?.title || "Iteration 14 update";
       const options = {
         body: payload.data?.body || "Open the app to check your latest information.",
         icon: "/iteration13-icon.svg",
@@ -51,8 +51,8 @@ self.addEventListener("notificationclick", (event) => {
   }));
 });
 
-const CACHE_VERSION = "iteration13-shell-v24";
-const MEDIA_CACHE = "iteration13-media-v5";
+const CACHE_VERSION = "iteration14-shell-v1";
+const MEDIA_CACHE = "iteration14-media-v1";
 const SHELL_CACHE = CACHE_VERSION;
 const STATIC_LIMIT = 100;
 const PUBLIC_PAGE_LIMIT = 12;
@@ -152,7 +152,7 @@ async function cacheMediaUrl(value) {
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter(key => key.startsWith("theplug-shell-") || key.startsWith("theplug-media-") || (key.startsWith("iteration13-shell-") && key !== SHELL_CACHE) || (key.startsWith("iteration13-media-") && key !== MEDIA_CACHE)).map(key => caches.delete(key)));
+    await Promise.all(keys.filter(key => key.startsWith("theplug-shell-") || key.startsWith("theplug-media-") || (key.startsWith("iteration13-shell-") || (key.startsWith("iteration14-shell-") && key !== SHELL_CACHE)) || (key.startsWith("iteration13-media-") || (key.startsWith("iteration14-media-") && key !== MEDIA_CACHE))).map(key => caches.delete(key)));
     // Navigation preload overlaps the network request with worker startup. It is
     // optional and must never prevent activation on browsers that do not support it.
     try {
