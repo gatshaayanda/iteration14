@@ -24,8 +24,8 @@ for (const file of walk(root)) {
   if (/boemo-joos-food-deals|namane-tyres\.vercel\.app|yusuf-clothing-line\.vercel\.app/i.test(content)) failures.push(rel + ": inherited project URL remains");
 }
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "public/manifest.webmanifest"), "utf8"));
-if (manifest.name !== "Iteration 13 | Service Studio") failures.push("manifest: wrong application name");
-if (manifest.short_name !== "Iteration 13") failures.push("manifest: wrong short name");
+if (manifest.name !== "iB Backpack") failures.push("manifest: wrong application name");
+if (manifest.short_name !== "iB Backpack") failures.push("manifest: wrong short name");
 if (manifest.theme_color !== "#155eef") failures.push("manifest: wrong theme color");
 if (!manifest.icons?.some(icon => icon.src === "/iteration13-icon.svg" || icon.src === "/iteration13-icon-192.png")) failures.push("manifest: prototype icon missing");
 for (const iconPath of ["/iteration13-icon.svg", "/iteration13-icon-192.png", "/iteration13-icon-512.png"]) {
@@ -33,16 +33,16 @@ for (const iconPath of ["/iteration13-icon.svg", "/iteration13-icon-192.png", "/
   if (!fs.existsSync(path.join(root, "public", iconPath.slice(1)))) failures.push("manifest icon asset missing " + iconPath);
 }
 const appManifest = fs.readFileSync(path.join(root, "src/app/manifest.ts"), "utf8");
-if (!appManifest.includes('name: "Iteration 13 | Service Studio"')) failures.push("app manifest: wrong application name");
+if (!appManifest.includes('name: "iB Backpack"')) failures.push("app manifest: wrong application name");
 if (appManifest.includes("The Plug") || appManifest.includes("plug-icon")) failures.push("app manifest: inherited The Plug identity remains");
 for (const iconPath of ["/iteration13-icon-192.png", "/iteration13-icon-512.png"]) if (!appManifest.includes(iconPath)) failures.push("app manifest: missing " + iconPath);
 if (!fs.existsSync(path.join(root, "public/iteration13-icon.svg"))) failures.push("prototype icon file missing");
 if (!fs.existsSync(path.join(root, "public/iteration13-icon-180.png"))) failures.push("Apple install icon file missing");
 const layout = fs.readFileSync(path.join(root, "src/app/layout.tsx"), "utf8");
 const pwaRegister = fs.readFileSync(path.join(root, "src/app/pwa-register.tsx"), "utf8");
-for (const expected of ["Iteration 13 | Service Studio", "applicationName:\"Iteration 13\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
+for (const expected of ["iB Backpack | Your Personal Space", "applicationName:\"iB Backpack\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
 // Validate Apple install metadata semantically; whitespace and additional metadata fields are harmless.
-if (!/appleWebApp\s*:\s*\{[^}]*\bcapable\s*:\s*true\b[^}]*\btitle\s*:\s*["']Iteration 13["']/s.test(layout)) failures.push('layout: missing appleWebApp capable=true and title="Iteration 13"');
+if (!/appleWebApp\s*:\s*\{[^}]*\bcapable\s*:\s*true\b[^}]*\btitle\s*:\s*["']iB Backpack["']/s.test(layout)) failures.push('layout: missing appleWebApp capable=true and title="iB Backpack"');
 const sw = fs.readFileSync(path.join(root, "public/sw.js"), "utf8");
 if (!/iteration13-shell-v\d+/.test(sw)) failures.push("service worker: missing isolated cache namespace");
 if (!sw.includes("/iteration13-icon.svg")) failures.push("service worker: prototype icon missing from app shell");
@@ -59,7 +59,7 @@ const installContracts = [
   [pwaRegister.includes('promptWindow.__iteration13PwaListenerReady = true') && pwaRegister.includes('const earlyPrompt = promptWindow.__iteration13InstallPrompt'), "early prompt handoff to the single controller is missing"],
   [pwaRegister.includes('window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt)') && pwaRegister.includes('window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt)'), "native install listener setup/cleanup is missing"],
   [pwaRegister.includes('await prompt.prompt()') && pwaRegister.includes('await prompt.userChoice'), "branded install action must invoke and await the browser-owned prompt"],
-  [pwaRegister.includes('className="i13-install-card"') && pwaRegister.includes('className="i13-install-close"') && pwaRegister.includes('setInstallCardDismissed(true)'), "branded dismissible install card is missing"],
+  [pwaRegister.includes('className={"i13-install-card"') && pwaRegister.includes('className="i13-install-close"') && pwaRegister.includes('setInstallCardDismissed(true)') && pwaRegister.includes("setInstallCardExpanded"), "branded collapsible, dismissible install card is missing"],
   [pwaRegister.includes('window.addEventListener("appinstalled", appInstalled)') && pwaRegister.includes('setCanInstall(false)'), "installed-state cleanup is missing"],
   [pwaRegister.includes('function isIosSafari()') && pwaRegister.includes('Share</b>, choose <b>Add to Home Screen</b>'), "iOS Safari Share → Add to Home Screen guidance is missing"],
   [pwaRegister.includes('installState === "embedded"') && pwaRegister.includes('function openBrowser()'), "embedded-browser handoff is missing"],
@@ -94,4 +94,4 @@ if (failures.length) {
   failures.forEach(failure => console.error(" - " + failure));
   process.exit(1);
 }
-console.log("IDENTITY VERIFIED — Iteration 13 app metadata and service-worker cache are isolated.");
+console.log("IDENTITY VERIFIED — iB Backpack metadata and service-worker cache are isolated.");
