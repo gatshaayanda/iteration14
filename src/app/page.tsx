@@ -1170,15 +1170,15 @@ export default function Home() {
   const setupCompletedCount = setupChecklist.filter(item => item.complete).length;
   const setupReady = setupCompletedCount === setupChecklist.length;
 return <main className="serviceDemo" style={{ "--studio-accent": themeColor, "--studio-accent-secondary": secondaryColor, "--studio-accent-highlight": highlightColor, "--studio-accent-ink": accentInk(themeColor), "--studio-accent-text": accentText(themeColor) } as React.CSSProperties}>
-    {!identityReady || !ready || !businessNameReady ? <section className="sd-identity-loading" aria-live="polite">Preparing your business identity…</section> : !identityComplete ? <section className="sd-identity-onboarding">
-      <div className="sd-identity-onboarding-top"><span>ITERATION13 / BUSINESS OS</span><span>{identityEditing ? "BUSINESS IDENTITY" : "SETUP · STORE · ACCOUNT · BRIEFCASE"}</span></div>
+    {!identityReady || !ready || !businessNameReady ? <section className="sd-identity-loading" aria-live="polite">Preparing your Backpack…</section> : !identityComplete ? <section className="sd-identity-onboarding">
+      <div className="sd-identity-onboarding-top"><span>iB / BACKPACK OS</span><span>{identityEditing ? "BACKPACK IDENTITY" : "SETUP · PUBLISH · ORGANISE · PROFILE"}</span></div>
       {!setupPathChosen && !identityEditing ? <section className="sd-identity-entry" aria-labelledby="sd-identity-entry-title">
-        <span className="sd-kicker">YOUR BUSINESS · ONE CONNECTED SYSTEM</span>
-        <h1 id="sd-identity-entry-title">Your business. <em>Your choice.</em></h1>
-        <p>Create a new business, or use a previous business saved on this device. Choosing a new setup will not replace the previous one until you confirm that action.</p>
+        <span className="sd-kicker">YOUR PERSONAL SPACE · ONE CONNECTED SYSTEM</span>
+        <h1 id="sd-identity-entry-title">Your world. <em>Your way.</em></h1>
+        <p>Create your Backpack, or reopen a personal space saved on this device. Your personal records stay separate from your Briefcase unless you choose to connect or share something.</p>
         <div className="sd-identity-entry-actions">
-          <article className="sd-identity-entry-card is-primary"><span className="sd-identity-entry-number">01</span><div><h2>Create a new business</h2><p>Set up a separate business name, first offer and brand. Your previous business is not changed unless you explicitly replace it.</p></div><button type="button" onClick={beginBusinessSetup}>Create a business <span aria-hidden="true">↗</span></button></article>
-          {hasPreviousSetup && <article className="sd-identity-entry-card"><span className="sd-identity-entry-number">02</span><div><h2>Use previous business</h2><p className="sd-identity-saved-name">Continue with {savedBusinessName}</p><p>Reopen {savedBusinessName} and continue working on its Store, customer Account and owner Briefcase.</p></div><button type="button" className="sd-identity-entry-continue" onClick={continueYourBusiness}>Continue {savedBusinessName} <span aria-hidden="true">↗</span></button></article>}
+          <article className="sd-identity-entry-card is-primary"><span className="sd-identity-entry-number">01</span><div><h2>Create your Backpack</h2><p>Set up your personal space for plans, projects, notes, records and selected sharing. Your Briefcase remains separate.</p></div><button type="button" onClick={beginBusinessSetup}>Create Backpack OS <span aria-hidden="true">↗</span></button></article>
+          {hasPreviousSetup && <article className="sd-identity-entry-card"><span className="sd-identity-entry-number">02</span><div><h2>Open a saved Backpack</h2><p className="sd-identity-saved-name">Continue with {savedBusinessName}</p><p>Reopen {savedBusinessName} and continue organising your personal space.</p></div><button type="button" className="sd-identity-entry-continue" onClick={continueYourBusiness}>Open {savedBusinessName} <span aria-hidden="true">↗</span></button></article>}
           {showPreviousBusinessPicker && <div className="sd-identity-entry-card sd-identity-saved-business-list"><h2>Choose a saved business</h2><p>These business records were found in this browser. Choose the one you want to reopen.</p>{savedBusinessOptions.map(option => <button type="button" className="sd-identity-entry-continue" key={option.suffix || "default"} onClick={() => openSavedBusinessWorkspace(option.suffix)}>{option.name} · {option.serviceCount} services · {option.customerCount} customer records ↗</button>)}</div>}
         </div>
       </section> : <>
