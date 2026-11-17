@@ -3,9 +3,9 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "Iteration 13 | Service Studio",
-    short_name: "Iteration 13",
-    description: "A mobile-first service-order demo with customer requests, local admin tools, installation guidance and offline-aware behavior.",
+    name: "iB Backpack",
+    short_name: "iB Backpack",
+    description: "Your personal space to organise everyday life and publish your own channel.",
     start_url: "/",
     scope: "/",
     display: "standalone",
@@ -25,23 +25,23 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     shortcuts: [
       {
-        name: "Browse services",
-        short_name: "Services",
-        description: "Explore the service menu and submit a request",
+        name: "Organise my life",
+        short_name: "Organise",
+        description: "Open your personal lists, plans, notes and records",
         url: "/",
         icons: [{ src: "/iteration13-icon-192.png", sizes: "192x192", type: "image/png" }]
       },
       {
-        name: "My account",
-        short_name: "Account",
-        description: "Review your local demo requests",
+        name: "My Channel",
+        short_name: "Channel",
+        description: "Open your personal publishing space",
         url: "/?view=account",
         icons: [{ src: "/iteration13-icon-192.png", sizes: "192x192", type: "image/png" }]
       },
       {
-        name: "Admin demo",
-        short_name: "Admin",
-        description: "Open the local prototype operations panel",
+        name: "My Backpack",
+        short_name: "Backpack",
+        description: "Open your personal operating space",
         url: "/#admin",
         icons: [{ src: "/iteration13-icon-192.png", sizes: "192x192", type: "image/png" }]
       }
