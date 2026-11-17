@@ -13,7 +13,7 @@
   - **Organise / My Life** — lists, plans, notes, projects, goals, personal records, private documents and selected sharing.
 - These are modes in one personal space, not separate accounts.
 - A person's personal records remain private by default. Sharing is intentional and permission-scoped.
-- A business workspace may be linked by the owner, but linking must never silently grant access to either space's records.
+- Iteration 14 is a standalone personal product. Do not add Briefcase, business operations, customer orders or CRM navigation to its personal workspace.
 
 ## Visual direction — mandatory
 The selected design genre is **DATA × QUIET**:
@@ -64,6 +64,8 @@ Adapt useful standards to a personal product; do not copy business-only concepts
 - When explicitly asked, commit and push directly to `main`; never claim deployment or tests that were not verified.
 
 ## Current implementation checkpoint
-- The repository contains inherited Iteration 13 business-workspace code and PWA assets that still require careful product adaptation.
-- Treat inherited business-oriented UI as implementation debt, not as the approved Iteration 14 product model.
+- The root route is the Iteration 14 personal workspace, with My Life and My Channel modes.
+- The inherited business workspace is retained in `src/app/LegacyBusinessWorkspace.tsx` only as migration/reference material; it is not the home experience.
+- Personal records currently persist in browser local storage on this device only. Do not describe this as authenticated cloud sync, backup or cross-device recovery.
+- Channel publishing currently updates the local channel preview only. Public hosting, audience permissions, password access, invitations, moderation and secure media delivery remain unimplemented.
 - The current visual target is DATA × QUIET. Apply it to the actual interface, not only text or brand assets.
