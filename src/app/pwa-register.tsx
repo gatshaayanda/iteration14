@@ -133,7 +133,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
       setInstallState("hidden");
       clearDismissal();
     };
-    window.addEventListener("iteration13-open-install", requestInstall);
+    window.addEventListener("iteration14-open-install", requestInstall);
     window.addEventListener("appinstalled", appInstalled);
 
     let registration: ServiceWorkerRegistration | null = null;
@@ -156,17 +156,14 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     };
 
     void register();
-    void retryPendingOrderNotifications();
-    const stopPendingAuth = onAuthStateChanged(auth, () => { void retryPendingOrderNotifications(); });
     const controllerChange = () => { if (reloadForUpdate.current) window.location.reload(); };
     navigator.serviceWorker?.addEventListener("controllerchange", controllerChange);
 
     return () => {
-      window.removeEventListener("iteration13-open-install", requestInstall);
+      window.removeEventListener("iteration14-open-install", requestInstall);
       window.removeEventListener("appinstalled", appInstalled);
       window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
       navigator.serviceWorker?.removeEventListener("controllerchange", controllerChange);
-      stopPendingAuth();
     };
   }, [initialEmbedded, initialAndroid]);
 
