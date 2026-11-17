@@ -68,6 +68,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   const [canInstall, setCanInstall] = useState(false);
   const [canShowManualInstall, setCanShowManualInstall] = useState(false);
   const [installCardDismissed, setInstallCardDismissed] = useState(false);
+  const [installCardExpanded, setInstallCardExpanded] = useState(true);
   const embeddedActionRef = useRef<HTMLButtonElement | null>(null);
   const reloadForUpdate = useRef(false);
 
@@ -75,7 +76,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     const env = environment();
     const embedded = initialEmbedded || env.embedded;
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
-    setCanShowManualInstall(isIosSafari());
+    setCanShowManualInstall(isIosSafari() && !dismissedRecently());
 
     const retryPendingOrderNotifications = async () => {
       const user = auth.currentUser;
@@ -104,7 +105,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
       event.preventDefault();
       const prompt = event as InstallPromptEvent;
       installPromptRef.current = prompt;
-      setInstallCardDismissed(false);
+      setInstallCardDismissed(dismissedRecently());
       setCanInstall(true);
       // Retain the one-shot native event for the user's explicit Install click.
       // Do not interrupt page load with a second, custom install screen.
@@ -300,8 +301,8 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     <div style={embeddedInstallStyle} role="alertdialog" aria-modal="true" aria-labelledby="plug-embedded-title" aria-describedby="plug-embedded-message">
       <div className="pwaInstallInfo" style={{...installShellStyle, position: "relative", left: "auto", right: "auto", bottom: "auto", width: "100%", maxWidth: 520, margin: 0}}>
         <div>
-          <strong id="plug-embedded-title"><span aria-hidden="true">🌐 </span>OPEN ITERATION 13 IN YOUR BROWSER</strong>
-          <span id="plug-embedded-message">{embeddedAndroid ? <>Open Iteration 13 in Chrome to continue. Chrome will offer its own installation action when the app is eligible.</> : <>Iteration 13 opened inside another app. Open this page in your browser to continue.</>}</span>
+          <strong id="plug-embedded-title"><span aria-hidden="true">🌐 </span>OPEN iB BACKPACK IN YOUR BROWSER</strong>
+          <span id="plug-embedded-message">{embeddedAndroid ? <>Open iB Backpack in Chrome to continue.</> : <>iB Backpack opened inside another app. Open this page in your browser to continue.</>}</span>
         </div>
         <div className="pwaInstallActions" style={{display:"flex",justifyContent:"flex-end"}}>
           <button ref={embeddedActionRef} type="button" style={{background:"#0866FF",color:"#fff"}} onClick={openBrowser}>{embeddedAndroid ? "OPEN IN CHROME" : "OPEN IN BROWSER"}</button>
@@ -312,13 +313,13 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
 
   return <>
     {!environment().standalone && installState !== "embedded" && (canInstall || canShowManualInstall) && !installCardDismissed && !(installState === "native" && installHelpOpen) && (
-      <aside className="i13-install-card" aria-label="Install Iteration 13">
+      <aside className={"i13-install-card" + (installCardExpanded ? "" : " is-collapsed")} aria-label="Install iB Backpack">
         <div className="i13-install-brand">
           <span className="i13-install-mark" aria-hidden="true">13</span>
-          <span><strong>ITERATION 13</strong><small>SERVICE STUDIO</small></span>
+          <span><strong>iB BACKPACK</strong><small>YOUR PERSONAL SPACE</small></span>
         </div>
-        <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={() => setInstallCardDismissed(true)}>×</button>
-        <button className="i13-install-action" type="button" onClick={() => {
+        <div className="i13-install-controls"><button className="i13-install-collapse" type="button" aria-label={installCardExpanded ? "Collapse install card" : "Expand install card"} aria-expanded={installCardExpanded} onClick={() => setInstallCardExpanded(value => !value)}>{installCardExpanded ? "−" : "+"}</button><button className="i13-install-close" type="button" aria-label="Dismiss install prompt for seven days" onClick={dismissInstall}>×</button></div>
+        {installCardExpanded && <button className="i13-install-action" type="button" onClick={() => {
           if (installPromptRef.current) {
             void install();
             return;
@@ -327,7 +328,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
             setInstallHelpOpen(true);
             setInstallState("native");
           }
-        }}>{canInstall ? "Install Iteration 13" : "Add to Home Screen"} <span aria-hidden="true">↗</span></button>
+        }}>{canInstall ? "Install iB Backpack" : "Add iB Backpack to Home Screen"} <span aria-hidden="true">↗</span></button>}
       </aside>
     )}
     {installCard}
