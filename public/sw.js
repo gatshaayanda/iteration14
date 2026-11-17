@@ -1,46 +1,10 @@
-// Background push is optional for this prototype. A failed remote import must never
-// prevent the service worker from registering its offline shell and fetch handlers.
-try {
-  importScripts(
-    "https://www.gstatic.com/firebasejs/11.9.0/firebase-app-compat.js",
-    "https://www.gstatic.com/firebasejs/11.9.0/firebase-messaging-compat.js",
-    "/api/firebase/messaging-sw-config"
-  );
-} catch (error) {
-  console.warn("Background messaging is unavailable; offline app-shell support remains enabled.", error);
-}
-
-let thePlugMessaging = null;
-try {
-  const config = self.__THE_PLUG_FIREBASE_CONFIG__;
-  if (config && config.apiKey && config.projectId && config.messagingSenderId && config.appId) {
-    firebase.initializeApp(config);
-    thePlugMessaging = firebase.messaging();
-    thePlugMessaging.onBackgroundMessage((payload) => {
-      // Notification payloads are displayed automatically by Firebase. Only render
-      // data-only pushes here to avoid showing the same notification twice.
-      if (payload.notification) return;
-      const title = payload.data?.title || "Iteration 14 update";
-      const options = {
-        body: payload.data?.body || "Open the app to check your latest information.",
-        icon: "/iteration13-icon.svg",
-        badge: "/iteration13-icon.svg",
-        data: { link: payload.data?.link || "/account" },
-      };
-      self.registration.showNotification(title, options);
-    });
-  } else {
-    console.error("The Plug Firebase Messaging web config is incomplete.");
-  }
-} catch (error) {
-  console.error("The Plug Firebase Messaging service worker could not initialize.", error);
-}
-
-self.addEventListener("notificationclick", (event) => {
+// Iteration 14 offline shell. Push delivery is not enabled until channel audience
+// notifications are designed and secured; no inherited business-order messaging runs here.
+self.addEventListener("notificationclick", event => {
   event.notification.close();
-  const rawLink = event.notification.data?.link || "/account";
-  const link = rawLink.startsWith("/") ? rawLink : "/account";
-  event.waitUntil(clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+  const rawLink = event.notification.data?.link || "/";
+  const link = rawLink.startsWith("/") ? rawLink : "/";
+  event.waitUntil(clients.matchAll({ type: "window", includeUncontrolled: true }).then(list => {
     for (const client of list) {
       if ("focus" in client) {
         void client.navigate(link);
