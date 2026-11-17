@@ -4,7 +4,7 @@ import {Analytics} from "@vercel/analytics/next";
 import {SpeedInsights} from "@vercel/speed-insights/next";
 import PwaRegister from "@/app/pwa-register";
 import Script from "next/script";
-import "./globals.css"; import "./pwa.css"; import "./install-card.css";
+import "./globals.css"; import "./pwa.css"; import "./install-card.css"; import "./data-quiet.css";
 const siteUrl=process.env.NEXT_PUBLIC_BASE_URL||"https://iteration13.vercel.app";
 const EMBEDDED_BROWSER_PATTERN=/WhatsApp|Instagram|FBAN|FBAV|Messenger|Line[/]|Twitter|TikTok|Snapchat/i;
 export const metadata:Metadata={metadataBase:new URL(siteUrl),title:{default:"iB Backpack | Your Personal Space",template:"%s | iB Backpack"},description:"Your personal space to organise everyday life and publish your own channel, connected to iB.",applicationName:"iB Backpack",keywords:["iB","iB Backpack","personal operating system","My Channel","My Life","personal organisation"],alternates:{canonical:"/"},openGraph:{type:"website",url:siteUrl,siteName:"iB Backpack",title:"iB Backpack | Your Personal Space",description:"Business and everyday life. Connected. Your Backpack for personal organisation and publishing."},twitter:{card:"summary",title:"iB Backpack | Your Personal Space",description:"Organise your life and publish your channel in one connected personal space."},icons:{icon:[{url:"/iteration13-icon.svg",type:"image/svg+xml"},{url:"/iteration13-icon-192.png",sizes:"192x192",type:"image/png"},{url:"/iteration13-icon-512.png",sizes:"512x512",type:"image/png"}],apple:{url:"/iteration13-icon-180.png",sizes:"180x180",type:"image/png"}},manifest:"/manifest.webmanifest",appleWebApp:{capable:true,title:"iB Backpack",statusBarStyle:"default"}};
