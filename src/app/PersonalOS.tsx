@@ -37,6 +37,7 @@ export default function PersonalOS(){
  const [search,setSearch]=useState("");
  useEffect(()=>{try{const raw=localStorage.getItem(KEY);if(raw){const parsed=JSON.parse(raw) as Partial<PersonalData>;setData({...initial,...parsed,lists:Array.isArray(parsed.lists)?parsed.lists:[],notes:Array.isArray(parsed.notes)?parsed.notes:[],projects:Array.isArray(parsed.projects)?parsed.projects:[],posts:Array.isArray(parsed.posts)?parsed.posts:[]});}}catch{setNotice("Saved local data could not be read. Your existing browser data has not been overwritten.");}finally{setReady(true);}},[]);
  useEffect(()=>{if(!ready)return;try{localStorage.setItem(KEY,JSON.stringify(data));}catch{setNotice("This browser could not save the latest changes. Export or free device storage before continuing.");}},[data,ready]);
+ useEffect(()=>{if(new URLSearchParams(window.location.search).get("mode")==="channel")setMode("channel");},[]);
  const update=(fn:(current:PersonalData)=>PersonalData)=>setData(current=>fn(current));
  const totalTasks=data.lists.reduce((n,list)=>n+list.tasks.length,0);
  const doneTasks=data.lists.reduce((n,list)=>n+list.tasks.filter(task=>task.done).length,0);
