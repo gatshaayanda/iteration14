@@ -31,7 +31,7 @@ export default function PersonalOS(){
  const [formTitle,setFormTitle]=useState("");
  const [formBody,setFormBody]=useState("");
  const [formKind,setFormKind]=useState<ChannelPost["kind"]>("Announcement");
- const [formVisibility,setFormVisibility]=useState<ChannelPost["visibility"]>("Public");
+ const [formVisibility,setFormVisibility]=useState<ChannelPost["visibility"]>("Private");
  const [formMedia,setFormMedia]=useState("");
  const [taskDraft,setTaskDraft]=useState("");
  const [search,setSearch]=useState("");
@@ -44,7 +44,7 @@ export default function PersonalOS(){
  const publishedPosts=data.posts.filter(post=>post.status==="Published");
  const drafts=data.posts.filter(post=>post.status==="Draft");
  const filteredNotes=useMemo(()=>data.notes.filter(note=>(note.title+" "+note.body).toLowerCase().includes(search.toLowerCase())),[data.notes,search]);
- const openModal=(kind:NonNullable<typeof modal>)=>{setFormTitle("");setFormBody("");setFormMedia("");setFormKind("Announcement");setFormVisibility("Public");setModal(kind);};
+ const openModal=(kind:NonNullable<typeof modal>)=>{setEditingNoteId(null);setFormTitle("");setFormBody("");setFormMedia("");setFormKind("Announcement");setFormVisibility("Private");setModal(kind);};
  const saveModal=()=>{
   const title=formTitle.trim();
   if(modal!=="profile"&&!title){setNotice("Add a title before saving.");return;}
