@@ -1,0 +1,104 @@
+# START HERE — Iteration 13
+
+**This is the mandatory entry point for every new ChatGPT/Codex implementation or QA chat.** Do not ask the product owner which documents to inspect. GitHub `main` is the source of truth; chat history is supporting context only. The full documentation map is [docs/README.md](./docs/README.md). For portfolio-wide product direction and instructions on applying this repository to new and existing projects, also use [docs/ITERATION13-PORTFOLIO-HANDOFF.md](./docs/ITERATION13-PORTFOLIO-HANDOFF.md).
+
+## Required reading order — before editing
+
+**Golden baseline:** read [GOLDEN-BASELINE.md](./GOLDEN-BASELINE.md) alongside these instructions. It defines the recovery point, protected behavior and mandatory adaptation checks.
+
+1. `AGENTS.md` — project rules, protected behavior, source-of-truth and safety boundaries.
+2. `docs/ITERATION13-PORTFOLIO-HANDOFF.md` — how to use this repository as the shared product/engineering reference when creating or updating portfolio projects.
+3. `GOLDEN-BASELINE.md` — protected behavior, recovery point and baseline promotion policy.
+4. `docs/CHANGE-SAFETY-STANDARD.md` — mandatory regression-prevention method for every change, not just bug fixes.
+5. `FOUNDATION-BLUEPRINT.md` — repository map, architecture, data model, protected install/offline invariants, verification and known limitations.
+6. `README.md` — how the customer and admin demo currently works and what is already implemented.
+7. `CLONING.md` — required when selecting a source, cloning/adapting any portfolio project, resetting identity/PWA assets, or reusing patterns in another project. Iteration 13 is the standards/reference repository, not the default clone source; Africhiko is the default when the product owner has not selected another source.
+8. `docs/VISUAL-DIRECTION-STANDARD.md` — required when planning or reviewing visual changes; use it as a craftsmanship and mobile-composition reference, not a universal theme. Open and inspect `docs/assets/washride-home-reference.jpeg` itself.
+9. `docs/OPERATIONAL-TRANSPARENCY-STANDARD.md` — required when implementing or reviewing meaningful user-facing or staff-facing operations, loading/progress, search, status, uploads, payments, messaging, integrations or delivery handoff.
+10. `docs/OBJECTIVE-TO-SYSTEM-DESIGN-STANDARD.md` — mandatory for substantial product work, screen redesigns, feature planning and architecture; apply its objective-to-human-need-to-journey-to-interface-to-implementation-to-test traceability. It also records the transferable agent-native inspection lessons from Expo Exact.
+11. `docs/DESIGN-INTELLIGENCE-AND-EXPERIENCE-QUALITY-STANDARD.md` — mandatory for substantial visual planning, screen redesign and visual QA. Before substantial UI work, record the project's dominant genre (Quiet, Character, Atmosphere, Data or Loud), business/audience rationale, secondary expressions by journey, and a project-specific visual direction brief. Research task patterns where useful, preserve one coherent design system, and use a rendered showcase and screenshot/interaction review where practical.
+12. Read the relevant route/component docs and code referenced by those files, then inspect the actual latest commit, package scripts and CI/deployment state.
+
+Do not stop after reading only one file. These documents have different purposes and are designed to be used together.
+
+## Mandatory genre checkpoint — new and existing projects
+
+Before substantial visual implementation, every new project must have a recorded, project-specific design direction; every existing project receiving a material visual/experience update must have its current direction inspected and either preserved or deliberately refined. Understand the supplied business and audience first, then choose one justified dominant genre—**Quiet, Character, Atmosphere, Data or Loud**—and document secondary expressions by journey. Record the rationale and translate it into the project's typography, hierarchy, colour/surfaces, imagery, density, motion, accessibility and performance rules. Put the decision in the target `AGENTS.md` and `DESIGN.md` (or equivalent). Apply it across customer and operational surfaces, not only the homepage. Small fixes should remain consistent with the existing direction; do not unnecessarily reselect the genre. Follow [Design Intelligence & Experience Quality](./docs/DESIGN-INTELLIGENCE-AND-EXPERIENCE-QUALITY-STANDARD.md). A genre label is a starting decision, not a substitute for a usable, verified product.
+
+## Fast Iteration 13 adoption path — new and existing projects
+
+When asked to adopt/use Iteration 13 as a reference, do not restart a full foundation audit or reread every portfolio document. Use this focused path:
+
+1. Inspect the target repository's current branch/commit, its AGENTS.md, relevant route/components, data/auth boundaries and protected features. Existing projects stay in place.
+2. Open docs/assets/washride-home-reference.jpeg and read docs/VISUAL-DIRECTION-STANDARD.md, docs/DESIGN-INTELLIGENCE-AND-EXPERIENCE-QUALITY-STANDARD.md and docs/INTERACTION-CLARITY-AND-FEEDBACK-STANDARD.md. Choose a justified visual genre, inspect the existing design system before changing it, and research comparable task flows when that materially improves the decision. Read docs/OBJECTIVE-TO-SYSTEM-DESIGN-STANDARD.md to map each important screen to its business objective, user need, next action and acceptance evidence. Add docs/OPERATIONAL-TRANSPARENCY-STANDARD.md for meaningful workflows. Read the Portfolio Handoff's Business OS adaptation contract.
+3. Apply objective-to-system traceability immediately during the active Iteration 13 redesign: every screen under review must have a clear purpose, audience, primary action, essential content, state/feedback, recovery path and link to a Store/Briefcase business objective. Do not wait until the redesign is complete.
+4. Keep the customer Store compact and fully readable: complete descriptions, visible prices and clear actions. Do not line-clamp, fade or hide essential text.
+5. Preserve the customer account's receipts and order history, and the matching owner/admin record and receipt. Verify customer → owner → customer state consistency using the target's actual secure data path.
+6. Adapt only brand, copy, assets, verified catalogue/prices, account extras and layout details to the target context. Do not copy demo data, fake auth, local-only persistence or 13Studio identity.
+7. Preserve the target's working PWA installation, offline behavior, authentication, chatbot, uploads and integrations. Run focused checks and report the actual build/deployment/device status.
+
+This path is the default for both new and existing project adaptations. Follow the longer foundation/cloning SOP only when the task actually creates a new repository or changes its foundation.
+
+## Owner setup and visitor entry are separate
+
+The owner’s first guided setup action is to name and brand the business. This is not a customer landing page: ordinary visitors must be dropped directly into the Store, with no separate i13 welcome screen, identity form or product-selection interstitial. The Store is the visitor’s first experience; owner identity setup is entered deliberately by the owner.
+
+1. Enter a real or fictional business name (example: **Metsi Wellness**).
+2. Select one, two or three brand colours maximum. One colour is a valid finished palette; the third is optional.
+3. Preview the identity across **Store · Account · Briefcase** together. The name and palette must update all three surfaces as one system.
+4. Then explore the Store, customer journey and owner Briefcase.
+
+Use the shared headline **“Your business in your pocket.”** The identity helper should explain that the name and colours rebrand Store, Account and Briefcase together instantly. The owner workspace should be clearly introduced as **“ADMIN HUB / PRIVATE BRIEFCASE”**, repeat the business proposition, show a local-time greeting, and lead directly into owner operations, customer requests and money. Greeting copy is supportive—not a substitute for actionable operational priorities.
+
+The complete colour, contrast, psychology and implementation contract is [docs/BUSINESS-IDENTITY-AND-COLOUR-STANDARD.md](./docs/BUSINESS-IDENTITY-AND-COLOUR-STANDARD.md). It is mandatory for future chats and portfolio adaptations.
+
+## Mandatory evidence-led diagnosis and release gate
+
+Use the full [Change Safety & Regression Prevention Standard](./docs/CHANGE-SAFETY-STANDARD.md) for every project and every implementation or QA chat; do not assume an earlier chat summary or a user's suspected cause is the current repository truth.
+
+1. **Separate observation from explanation.** Capture the reported behavior and any known device/browser, deployed URL/version, route, and reproduction steps. Treat verified real-device success as behavior to preserve. Do not turn a symptom or a hypothesis into an assumed root cause.
+2. **Diagnose before editing.** Inspect the actual deployed commit/status, current source, recent commits, relevant tests and browser behavior. Reproduce where possible. Identify the first proven failure and the smallest scope that can explain it. If no defect is evidenced, explain the findings rather than changing unrelated code.
+3. **Mark protected and out-of-scope surfaces.** Use `AGENTS.md`, the installation lock and the task brief to identify protected behavior. Do not touch unrelated installation, authentication, service-worker/offline, persistence, upload or navigation behavior without a demonstrated dependency or explicit authorization.
+4. **Review the diff before release.** Compare every changed file with the requested scope and approved baseline. Investigate every unexpected protected-file change. Stop the release until it is removed or supported by clear evidence and authorization.
+5. **Verify, then report each result separately.** Run relevant checks and inspect their real output; inspect CI and deployment state when available. Distinguish code/commit, push/merge, tests/builds, production deployment, and physical-browser/device/offline QA. Never infer one from another.
+6. **Unexpected behavior means stop and diagnose.** Fix the first proven failure; do not pile on speculative changes. Keep related work in one reviewed commit where practical, and never force-push or rewrite history without authorization.
+
+Continue with the task only after these gates are satisfied. The installation mechanism remains protected by the dedicated PWA installation lock.
+
+## Required workflow
+
+### Existing Iteration 13 project
+1. Establish current branch, latest commit, working-tree state, recent changes and failing checks.
+2. Read the four documents above in the relevant scope; inspect only the implementation related to the task.
+3. **Installation is a locked foundation capability.** Before editing anything that could affect it, read [docs/PWA-INSTALLATION-LOCK.md](./docs/PWA-INSTALLATION-LOCK.md). Preserve the current approved runtime and all install invariants. If installation is reported broken, follow the lock's recovery sequence; never add a replacement modal, duplicate event listener, generic browser-menu fallback, or speculative prompt fix.
+4. Preserve the customer journey, service-worker/cache namespace, local demo data shape and UploadThing configuration unless the brief explicitly calls for changing them.
+5. Check the requested change against the project's recorded genre and design direction; preserve it for small fixes or deliberately refine and document it when the brief/evidence warrants. Implement the requested end-to-end behavior, including its customer and admin sides, validation, empty/error/success states, mobile layout and truthful offline behavior. Apply the operational-transparency standard to meaningful activity and lifecycle states; apply the WashRide image reference and visual standard to visual work.
+6. Run `npm ci`, `npm run verify:identity`, `npm run lint` and `npm run build` where an execution environment is available. If a check cannot be run, say so and use an available CI/deployment signal; never infer a passing build from a successful GitHub edit.
+7. If a build fails, get the actual error log, fix the first failure, rerun checks, and repeat until green. Do not guess fixes or ask the product owner to debug logs that the agent can access.
+8. Push to `main` when implementation/pushing is authorized. Confirm the exact commit on `main`, check the resulting production deployment status, and distinguish code pushed, build passed and deployment verified.
+9. Hand off a concise QA checklist only after a successful build/deployment; include any unverified device/offline steps.
+
+### New project cloned/adapted from a foundation
+For a new app, use the exact source repository selected by the product owner. Before substantial UI implementation, complete the Mandatory genre checkpoint above and record the project's own design-direction brief in its `AGENTS.md` and `DESIGN.md` (or equivalent). If none is named, use `gatshaayanda/africhiko` by default. If asked to recommend a source, compare relevant portfolio apps and explain material trade-offs before cloning. Iteration 13 is the engineering standards/reference repository, not the default clone source. Read `CLONING.md`, `docs/ADMIN-HUB-APP-FACTORY-SOP.md` and `docs/CLONE-RESET-CHECKLIST.md`; inspect source and target before cloning. For an existing app, inspect and improve its current repository in place; never reclone it just to start work.
+
+## Account workspace reuse
+Before building/adapting any customer account, read the **Customer account workspace adaptation contract** in `AGENTS.md`, the matching section in `CLONING.md`, and the account/data boundaries in `FOUNDATION-BLUEPRINT.md`. Search online for the target product context and relevant account/dashboard UX research before choosing account extras or visual motifs. Keep all sections visually consistent; never carry a theme-specific gimmick (such as a spa garden) into an unrelated product by default. Preserve the useful capability set but fit it to the target project. Verify customer → admin → customer communication, attachment handling, data ownership, offline boundaries and account-specific copy. The current Iteration 13 account is browser-local demo functionality, not a secure cloud account or remote inbox.
+
+## Known boundaries
+- Firebase has intentionally been left alone for this prototype.
+- Requests, status, announcements, customer/admin messages, garden progress, journal and preferences are browser-local demo data.
+- Customer/admin replies are visible only in the same browser profile; no real remote inbox, email delivery or cross-device sync is configured.
+- UploadThing uploads require internet and are not queued offline. Current limits: images 4 MB, PDFs 4 MB, videos 16 MB.
+- The product owner handles Vercel deployments unless explicitly delegated, but the implementation agent must still inspect deployment/build status when it is available.
+
+
+For every one-word staff/admin login, follow the **One-word staff/admin access** section in `docs/ADMIN-HUB-APP-FACTORY-SOP.md` exactly: the environment variable is always `ADMIN_PASSWORD` (never invent or substitute another key), validated server-side; the only public admin entry point is one clickable 💼 briefcase icon in the footer; the access screen has one word field and one submit action. No extra Login/Admin navigation, labels or credentials.
+
+
+## First-run customer offer and owner readability
+
+After business name and one-to-three brand colours, require a first service listing (name and Pula price; description and image optional) before opening the generic Business OS demo. Reuse the same service record and UploadThing media workflow as the owner CRUD. Show a branded placeholder when the owner skips the image. Preview the listing alongside the coupled Store · Account · Briefcase identity. Admin metric labels and supporting explanations must remain at least 14 CSS px and clearly readable against their card backgrounds; never show numbers without readable labels.
+
+
+## Iteration13 product identity and first-use journey
+Iteration13 is a reusable Business Operating System built around the metaphor **a briefcase in your pocket**. First-run guidance should show how identity connects Store, Account and Briefcase, then let visitors explore the customer Store, try a request, play the optional short reward game and open the owner's Briefcase. Explain Today, Customers & Jobs, Money, Store Design, My Notes and Insights in plain language. Keep the base generic and editable; niche-specific refinements belong in their own clones. The business chooses its pricing currency during setup; do not add visitor currency switching or automatic conversion.
