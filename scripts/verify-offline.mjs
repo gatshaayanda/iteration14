@@ -49,7 +49,7 @@ check(page.includes("sd-store-announcement") && !page.includes("sd-product-annou
 check((page.match(/<StoreVideoPreview src=\{service\.media\} \/>/g) || []).length >= 2 && page.includes("Tap anywhere on video to play with sound") && page.includes("Sound on · tap anywhere to mute") && !page.includes("controls preload"), "Store and live preview videos must autoplay muted and expose tap-to-toggle sound controls");
 check(/\.sd-service-media>\.sd-video-preview,.serviceDemo \.sd-showcase-preview-media>\.sd-video-preview\{inset:0;z-index:8/.test(globalCss) && /\.sd-video-preview>\*\{pointer-events:none!important/.test(globalCss), "the entire video media surface must receive taps, including where preview text or labels overlap the image");
 check((page.match(/<StoreAnnouncementSlot /g) || []).length === 2 && page.includes("sd-store-availability-heading"), "the Store and Briefcase preview must share the same active/inactive announcement heading slot");
-check(/const MEDIA_CACHE = "iteration13-media-v5"/.test(sw), "image-only media cache version must be v5");
+check(/const MEDIA_CACHE = "iteration14-media-v1"/.test(sw), "Iteration 14 media cache must use its isolated v1 namespace");
 check(/const MEDIA_CACHE = "iteration13-media-v\d+"/.test(sw), "versioned media cache is missing");
 check(sw.includes('"/", "/offline"') && sw.includes('"/patterns", "/iphone-install"'), "home, offline and public utility routes must be precached");
 check(sw.includes("for (const match of html.matchAll") && sw.includes("/_next\\/static\\/"), "app-shell HTML must discover and precache its versioned Next.js assets");
