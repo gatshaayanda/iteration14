@@ -313,6 +313,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
 
   return <>
     {!environment().standalone && installState !== "embedded" && (canInstall || canShowManualInstall) && !installCardDismissed && !(installState === "native" && installHelpOpen) && (
+      <>
       <aside className={"i13-install-card" + (installCardExpanded ? "" : " is-collapsed")} aria-label="Install iB Backpack">
         <div className="i13-install-brand">
           <span className="i13-install-mark" aria-hidden="true">iB</span>
@@ -331,6 +332,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
         }}>{canInstall ? "Install iB Backpack" : "Add iB Backpack to Home Screen"} <span aria-hidden="true">↗</span></button>}
       </aside>
       <div className={"i13-install-spacer" + (installCardExpanded ? " is-expanded" : "")} aria-hidden="true" />
+      </>
     )}
     {installCard}
     {updateReady && <div className="pwaUpdate" role="status" aria-live="polite" aria-atomic="true"><div><strong>Update ready</strong><span>Refresh to load the latest app shell.</span></div><div className="pwaUpdateActions"><button type="button" className="pwaUpdateDismiss" onClick={() => setUpdateReady(null)}>Later</button><button type="button" className="button buttonPrimary" onClick={applyUpdate}>Refresh</button></div></div>}
