@@ -1,17 +1,17 @@
 {
   "id": "/",
-  "name": "iB Backpack",
-  "short_name": "iB Backpack",
-  "description": "Your personal space to organise everyday life and publish your own channel.",
+  "name": "Iteration 14",
+  "short_name": "Iteration 14",
+  "description": "A personal operating system to organise My Life and publish My Channel.",
   "categories": [
-    "business",
+    "lifestyle",
     "productivity"
   ],
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#f6f5f0",
-  "theme_color": "#155eef",
+  "background_color": "#f3f5f7",
+  "theme_color": "#315f9f",
   "icons": [
     {
       "src": "/iteration13-icon.svg",
