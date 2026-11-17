@@ -13,7 +13,7 @@ type InstallPromptEvent = Event & {
 };
 type InstallState = "hidden" | "native" | "embedded";
 
-const INSTALL_DISMISSED_KEY = "iteration13:install:dismissed-at";
+const INSTALL_DISMISSED_KEY = "iteration14:install:dismissed-at";
 const INSTALL_DISMISS_MS = 7 * 24 * 60 * 60 * 1000;
 
 function environment() {
@@ -112,13 +112,13 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     };
 
     window.addEventListener("online", online);
-    const promptWindow = window as Window & { __iteration13InstallPrompt?: Event; __iteration13PwaListenerReady?: boolean };
+    const promptWindow = window as Window & { __iteration14InstallPrompt?: Event; __iteration14PwaListenerReady?: boolean };
     // The browser can emit beforeinstallprompt before React hydrates. Adopt the
     // event captured by the tiny beforeInteractive script before listening normally.
-    promptWindow.__iteration13PwaListenerReady = true;
-    const earlyPrompt = promptWindow.__iteration13InstallPrompt;
+    promptWindow.__iteration14PwaListenerReady = true;
+    const earlyPrompt = promptWindow.__iteration14InstallPrompt;
     if (earlyPrompt) {
-      delete promptWindow.__iteration13InstallPrompt;
+      delete promptWindow.__iteration14InstallPrompt;
       onBeforeInstallPrompt(earlyPrompt);
     }
     window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
@@ -290,9 +290,9 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   const installCard = installState === "native" && installHelpOpen && isIosSafari() ? (
     <div style={installShellStyle} role="presentation">
       <section className="plugInstallModal" role="dialog" aria-modal="false" aria-labelledby="plug-install-title" aria-describedby="plug-install-message">
-        <div className="plugInstallTop"><span className="plugInstallMark">iB</span><span className="plugInstallTag">iB · BACKPACK OS</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
+        <div className="plugInstallTop"><span className="plugInstallMark">iB</span><span className="plugInstallTag">ITERATION 14 · PERSONAL OS</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
         <div className="plugInstallKicker">IPHONE & IPAD</div>
-        <h2 id="plug-install-title">Add iB Backpack to Home Screen.</h2>
+        <h2 id="plug-install-title">Add Iteration 14 to Home Screen.</h2>
         <p id="plug-install-message">In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</p>
         <button type="button" className="plugInstallPrimary" onClick={dismissInstall}>Continue on the website</button>
       </section>
@@ -301,8 +301,8 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     <div style={embeddedInstallStyle} role="alertdialog" aria-modal="true" aria-labelledby="plug-embedded-title" aria-describedby="plug-embedded-message">
       <div className="pwaInstallInfo" style={{...installShellStyle, position: "relative", left: "auto", right: "auto", bottom: "auto", width: "100%", maxWidth: 520, margin: 0}}>
         <div>
-          <strong id="plug-embedded-title"><span aria-hidden="true">🌐 </span>OPEN iB BACKPACK IN YOUR BROWSER</strong>
-          <span id="plug-embedded-message">{embeddedAndroid ? <>Open iB Backpack in Chrome to continue.</> : <>iB Backpack opened inside another app. Open this page in your browser to continue.</>}</span>
+          <strong id="plug-embedded-title"><span aria-hidden="true">🌐 </span>OPEN ITERATION 14 IN YOUR BROWSER</strong>
+          <span id="plug-embedded-message">{embeddedAndroid ? <>Open Iteration 14 in Chrome to continue.</> : <>Iteration 14 opened inside another app. Open this page in your browser to continue.</>}</span>
         </div>
         <div className="pwaInstallActions" style={{display:"flex",justifyContent:"flex-end"}}>
           <button ref={embeddedActionRef} type="button" style={{background:"#0866FF",color:"#fff"}} onClick={openBrowser}>{embeddedAndroid ? "OPEN IN CHROME" : "OPEN IN BROWSER"}</button>
@@ -314,10 +314,10 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   return <>
     {!environment().standalone && installState !== "embedded" && (canInstall || canShowManualInstall) && !installCardDismissed && !(installState === "native" && installHelpOpen) && (
       <>
-      <aside className={"i13-install-card" + (installCardExpanded ? "" : " is-collapsed")} aria-label="Install iB Backpack">
+      <aside className={"i13-install-card" + (installCardExpanded ? "" : " is-collapsed")} aria-label="Install Iteration 14">
         <div className="i13-install-brand">
           <span className="i13-install-mark" aria-hidden="true">iB</span>
-          <span><strong>iB BACKPACK</strong><small>YOUR PERSONAL SPACE</small></span>
+          <span><strong>ITERATION 14</strong><small>YOUR PERSONAL SPACE</small></span>
         </div>
         <div className="i13-install-controls"><button className="i13-install-collapse" type="button" aria-label={installCardExpanded ? "Collapse install card" : "Expand install card"} aria-expanded={installCardExpanded} onClick={() => setInstallCardExpanded(value => !value)}>{installCardExpanded ? "−" : "+"}</button><button className="i13-install-close" type="button" aria-label="Dismiss install prompt for seven days" onClick={dismissInstall}>×</button></div>
         {installCardExpanded && <button className="i13-install-action" type="button" onClick={() => {
@@ -329,7 +329,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
             setInstallHelpOpen(true);
             setInstallState("native");
           }
-        }}>{canInstall ? "Install iB Backpack" : "Add iB Backpack to Home Screen"} <span aria-hidden="true">↗</span></button>}
+        }}>{canInstall ? "Install Iteration 14" : "Add Iteration 14 to Home Screen"} <span aria-hidden="true">↗</span></button>}
       </aside>
       <div className={"i13-install-spacer" + (installCardExpanded ? " is-expanded" : "")} aria-hidden="true" />
       </>
