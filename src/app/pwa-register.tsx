@@ -290,9 +290,9 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   const installCard = installState === "native" && installHelpOpen && isIosSafari() ? (
     <div style={installShellStyle} role="presentation">
       <section className="plugInstallModal" role="dialog" aria-modal="false" aria-labelledby="plug-install-title" aria-describedby="plug-install-message">
-        <div className="plugInstallTop"><span className="plugInstallMark">13</span><span className="plugInstallTag">ITERATION 13 · SERVICE STUDIO</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
+        <div className="plugInstallTop"><span className="plugInstallMark">iB</span><span className="plugInstallTag">iB · BACKPACK OS</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
         <div className="plugInstallKicker">IPHONE & IPAD</div>
-        <h2 id="plug-install-title">Add to Home Screen.</h2>
+        <h2 id="plug-install-title">Add iB Backpack to Home Screen.</h2>
         <p id="plug-install-message">In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</p>
         <button type="button" className="plugInstallPrimary" onClick={dismissInstall}>Continue on the website</button>
       </section>
@@ -315,7 +315,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     {!environment().standalone && installState !== "embedded" && (canInstall || canShowManualInstall) && !installCardDismissed && !(installState === "native" && installHelpOpen) && (
       <aside className={"i13-install-card" + (installCardExpanded ? "" : " is-collapsed")} aria-label="Install iB Backpack">
         <div className="i13-install-brand">
-          <span className="i13-install-mark" aria-hidden="true">13</span>
+          <span className="i13-install-mark" aria-hidden="true">iB</span>
           <span><strong>iB BACKPACK</strong><small>YOUR PERSONAL SPACE</small></span>
         </div>
         <div className="i13-install-controls"><button className="i13-install-collapse" type="button" aria-label={installCardExpanded ? "Collapse install card" : "Expand install card"} aria-expanded={installCardExpanded} onClick={() => setInstallCardExpanded(value => !value)}>{installCardExpanded ? "−" : "+"}</button><button className="i13-install-close" type="button" aria-label="Dismiss install prompt for seven days" onClick={dismissInstall}>×</button></div>
