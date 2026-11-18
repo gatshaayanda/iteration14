@@ -25,23 +25,23 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     shortcuts: [
       {
-        name: "Browse services",
-        short_name: "Services",
-        description: "Explore the service menu and submit a request",
+        name: "Public channel",
+        short_name: "Channel",
+        description: "Open your personal channel",
         url: "/",
         icons: [{ src: "/iteration13-icon-192.png", sizes: "192x192", type: "image/png" }]
       },
       {
-        name: "My account",
+        name: "Individual account",
         short_name: "Account",
-        description: "Review your local demo requests",
+        description: "Open your channel account",
         url: "/?view=account",
         icons: [{ src: "/iteration13-icon-192.png", sizes: "192x192", type: "image/png" }]
       },
       {
-        name: "Admin demo",
-        short_name: "Admin",
-        description: "Open the local prototype operations panel",
+        name: "Backpack",
+        short_name: "Backpack",
+        description: "Open the private owner workspace",
         url: "/#admin",
         icons: [{ src: "/iteration13-icon-192.png", sizes: "192x192", type: "image/png" }]
       }
