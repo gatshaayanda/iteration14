@@ -72,6 +72,10 @@ export default function PersonalOS(){
    remote=>{
     const parsed=remote as Partial<PersonalData>;
     setData(current=>({...initial,...parsed,updatedAt:parsed.updatedAt||stamp(),profileImage:parsed.profileImage||current.profileImage,lists:Array.isArray(parsed.lists)?parsed.lists:[],notes:Array.isArray(parsed.notes)?parsed.notes:[],projects:Array.isArray(parsed.projects)?parsed.projects:[],posts:Array.isArray(parsed.posts)?parsed.posts:[],engagements:Array.isArray(parsed.engagements)?parsed.engagements:[],everyday:{...emptyEverydayData,...(parsed.everyday||{}),purchases:Array.isArray(parsed.everyday?.purchases)?parsed.everyday.purchases:[],suppliers:Array.isArray(parsed.everyday?.suppliers)?parsed.everyday.suppliers:[],goals:Array.isArray(parsed.everyday?.goals)?parsed.everyday.goals:[],consumables:Array.isArray(parsed.everyday?.consumables)?parsed.everyday.consumables:[],discoveries:Array.isArray(parsed.everyday?.discoveries)?parsed.everyday.discoveries:[],media:Array.isArray(parsed.everyday?.media)?parsed.everyday.media:[]}}));
+    if(typeof parsed.name==="string"&&parsed.name.trim()){
+     setHasLocalBackpack(true);
+     setEntryStage(stage=>stage==="entry"?"app":stage);
+    }
    },
    (status,detail)=>{setCloudStatus(status);setCloudDetail(detail||"");},
    uid=>setCloudUid(uid),
