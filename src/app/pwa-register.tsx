@@ -70,6 +70,13 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   const reloadForUpdate = useRef(false);
 
   useEffect(() => {
+    // Ask the browser to protect this origin's local records and offline shell
+    // from routine storage eviction. This is best-effort and never blocks startup.
+    if (typeof navigator === "undefined" || !navigator.storage?.persist) return;
+    void navigator.storage.persist().catch(() => false);
+  }, []);
+
+  useEffect(() => {
     const env = environment();
     const embedded = initialEmbedded || env.embedded;
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
