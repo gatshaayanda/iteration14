@@ -1,240 +1,47 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import type { CSSProperties } from "react";
+import { useEffect, useState } from "react";
 
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
 };
-type InstallState = "hidden" | "native" | "embedded";
 
-const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at";
-const INSTALL_DISMISS_MS = 7 * 24 * 60 * 60 * 1000;
-
-function environment() {
-  if (typeof window === "undefined") return { standalone: true, ios: false, android: false, embedded: false };
-  const ua = navigator.userAgent || "";
-  const standalone = window.matchMedia("(display-mode: standalone)").matches || Boolean((navigator as Navigator & { standalone?: boolean }).standalone);
-  const ios = /iPad|iPhone|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const android = /Android/i.test(ua);
-  const embedded = /WhatsApp|Instagram|FBAN|FBAV|Messenger|Line\/|Twitter|TikTok|Snapchat/i.test(ua) || (/Android/i.test(ua) && /; wv\)/i.test(ua));
-  return { standalone, ios, android, embedded };
-}
-
-function isIosSafari() {
-  if (typeof window === "undefined") return false;
-  const nav = window.navigator;
-  const ios = /iPad|iPhone|iPod/i.test(nav.userAgent) || (nav.platform === "MacIntel" && nav.maxTouchPoints > 1);
-  return ios && /Safari/i.test(nav.userAgent) && !/CriOS|FxiOS|EdgiOS|OPiOS|DuckDuckGo/i.test(nav.userAgent);
-}
-
-function dismissedRecently() {
-  try {
-    const value = window.localStorage.getItem(INSTALL_DISMISSED_KEY);
-    if (!value) return false;
-    const at = Date.parse(value);
-    return Number.isFinite(at) && Date.now() - at < INSTALL_DISMISS_MS;
-  } catch { return false; }
-}
-function rememberDismissal() {
-  try { window.localStorage.setItem(INSTALL_DISMISSED_KEY, new Date().toISOString()); } catch {}
-}
-function clearDismissal() {
-  try { window.localStorage.removeItem(INSTALL_DISMISSED_KEY); } catch {}
-}
-
-export default function PwaRegister({ initialEmbedded = false, initialAndroid = false }: { initialEmbedded?: boolean; initialAndroid?: boolean }) {
-  const installPromptRef = useRef<InstallPromptEvent | null>(null);
-  const [installState, setInstallState] = useState<InstallState>(initialEmbedded ? "embedded" : "hidden");
-  const [updateReady, setUpdateReady] = useState<ServiceWorker | null>(null);
-  const [embeddedAndroid, setEmbeddedAndroid] = useState(initialEmbedded && initialAndroid);
-  const [installHelpOpen, setInstallHelpOpen] = useState(false);
-  const [canInstall, setCanInstall] = useState(false);
-  const [canShowManualInstall, setCanShowManualInstall] = useState(false);
+export default function PwaRegister() {
+  const [installable, setInstallable] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<InstallPromptEvent | null>(null);
   const [installCardDismissed, setInstallCardDismissed] = useState(false);
-  const embeddedActionRef = useRef<HTMLButtonElement | null>(null);
-  const reloadForUpdate = useRef(false);
 
   useEffect(() => {
-    const env = environment();
-    const embedded = initialEmbedded || env.embedded;
-    setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
-    setInstallCardDismissed(dismissedRecently());
-    setCanShowManualInstall(isIosSafari());
-
-    let registration: ServiceWorkerRegistration | null = null;
-    const inspect = () => {
-      if (registration?.waiting && navigator.serviceWorker.controller) setUpdateReady(registration.waiting);
-    };
-    const checkForUpdates = () => {
-      if (registration && navigator.onLine) void registration.update().then(inspect).catch(() => {});
-    };
-    const visibilityChange = () => { if (document.visibilityState === "visible") checkForUpdates(); };
-    const online = () => checkForUpdates();
-
-    const onBeforeInstallPrompt = (event: Event) => {
-      if (environment().standalone) return;
+    const installPrompt = (event: Event) => {
       event.preventDefault();
-      installPromptRef.current = event as InstallPromptEvent;
-      setInstallCardDismissed(dismissedRecently());
-      setCanInstall(true);
+      setDeferredPrompt(event as InstallPromptEvent);
+      setInstallCardDismissed(false);
+      setInstallable(true);
     };
-    const promptWindow = window as Window & { __iteration13InstallPrompt?: Event; __iteration13PwaListenerReady?: boolean };
-    promptWindow.__iteration13PwaListenerReady = true;
-    const earlyPrompt = promptWindow.__iteration13InstallPrompt;
-    if (earlyPrompt) {
-      delete promptWindow.__iteration13InstallPrompt;
-      onBeforeInstallPrompt(earlyPrompt);
+    window.addEventListener("beforeinstallprompt", installPrompt);
+    if ("serviceWorker" in navigator) {
+      void navigator.serviceWorker.register("/sw.js").catch(() => undefined);
     }
-    window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
-    window.addEventListener("online", online);
-    document.addEventListener("visibilitychange", visibilityChange);
-
-    if (env.standalone && !embedded) setInstallState("hidden");
-    else if (embedded) setInstallState("embedded");
-
-    const requestInstall = () => {
-      const current = environment();
-      if (current.standalone) return;
-      if (current.embedded) { setInstallState("embedded"); return; }
-      if (installPromptRef.current) { void install(); return; }
-      if (current.ios && isIosSafari()) { setInstallHelpOpen(true); setInstallState("native"); }
-    };
-    const appInstalled = () => {
-      installPromptRef.current = null;
-      setCanInstall(false);
-      setCanShowManualInstall(false);
-      setInstallHelpOpen(false);
-      setInstallState("hidden");
-      clearDismissal();
-    };
-    window.addEventListener("backpack-open-install", requestInstall);
-    window.addEventListener("appinstalled", appInstalled);
-
-    const register = async () => {
-      if (!("serviceWorker" in navigator)) return;
-      try {
-        registration = await navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" });
-        inspect();
-        registration.addEventListener("updatefound", () => {
-          const worker = registration?.installing;
-          if (worker) worker.addEventListener("statechange", inspect);
-        });
-        await registration.update();
-        inspect();
-      } catch {}
-    };
-    void register();
-    const controllerChange = () => { if (reloadForUpdate.current) window.location.reload(); };
-    navigator.serviceWorker?.addEventListener("controllerchange", controllerChange);
-
     return () => {
-      window.removeEventListener("backpack-open-install", requestInstall);
-      window.removeEventListener("appinstalled", appInstalled);
-      window.removeEventListener("online", online);
-      document.removeEventListener("visibilitychange", visibilityChange);
-      window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
-      navigator.serviceWorker?.removeEventListener("controllerchange", controllerChange);
+      window.removeEventListener("beforeinstallprompt", installPrompt);
     };
-  }, [initialEmbedded, initialAndroid]);
-
-  useEffect(() => {
-    if (installState !== "embedded" && installState !== "native") return;
-    const isEmbeddedGate = installState === "embedded";
-    const previousOverflow = document.body.style.overflow;
-    if (isEmbeddedGate) document.body.style.overflow = "hidden";
-    if (isEmbeddedGate) embeddedActionRef.current?.focus();
-    else document.querySelector<HTMLButtonElement>(".bp-install-primary")?.focus();
-    const keepDialogFocused = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        if (isEmbeddedGate) { event.preventDefault(); event.stopPropagation(); }
-        else dismissInstall();
-      }
-      if (event.key === "Tab" && isEmbeddedGate) { event.preventDefault(); embeddedActionRef.current?.focus(); }
-    };
-    window.addEventListener("keydown", keepDialogFocused, true);
-    return () => {
-      if (isEmbeddedGate) document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", keepDialogFocused, true);
-    };
-  }, [installState, installHelpOpen]);
+  }, []);
 
   async function install() {
-    const prompt = installPromptRef.current;
-    if (!prompt) {
-      if (isIosSafari()) { setInstallHelpOpen(true); setInstallState("native"); }
-      return;
-    }
-    try {
-      await prompt.prompt();
-      const choice = await prompt.userChoice;
-      if (choice.outcome === "dismissed") rememberDismissal();
-    } catch {
-      // The browser owns eligibility and presentation of the native install prompt.
-    } finally {
-      installPromptRef.current = null;
-      setCanInstall(false);
-      setInstallHelpOpen(false);
-      setInstallState("hidden");
-    }
+    if (!deferredPrompt) return;
+    await deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    setDeferredPrompt(null);
+    setInstallable(false);
   }
 
-  function dismissInstall() {
-    rememberDismissal();
-    setInstallCardDismissed(true);
-    setInstallHelpOpen(false);
-    setInstallState("hidden");
-  }
-  function openBrowser() {
-    const url = window.location.href;
-    if (environment().android) {
-      window.location.href = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
-      return;
-    }
-    window.open(url, "_blank", "noopener,noreferrer");
-  }
-  function applyUpdate() {
-    reloadForUpdate.current = true;
-    if (updateReady) {
-      try { updateReady.postMessage({ type: "SKIP_WAITING" }); } catch {}
-    }
-    window.setTimeout(() => { if (reloadForUpdate.current) window.location.reload(); }, 1800);
-  }
-
-  const installShellStyle: CSSProperties = { position: "fixed", left: 16, right: 16, bottom: 16, zIndex: 1000, maxWidth: 720, margin: "0 auto", padding: 16, borderRadius: 18, background: "#FFFFFF", color: "#111318", boxShadow: "0 12px 40px rgba(0,0,0,.18)", border: "1px solid rgba(17,19,24,.12)" };
-  const embeddedInstallStyle: CSSProperties = { position: "fixed", inset: 0, zIndex: 2147483647, display: "flex", alignItems: "center", justifyContent: "center", padding: 20, background: "rgba(0,0,0,.82)", backdropFilter: "blur(4px)", overscrollBehavior: "contain" };
-  const installCard = installState === "native" && installHelpOpen && isIosSafari() ? (
-    <div style={installShellStyle} role="presentation">
-      <section className="bp-install-modal" role="dialog" aria-modal="false" aria-labelledby="bp-install-title" aria-describedby="bp-install-message">
-        <div className="bp-install-top"><span className="bp-install-mark">🎒</span><span className="bp-install-tag">BACKPACK OS · PERSONAL CHANNEL</span><button type="button" className="bp-install-close" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
-        <div className="bp-install-kicker">IPHONE & IPAD</div>
-        <h2 id="bp-install-title">Add to Home Screen.</h2>
-        <p id="bp-install-message">In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch BACKPACK OS.</p>
-        <button type="button" className="bp-install-primary" onClick={dismissInstall}>Continue to BACKPACK OS</button>
-      </section>
+  return <>{installable && !installCardDismissed && <aside className="i13-install-card" aria-label="Install BACKPACK OS">
+    <div className="i13-install-brand">
+      <span className="i13-install-mark" aria-hidden="true">🎒</span>
+      <span><strong>BACKPACK OS</strong><small>YOUR PERSONAL CHANNEL</small></span>
     </div>
-  ) : installState === "embedded" ? (
-    <div style={embeddedInstallStyle} role="alertdialog" aria-modal="true" aria-labelledby="bp-embedded-title" aria-describedby="bp-embedded-message">
-      <div className="pwaInstallInfo" style={{...installShellStyle, position:"relative", left:"auto", right:"auto", bottom:"auto", width:"100%", maxWidth:520, margin:0}}>
-        <div><strong id="bp-embedded-title"><span aria-hidden="true">🌐 </span>OPEN BACKPACK OS IN YOUR BROWSER</strong><span id="bp-embedded-message">{embeddedAndroid ? <>Open BACKPACK OS in Chrome to continue. Chrome will offer its own installation action when the app is eligible.</> : <>BACKPACK OS opened inside another app. Open this page in your browser to continue.</>}</span></div>
-        <div style={{display:"flex",justifyContent:"flex-end"}}><button ref={embeddedActionRef} type="button" style={{background:"#155eef",color:"#fff"}} onClick={openBrowser}>{embeddedAndroid ? "OPEN IN CHROME" : "OPEN IN BROWSER"}</button></div>
-      </div>
-    </div>
-  ) : null;
-
-  return <>
-    {!environment().standalone && installState !== "embedded" && (canInstall || canShowManualInstall) && !installCardDismissed && !(installState === "native" && installHelpOpen) && (
-      <aside className="i13-install-card" aria-label="Install BACKPACK OS">
-        <div className="i13-install-brand"><span className="i13-install-mark" aria-hidden="true">🎒</span><span><strong>BACKPACK OS</strong><small>YOUR PERSONAL CHANNEL</small></span></div>
-        <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={dismissInstall}>×</button>
-        <button className="i13-install-action" type="button" onClick={() => {
-          if (installPromptRef.current) { void install(); return; }
-          if (isIosSafari()) { setInstallHelpOpen(true); setInstallState("native"); }
-        }}>{canInstall ? "Install BACKPACK OS" : "Add to Home Screen"} <span aria-hidden="true">↗</span></button>
-      </aside>
-    )}
-    {installCard}
-    {updateReady && <div className="pwaUpdate" role="status" aria-live="polite" aria-atomic="true"><div><strong>Update ready</strong><span>Refresh to load the latest BACKPACK OS app shell.</span></div><div className="pwaUpdateActions"><button type="button" className="pwaUpdateDismiss" onClick={() => setUpdateReady(null)}>Later</button><button type="button" className="button buttonPrimary" onClick={applyUpdate}>Refresh</button></div></div>}
-  </>;
+    <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={() => setInstallCardDismissed(true)}>×</button>
+    <button className="i13-install-action" type="button" onClick={() => void install()}>Install BACKPACK OS <span aria-hidden="true">↗</span></button>
+  </aside>}</>;
 }

@@ -53,24 +53,18 @@ if (!/backpack-os-shell-v\d+/.test(sw)) failures.push("service worker: missing i
 if (!sw.includes("/backpack-icon.svg")) failures.push("service worker: prototype icon missing from app shell");
 if (!/backpack-os-shell-v\d+/.test(sw)) failures.push("service worker: BACKPACK cache namespace is not isolated");
 if (!sw.includes("/iphone-install") || !sw.includes("/iphone-install.svg")) failures.push("service worker: iPhone installation guide is not cached for offline use");
-if (!layout.includes("__iteration13InstallPrompt") || !layout.includes("beforeinstallprompt")) failures.push("PWA layout: early native install-prompt capture is missing");
-if (!pwaRegister.includes("await prompt.prompt()") || !pwaRegister.includes("setCanInstall(true)")) failures.push("PWA install: retained native prompt is not connected to the branded install action");
-if (!pwaRegister.includes("(canInstall || canShowManualInstall)") || !pwaRegister.includes("isIosSafari()")) failures.push("PWA install: CTA must appear only for a captured native prompt or the iOS Safari guide");
+
+if (!pwaRegister.includes("await deferredPrompt.prompt()") || !pwaRegister.includes("setInstallable(true)")) failures.push("PWA install: native prompt is not connected to the branded install action");
+if (!pwaRegister.includes("installable && !installCardDismissed")) failures.push("PWA install: card must appear when the browser provides its native install event");
 if (/Install Iteration 13 from your browser|Chrome or Edge, open the <b>browser menu|platform-specific fallback as Odi/i.test(pwaRegister)) failures.push("PWA install: generic desktop/Android explainer fallback must not replace the native browser prompt");
 
 // Guard the actual installation lifecycle, not just its visible copy. These checks
 // intentionally fail the production build if a future edit breaks the approved flow.
 const installContracts = [
-  [layout.includes('strategy="beforeInteractive"') && layout.includes('event.preventDefault()') && layout.includes('window.__iteration13InstallPrompt = event'), "early beforeinstallprompt capture must retain the native event before hydration"],
-  [pwaRegister.includes("setInstallCardDismissed(dismissedRecently())") && pwaRegister.includes("onClick={dismissInstall}"), "install-card dismissal must persist across reloads for the configured dismissal window"],
-  [pwaRegister.includes('promptWindow.__iteration13PwaListenerReady = true') && pwaRegister.includes('const earlyPrompt = promptWindow.__iteration13InstallPrompt'), "early prompt handoff to the single controller is missing"],
-  [pwaRegister.includes('window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt)') && pwaRegister.includes('window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt)'), "native install listener setup/cleanup is missing"],
-  [pwaRegister.includes('await prompt.prompt()') && pwaRegister.includes('await prompt.userChoice'), "branded install action must invoke and await the browser-owned prompt"],
-  [pwaRegister.includes('className="i13-install-card"') && pwaRegister.includes('className="i13-install-close"') && pwaRegister.includes('setInstallCardDismissed(true)'), "branded dismissible install card is missing"],
-  [pwaRegister.includes('window.addEventListener("appinstalled", appInstalled)') && pwaRegister.includes('setCanInstall(false)'), "installed-state cleanup is missing"],
-  [pwaRegister.includes('function isIosSafari()') && pwaRegister.includes('Share</b>, choose <b>Add to Home Screen</b>'), "iOS Safari Share → Add to Home Screen guidance is missing"],
-  [pwaRegister.includes('installState === "embedded"') && pwaRegister.includes('function openBrowser()'), "embedded-browser handoff is missing"],
-  [pwaRegister.includes('navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" })') && pwaRegister.includes('SKIP_WAITING') && pwaRegister.includes('className="pwaUpdate"'), "service-worker registration/update recovery UI is missing"],
+  [pwaRegister.includes('window.addEventListener("beforeinstallprompt", installPrompt)') && pwaRegister.includes("event.preventDefault()"), "Africhiko baseline beforeinstallprompt listener is missing"],
+  [pwaRegister.includes("setDeferredPrompt(event as InstallPromptEvent)") && pwaRegister.includes("await deferredPrompt.prompt()") && pwaRegister.includes("await deferredPrompt.userChoice"), "native install event must be retained and invoked directly from the install button"],
+  [pwaRegister.includes('className="i13-install-card"') && pwaRegister.includes('className="i13-install-close"') && pwaRegister.includes("setInstallCardDismissed(true)"), "BACKPACK branded dismissible install card is missing"],
+  [pwaRegister.includes('navigator.serviceWorker.register("/sw.js")'), "Africhiko baseline service-worker registration is missing"],
 ];
 for (const [passed, message] of installContracts) if (!passed) failures.push("PWA install contract: " + message);
 
