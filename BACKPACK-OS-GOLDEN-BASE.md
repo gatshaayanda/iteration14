@@ -51,3 +51,8 @@ The product owner approved the current Iteration 14 main experience as the new g
 - Invite individuals by name using a plain text field; do not ask for an email address in the invitation form.
 - VIP-circle member lists also use names, comma- or line-separated. Matching is case-insensitive and ignores repeated spaces.
 - Individual account profile may retain an email identifier in this prototype, but access is matched by the person's name. Existing legacy email invitations remain accepted. This is demo convenience, not secure identity verification.
+
+
+## Demo access names
+- Use simple **Public** / **Invite-only** labels. Add individuals by display name through a plain text field and a short **Add** action; show a count of invited people, not invited emails.
+- Match invited names and VIP-circle members case-insensitively after collapsing repeated spaces. Continue accepting existing email-based invitations as legacy compatibility. The account email remains a local account identifier; name matching is demo-only and not production authentication.
