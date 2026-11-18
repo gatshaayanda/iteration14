@@ -1,9 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" rx="112" fill="#155eef"/>
-  <path d="M174 194c-28 8-44 31-44 63v128c0 18 10 32 26 37l26-10V218zM338 194c28 8 44 31 44 63v128c0 18-10 32-26 37l-26-10V218z" fill="#bfdbfe"/>
-  <path d="M216 158v-18c0-23 18-42 40-42s40 19 40 42v18" fill="none" stroke="#fff" stroke-width="22" stroke-linecap="round"/>
-  <path d="M166 216c0-35 28-63 63-63h54c35 0 63 28 63 63v174c0 30-24 54-54 54h-72c-30 0-54-24-54-54z" fill="#fff"/>
-  <path d="M166 230c0-26 21-47 47-47h86c26 0 47 21 47 47" fill="none" stroke="#93c5fd" stroke-width="12"/>
-  <path d="M194 292c0-18 15-33 33-33h58c18 0 33 15 33 33v58c0 18-15 33-33 33h-58c-18 0-33-15-33-33z" fill="#155eef"/>
-  <path d="M194 307h124M237 281h38" fill="none" stroke="#bfdbfe" stroke-width="11" stroke-linecap="round"/>
+  <!-- unmistakable backpack: shoulder straps and curved pack body -->
+  <path d="M174 176c-35 10-57 42-57 82v132c0 30 17 55 43 67l34-23V210zM338 176c35 10 57 42 57 82v132c0 30-17 55-43 67l-34-23V210z" fill="#93c5fd" stroke="#fff" stroke-width="13" stroke-linejoin="round"/>
+  <path d="M205 164c0-34 23-59 51-59s51 25 51 59" fill="none" stroke="#fff" stroke-width="24" stroke-linecap="round"/>
+  <path d="M153 219c0-55 38-91 91-91h24c53 0 91 36 91 91v173c0 42-30 72-72 72h-62c-42 0-72-30-72-72z" fill="#fff"/>
+  <path d="M181 247c0-29 22-51 51-51h48c29 0 51 22 51 51v22H181z" fill="#ff9f43"/>
+  <path d="M181 269h150v92c0 27-22 49-49 49h-52c-27 0-49-22-49-49z" fill="#ffb45e"/>
+  <path d="M211 285v57c0 13 10 23 23 23h44c13 0 23-10 23-23v-57" fill="none" stroke="#155eef" stroke-width="13" stroke-linecap="round"/>
+  <path d="M256 285v80" stroke="#155eef" stroke-width="11" stroke-linecap="round"/>
+  <path d="M153 303h-19M378 303h-19" stroke="#fff" stroke-width="13" stroke-linecap="round"/>
+  <path d="M208 427h96" stroke="#93c5fd" stroke-width="12" stroke-linecap="round"/>
 </svg>
