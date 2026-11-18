@@ -27,7 +27,7 @@ check(sw.includes("navigationPreload.enable()")&&sw.includes("event.preloadRespo
 check(sw.includes("function isSafePublicHtml")&&sw.includes('value === "cookie"')&&sw.includes('value === "authorization"'),"offline HTML caching must reject private cookie- or authorization-varying responses");
 check(sw.includes("sensitiveQuery.test(key)")&&sw.includes("responseOrigin === self.location.origin"),"offline HTML caching must reject sensitive query strings and cross-origin redirects");
 check(sw.includes("response.status >= 500")&&sw.includes("networkFirstNavigation(request, event)"),"cached public pages must recover from transient server errors");
-check(/const CACHE_VERSION = "iteration13-shell-v26"/.test(sw),"versioned offline app shell must remain enabled");
+check(/const CACHE_VERSION = "backpack-os-shell-v1"/.test(sw),"BACKPACK isolated versioned offline app shell must remain enabled");
 check(sw.includes('"/", "/offline"')&&sw.includes('"/iphone-install"'),"home, offline and installation guidance routes must be precached");
 check(sw.includes("for (const match of html.matchAll")&&sw.includes("/_next\\/static\\/"),"app-shell HTML must discover versioned Next.js assets");
 check(sw.includes('event.data?.type === "CACHE_MEDIA"')&&sw.includes('request.destination === "image"'),"approved image media cache must remain bounded and explicit");
