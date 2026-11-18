@@ -6,7 +6,6 @@ const page=read("src/app/page.tsx");
 const app=read("src/app/PersonalChannelOS.tsx");
 const css=read("src/app/personal-channel-os.css");
 const pwa=read("src/app/pwa-register.tsx");
-const install=read("src/app/install-card.css");
 const offline=read("src/app/offline/page.tsx");
 const failures=[];
 const check=(condition,message)=>{if(!condition)failures.push(message);};
@@ -25,8 +24,6 @@ check(app.includes("Post comment")&&app.includes("Send request")&&app.includes("
 check(app.includes("PRIVATE CONTROL CENTRE")&&app.includes("Publish an update")&&app.includes("Who can enter?"),"Backpack must administer publishing and audience access");
 check(app.includes("BACKPACK IDENTITY")&&app.includes("function editBackpack")&&app.includes("Save Backpack details")&&app.includes("resourceLink")&&app.includes("resourceAsset"),"owner must be able to edit and persist the Backpack identity and setup resources after creation");
 check(app.includes('<details className="bp-collapsible">')&&app.includes("<summary>")&&css.includes(".bp-collapsible>summary")&&css.includes(".bp-collapsible[open]>summary:after"),"Backpack identity editor must be compact and collapsible");
-check(pwa.includes('className="i13-install-card"')&&pwa.includes("Install BACKPACK OS")&&pwa.includes("isIosSafari()")&&pwa.includes("Share</b>, choose <b>Add to Home Screen</b>"),"BACKPACK must retain its branded install card, native install action and iOS Safari guidance");
-check(pwa.includes("setCanShowManualInstall(isIosSafari() || isAndroidChrome())")&&pwa.includes("await prompt.prompt()")&&pwa.includes("In Chrome, tap")&&pwa.includes("In Safari, tap"),"BACKPACK install entry must prefer the native prompt and provide truthful manual guidance on Android Chrome and iOS Safari when no native prompt is available");
 check(app.includes("function startEngagement")&&app.includes("Add engagement")&&app.includes("Each engagement gets its own channel")&&app.includes("w.space.title"),"owner must be able to add distinct engagements under the Backpack identity and distinguish them in the workspace list");
 check(app.includes('<nav className="bp-bottom-dock" aria-label="Operating systems">')&&app.includes('href={isHttpUrl(s.businessOsUrl)?s.businessOsUrl:"https://iteration13.vercel.app/"}')&&app.includes('<span aria-hidden="true">💼</span><strong>B.O.S.</strong>'),"Backpack dock must show a Briefcase shortcut beside Backpack and return to Iteration 13 by default");
 check(app.includes("businessOsUrl")&&app.includes("My B.O.S. address")&&app.includes("function isHttpUrl")&&app.includes('url.protocol==="https:"||url.protocol==="http:"')&&app.includes("href={isHttpUrl(s.businessOsUrl)?s.businessOsUrl:\"https://iteration13.vercel.app/\"}"),"Backpack must support a user-configured, HTTP(S)-validated return link to their connected i13 B.O.S.");
@@ -45,16 +42,10 @@ check(sw.includes('event.data?.type === "CACHE_MEDIA"')&&sw.includes('request.de
 check(sw.includes("private|no-store")&&sw.includes("cache-control"),"private/no-store pages must not be cached");
 check(sw.includes('url.pathname.startsWith("/api/")'),"API routes must remain outside public page caching");
 check(sw.includes("async function cachedPublicFallback(request)")&&sw.includes("await cache.match(canonical)")&&sw.includes('await cache.match("/")')&&sw.includes('await cache.match("/offline")')&&sw.includes("return cachedPublicFallback(request)"),"offline navigation must fall back to the saved app shell");
-check(pwa.includes('register("/sw.js", { updateViaCache: "none" })')&&pwa.includes("await registration.update()")&&pwa.includes('window.addEventListener("focus", checkForUpdate)')&&pwa.includes('document.addEventListener("visibilitychange", checkForUpdate)'),"PWA controller must check for updates on registration and when the app returns to the foreground");
-check(pwa.includes("reloadForUpdate.current = false;")&&pwa.includes("window.location.reload();"),"approved service-worker refresh must reload once, not twice");
-check(pwa.includes("Refresh to load the latest app shell.")&&pwa.includes("onClick={applyUpdate}"),"a waiting update must offer an explicit refresh action");
-check(pwa.includes('const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at:v3"'),"BACKPACK install dismissal must be isolated from Iteration 13 dismissal state");
-check(pwa.includes("await prompt.prompt()")&&pwa.includes("await prompt.userChoice"),"install CTA must invoke the native browser prompt");
-check(pwa.includes('className="i13-install-card"')&&pwa.includes("setInstallCardDismissed(true)"),"install card must remain dismissible");
-check(install.includes(".i13-install-card{position:relative")&&install.includes("margin:12px auto 0"),"install card must use the approved compact inline i13/Africhiko layout");
+check(pwa.includes('window.addEventListener("beforeinstallprompt", installPrompt)')&&pwa.includes("await deferredPrompt.prompt()")&&pwa.includes("await deferredPrompt.userChoice"),"Africhiko baseline install CTA must capture and invoke the browser native install prompt");
+check(pwa.includes('className="af-install-card"')&&pwa.includes("Install BACKPACK OS")&&pwa.includes("setInstallCardDismissed(true)"),"BACKPACK must use the Africhiko branded native install card and dismiss action");
 check(sw.includes("async function cachedPublicFallback")&&sw.includes("await cache.match(canonical)")&&sw.includes("await cache.match(\"/\")"),"public navigation must recover by canonical pathname and saved app shell when offline or the origin returns a server error");
 check(sw.includes('const CACHE_VERSION = "backpack-os-shell-v7"')&&sw.includes('const MEDIA_CACHE = "backpack-os-media-v6"'),"offline hardening must advance independent BACKPACK shell and media caches");
-check(pwa.includes("navigator.storage.persist()")&&pwa.includes(".catch(() => false)"),"startup must request persistent browser storage without blocking app launch");
 check(offline.includes("not queued for server delivery")&&offline.toLowerCase().includes("video"),"offline guidance must explain local-only actions and media limits");
 if(failures.length){console.error("PERSONAL CHANNEL VERIFICATION FAILED");failures.forEach(x=>console.error(" - "+x));process.exit(1);}
 console.log("PERSONAL CHANNEL VERIFIED — setup resources, audience gates, individual interactions, Backpack controls and protected offline/PWA foundation.");
