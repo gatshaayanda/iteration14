@@ -32,17 +32,17 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, "public/manifest.web
 if (manifest.name !== "BACKPACK OS") failures.push("manifest: wrong application name");
 if (manifest.short_name !== "BACKPACK") failures.push("manifest: wrong short name");
 if (manifest.theme_color !== "#155eef") failures.push("manifest: wrong theme color");
-if (!manifest.icons?.some(icon => icon.src === "/backpack-icon.svg" || icon.src === "/iteration13-icon-192.png")) failures.push("manifest: prototype icon missing");
-for (const iconPath of ["/backpack-icon.svg", "/iteration13-icon-192.png", "/iteration13-icon-512.png"]) {
+if (!manifest.icons?.some(icon => icon.src === "/backpack-icon.svg")) failures.push("manifest: BACKPACK icon missing");
+for (const iconPath of ["/backpack-icon.svg"]) {
   if (!manifest.icons?.some(icon => icon.src === iconPath)) failures.push("manifest: icon missing " + iconPath);
   if (!fs.existsSync(path.join(root, "public", iconPath.slice(1)))) failures.push("manifest icon asset missing " + iconPath);
 }
 const appManifest = fs.readFileSync(path.join(root, "src/app/manifest.ts"), "utf8");
 if (!appManifest.includes('name: "BACKPACK OS"')) failures.push("app manifest: wrong application name");
 if (appManifest.includes("The Plug") || appManifest.includes("plug-icon")) failures.push("app manifest: inherited The Plug identity remains");
-for (const iconPath of ["/iteration13-icon-192.png", "/iteration13-icon-512.png"]) if (!appManifest.includes(iconPath)) failures.push("app manifest: missing " + iconPath);
+if (!appManifest.includes("/backpack-icon.svg")) failures.push("app manifest: BACKPACK icon missing");
 if (!fs.existsSync(path.join(root, "public/backpack-icon.svg"))) failures.push("Backpack OS icon file missing");
-if (!fs.existsSync(path.join(root, "public/iteration13-icon-180.png"))) failures.push("Apple install icon file missing");
+if (!layout.includes('apple:{url:"/backpack-icon.svg"')) failures.push("Apple install metadata must use the BACKPACK icon");
 const layout = fs.readFileSync(path.join(root, "src/app/layout.tsx"), "utf8");
 const pwaRegister = fs.readFileSync(path.join(root, "src/app/pwa-register.tsx"), "utf8");
 for (const expected of ["BACKPACK OS | Your Personal Channel", "applicationName:\"BACKPACK OS\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
