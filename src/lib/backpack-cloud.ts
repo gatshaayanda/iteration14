@@ -56,12 +56,7 @@ export function startBackpackCloud(
         }
         onReady();
         const local = getLocalData();
-        void setDoc(reference, {
-          ownerUid: user.uid,
-          schemaVersion: 1,
-          updatedAt: typeof local.updatedAt === "string" ? local.updatedAt : new Date().toISOString(),
-          data: checkedCloudData(local),
-        }).catch(error => onStatus("error", error instanceof Error ? error.message : "Could not create the cloud Backpack."));
+        writeCloudDocument(reference, user.uid, local, onStatus, "Could not create the cloud Backpack.");
         return;
       }
       onReady();
@@ -74,12 +69,7 @@ export function startBackpackCloud(
         if (Number.isFinite(remoteTime) && remoteTime > localTime) {
           applyRemoteData(restoreLocalFiles(remoteData as Record<string, unknown>, local));
         } else if (Number.isFinite(localTime) && localTime > remoteTime) {
-          void setDoc(reference, {
-            ownerUid: user.uid,
-            schemaVersion: 1,
-            updatedAt: String(local.updatedAt),
-            data: checkedCloudData(local),
-          }, { merge: true }).catch(error => onStatus("error", error instanceof Error ? error.message : "Could not update the cloud Backpack."));
+          writeCloudDocument(reference, user.uid, local, onStatus, "Could not update the cloud Backpack.");
         }
       }
       onStatus(snapshot.metadata.fromCache ? "offline" : "synced", snapshot.metadata.fromCache ? "Using the last cloud copy saved on this device." : "Your Backpack is synchronised.");
@@ -103,6 +93,25 @@ export async function queueBackpackCloudWrite(uid: string, data: Record<string, 
     updatedAt: typeof data.updatedAt === "string" ? data.updatedAt : new Date().toISOString(),
     data: checkedCloudData(data),
   }, { merge: true });
+}
+
+function writeCloudDocument(
+  reference: ReturnType<typeof doc>,
+  uid: string,
+  data: Record<string, unknown>,
+  onStatus: (status: BackpackCloudStatus, detail?: string) => void,
+  fallback: string,
+) {
+  try {
+    void setDoc(reference, {
+      ownerUid: uid,
+      schemaVersion: 1,
+      updatedAt: typeof data.updatedAt === "string" ? data.updatedAt : new Date().toISOString(),
+      data: checkedCloudData(data),
+    }, { merge: true }).catch(error => onStatus("error", error instanceof Error ? error.message : fallback));
+  } catch (error) {
+    onStatus("error", error instanceof Error ? error.message : fallback);
+  }
 }
 
 function checkedCloudData(data: Record<string, unknown>) {
