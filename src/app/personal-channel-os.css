@@ -15,3 +15,16 @@
 .bp-bottom-dock small{font-size:.64rem;color:#687385;line-height:1.2}
 .bp-bottom-dock button:focus-visible,.bp-bottom-dock a:focus-visible{outline:3px solid #155eef;outline-offset:2px}
 @media(min-width:900px){.bp-bottom-dock{bottom:12px;border:1px solid #dce3ed;border-radius:16px}.bp-shell{padding-bottom:130px}}
+
+
+/* Create-or-load launch screen and saved Backpack picker. */
+.bp-chooser{width:min(760px,calc(100% - 28px));margin:0 auto;padding:24px 0 140px}
+.bp-chooser-actions{display:grid;gap:16px;margin:10px 0 18px}
+.bp-chooser-actions .bp-button{width:100%;min-height:54px;font-size:.9rem}
+.bp-workspace-list{display:grid;gap:10px}
+.bp-workspace-card{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px;background:#fff;border:1px solid #e0e5ec;border-radius:15px}
+.bp-workspace-card h2{margin:6px 0;font-size:1.2rem}
+.bp-workspace-card p{margin:4px 0;color:#687385;font-size:.84rem;line-height:1.5}
+.bp-workspace-card small{color:#788394;font-size:.7rem}
+.bp-workspace-card .bp-button{flex:0 0 auto}
+@media(max-width:560px){.bp-workspace-card{align-items:stretch;flex-direction:column;gap:12px}.bp-workspace-card .bp-button{width:100%}}
