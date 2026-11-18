@@ -28,7 +28,7 @@ if (manifest.name !== "BACKPACK OS") failures.push("manifest: wrong application 
 if (manifest.short_name !== "BACKPACK") failures.push("manifest: wrong short name");
 if (manifest.theme_color !== "#155eef") failures.push("manifest: wrong theme color");
 if (!manifest.icons?.some(icon => icon.src === "/backpack-icon.svg" || icon.src === "/iteration13-icon-192.png")) failures.push("manifest: prototype icon missing");
-for (const iconPath of ["/iteration13-icon.svg", "/iteration13-icon-192.png", "/iteration13-icon-512.png"]) {
+for (const iconPath of ["/backpack-icon.svg", "/iteration13-icon-192.png", "/iteration13-icon-512.png"]) {
   if (!manifest.icons?.some(icon => icon.src === iconPath)) failures.push("manifest: icon missing " + iconPath);
   if (!fs.existsSync(path.join(root, "public", iconPath.slice(1)))) failures.push("manifest icon asset missing " + iconPath);
 }
@@ -42,7 +42,7 @@ const layout = fs.readFileSync(path.join(root, "src/app/layout.tsx"), "utf8");
 const pwaRegister = fs.readFileSync(path.join(root, "src/app/pwa-register.tsx"), "utf8");
 for (const expected of ["BACKPACK OS | Your Business in Your Pocket", "applicationName:\"BACKPACK OS\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
 // Validate Apple install metadata semantically; whitespace and additional metadata fields are harmless.
-if (!/appleWebApp\s*:\s*\{[^}]*\bcapable\s*:\s*true\b[^}]*\btitle\s*:\s*["']BACKPACK OS["']/s.test(layout)) failures.push('layout: missing appleWebApp capable=true and title="Iteration 13"');
+if (!/appleWebApp\s*:\s*\{[^}]*\bcapable\s*:\s*true\b[^}]*\btitle\s*:\s*["']BACKPACK OS["']/s.test(layout)) failures.push('layout: missing appleWebApp capable=true and title="BACKPACK OS"');
 const sw = fs.readFileSync(path.join(root, "public/sw.js"), "utf8");
 if (!/iteration13-shell-v\d+/.test(sw)) failures.push("service worker: missing isolated cache namespace");
 if (!sw.includes("/backpack-icon.svg")) failures.push("service worker: prototype icon missing from app shell");
