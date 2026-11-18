@@ -446,3 +446,11 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - BACKPACK retains its protected branded PWA install card and native browser prompt flow from `src/app/pwa-register.tsx`, with iOS Safari Share → Add to Home Screen guidance, embedded-browser handoff, dismissal and offline update handling. Do not rewrite this installation controller as part of feature work.
 - The owner workspace's Backpack identity editor is a native accessible `details/summary` disclosure, collapsed by default to keep the mobile control centre compact. The owner can expand it to edit identity/resources and collapse it again.
 - The offline shell cache namespace must be incremented when offline-critical UI changes; the collapsible editor update advances the BACKPACK shell/media cache to v4.
+
+
+## BACKPACK install availability — 18 November 2026
+- Show the compact, dismissible install card in every non-standalone, non-embedded browser session; do not make its existence depend on `beforeinstallprompt` firing.
+- When the browser provides `beforeinstallprompt`, the explicit Install BACKPACK OS button must call that one-shot native prompt directly from the click.
+- When the event is unavailable, the same entry point opens accurate browser-owned installation guidance (Safari Share → Add to Home Screen; Android Chrome menu; desktop Chrome/Edge menu or address-bar install icon). Never simulate or claim to launch a native prompt that the browser did not provide.
+- Hide the install card only when already running standalone, inside the embedded-browser handoff gate, or after the user explicitly dismisses it. Keep dismissal state isolated to BACKPACK.
+- `scripts/verify-offline.mjs` must verify both native-prompt handling and the always-available browser-menu fallback.
