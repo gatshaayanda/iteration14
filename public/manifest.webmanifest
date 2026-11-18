@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Iteration 13 | Service Studio",
-  "short_name": "Iteration 13",
-  "description": "Your business in your pocket: a connected Store, customer Account and private owner Briefcase.",
+  "name": "BACKPACK OS",
+  "short_name": "BACKPACK",
+  "description": "Your business in your pocket: a connected Store, customer Account and private owner Backpack.",
   "categories": [
     "business",
     "productivity"
@@ -14,7 +14,7 @@
   "theme_color": "#155eef",
   "icons": [
     {
-      "src": "/iteration13-icon.svg",
+      "src": "/backpack-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

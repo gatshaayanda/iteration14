@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "Iteration 13 | Service Studio",
-    short_name: "Iteration 13",
+    name: "BACKPACK OS",
+    short_name: "BACKPACK",
     description: "A mobile-first service-order demo with customer requests, local admin tools, installation guidance and offline-aware behavior.",
     start_url: "/",
     scope: "/",
@@ -21,7 +21,7 @@ export default function manifest(): MetadataRoute.Manifest {
       { src: "/iteration13-icon-180.png", sizes: "180x180", type: "image/png", purpose: "any" },
       { src: "/iteration13-icon-192.svg", sizes: "192x192", type: "image/svg+xml", purpose: "any" },
       
-      { src: "/iteration13-icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" }
+      { src: "/backpack-icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" }
     ],
     shortcuts: [
       {

@@ -20,11 +20,11 @@ try {
       // Notification payloads are displayed automatically by Firebase. Only render
       // data-only pushes here to avoid showing the same notification twice.
       if (payload.notification) return;
-      const title = payload.data?.title || "Iteration 13 update";
+      const title = payload.data?.title || "BACKPACK OS update";
       const options = {
         body: payload.data?.body || "Open the app to check your latest information.",
-        icon: "/iteration13-icon.svg",
-        badge: "/iteration13-icon.svg",
+        icon: "/backpack-icon.svg",
+        badge: "/backpack-icon.svg",
         data: { link: payload.data?.link || "/account" },
       };
       self.registration.showNotification(title, options);
@@ -59,7 +59,7 @@ const PUBLIC_PAGE_LIMIT = 12;
 const MEDIA_LIMIT = 24;
 const MEDIA_MAX_BYTES = 4 * 1024 * 1024;
 const MEDIA_HOSTS = ["images.unsplash.com", "utfs.io", "ufs.sh"];
-const APP_SHELL = ["/", "/offline", "/patterns", "/iphone-install", "/iphone-install.svg", "/iteration13-icon.svg", "/iteration13-icon-192.svg", "/iteration13-icon-512.svg", "/iteration13-icon-192.png", "/iteration13-icon-512.png", "/iteration13-icon-180.png", "/manifest.webmanifest"];
+const APP_SHELL = ["/", "/offline", "/patterns", "/iphone-install", "/iphone-install.svg", "/backpack-icon.svg", "/iteration13-icon.svg", "/iteration13-icon-192.svg", "/iteration13-icon-512.svg", "/iteration13-icon-192.png", "/iteration13-icon-512.png", "/iteration13-icon-180.png", "/manifest.webmanifest"];
 
 self.addEventListener("install", event => {
   event.waitUntil((async () => {
