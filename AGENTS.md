@@ -1,3 +1,9 @@
+# BACKPACK OS — Project Agent Instructions
+
+> **Golden base:** Iteration 14 main is the accepted BACKPACK OS foundation. Product owner approval recorded 18 November 2026. Preserve the P.O.S. model and its paired i13 B.O.S. navigation. Read [BACKPACK-OS-GOLDEN-BASE.md](./BACKPACK-OS-GOLDEN-BASE.md) before product changes. The canonical i13 demo is https://iteration13.vercel.app/ and its source is https://github.com/gatshaayanda/iteration13.
+
+> **Current truth:** browser-local prototype for engagement, channel, individual account, VIP circles and Backpack. UploadThing stores uploaded files remotely; the records referencing them remain local. No production authentication, shared records or cross-device sync is implied. Firebase rules/configuration are out of scope unless the product owner explicitly approves a change.
+
 # Iteration 13 — Reusable PWA Foundation Contract
 
 ## Fast handoff for future implementation chats

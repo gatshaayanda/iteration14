@@ -35,6 +35,7 @@ check(sw.includes("private|no-store")&&sw.includes("cache-control"),"private/no-
 check(sw.includes('url.pathname.startsWith("/api/")'),"API routes must remain outside public page caching");
 check(sw.includes('return await cache.match(request) || await cache.match("/") || await cache.match("/offline")'),"offline navigation must fall back to the saved app shell");
 check(pwa.includes('register("/sw.js", { updateViaCache: "none" })')&&pwa.includes("await registration.update()"),"PWA controller must check for service-worker updates");
+check(pwa.includes('const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at"'),"BACKPACK install dismissal must be isolated from Iteration 13 dismissal state");
 check(pwa.includes("await prompt.prompt()")&&pwa.includes("await prompt.userChoice"),"install CTA must invoke the native browser prompt");
 check(pwa.includes('className="i13-install-card"')&&pwa.includes("setInstallCardDismissed(true)"),"install card must remain dismissible");
 check(install.includes(".i13-install-card{position:fixed")&&install.includes("env(safe-area-inset-bottom)"),"install card must be fixed to the bottom safe area");

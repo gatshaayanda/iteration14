@@ -11,7 +11,7 @@ type InstallPromptEvent = Event & {
 };
 type InstallState = "hidden" | "native" | "embedded";
 
-const INSTALL_DISMISSED_KEY = "iteration13:install:dismissed-at";
+const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at";
 const INSTALL_DISMISS_MS = 7 * 24 * 60 * 60 * 1000;
 
 function environment() {
