@@ -7,6 +7,9 @@ const extensions = read("../src/app/BackpackExtensions.tsx");
 const root = read("../src/app/page.tsx");
 const css = read("../src/app/personal-os.css");
 const pwa = read("../src/app/pwa-register.tsx");
+const cloud = read("../src/lib/backpack-cloud.ts");
+const firebaseClient = read("../src/lib/firebase/client.ts");
+const rules = read("../firestore.rules");
 const failures = [];
 const check = (condition, message) => { if (!condition) failures.push(message); };
 
@@ -14,6 +17,10 @@ check(root.includes("<PersonalOS />"), "the root route must open BACKPACK OS");
 check(personal.includes("My Life") && personal.includes("My Channel"), "the two existing Backpack modes must remain available");
 check(personal.includes("EverydayWorkspace") && personal.includes("ChannelMediaWorkspace"), "approved everyday and channel extensions must be integrated into existing modes");
 check(personal.includes("localStorage.setItem") && personal.includes("localStorage.getItem"), "existing local records must persist and restore");
+check(personal.includes("startBackpackCloud") && personal.includes("queueBackpackCloudWrite"), "My Life and My Channel records must connect to the cloud sync queue");
+check(cloud.includes("signInAnonymously") && cloud.includes("onSnapshot") && cloud.includes("setDoc"), "Backpack cloud sync must authenticate, restore and persist records");
+check(firebaseClient.includes("persistentLocalCache") && firebaseClient.includes("persistentMultipleTabManager"), "Firestore must retain its persistent offline write queue");
+check(rules.includes("match /backpacks/{uid}") && rules.includes("allow read: if isOwner(uid)") && rules.includes("allow create, update: if isOwner(uid)"), "cloud Backpack records must be private to their authenticated owner");
 check(personal.includes("Lists & plans") && personal.includes("Notes & records") && personal.includes("Projects"), "existing My Life workflows must remain");
 check(personal.includes('kind:"Announcement"|"Episode"|"Video"|"Link"') && personal.includes("Useful link (website, article, tool, reference)"), "My Channel must support first-class useful links");
 check(personal.includes("http or https") && personal.includes("safeMediaUrl"), "external channel resources must validate safe web protocols");
@@ -34,4 +41,4 @@ if (failures.length) {
   failures.forEach(failure => console.error(" - " + failure));
   process.exit(1);
 }
-console.log("BACKPACK OS VERIFIED — existing modes, local records, integrated extensions, useful links and isolated offline shell.");
+console.log("BACKPACK OS VERIFIED — local records, private cloud sync, Firestore offline queue, integrated extensions and isolated offline shell.");
