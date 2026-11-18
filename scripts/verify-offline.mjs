@@ -29,6 +29,7 @@ check(sw.includes("sensitiveQuery.test(key)")&&sw.includes("responseOrigin === s
 check(sw.includes("response.status >= 500")&&sw.includes("networkFirstNavigation(request, event)"),"cached public pages must recover from transient server errors");
 check(/const CACHE_VERSION = "backpack-os-shell-v2"/.test(sw)&&/const MEDIA_CACHE = "backpack-os-media-v2"/.test(sw),"BACKPACK shell and media caches must be versioned independently from i13");
 check(sw.includes('key.startsWith("backpack-os-shell-") && key !== SHELL_CACHE')&&sw.includes('key.startsWith("backpack-os-media-") && key !== MEDIA_CACHE'),"activation must remove stale BACKPACK cache versions without deleting the active cache");
+check(!sw.includes('key.startsWith("iteration13-shell-")')&&!sw.includes('key.startsWith("iteration13-media-")'),"BACKPACK activation must not delete Iteration 13 cache namespaces");
 check(sw.includes('"/", "/offline"')&&sw.includes('"/iphone-install"'),"home, offline and installation guidance routes must be precached");
 check(sw.includes("for (const match of html.matchAll")&&sw.includes("/_next\\/static\\/"),"app-shell HTML must discover versioned Next.js assets");
 check(sw.includes('event.data?.type === "CACHE_MEDIA"')&&sw.includes('request.destination === "image"'),"approved image media cache must remain bounded and explicit");
