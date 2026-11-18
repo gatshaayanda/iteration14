@@ -413,3 +413,9 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - Preserve and migrate the legacy single-workspace browser data into the new workspace list without clearing it.
 - Keep a visible route back to the workspace chooser from within an opened workspace.
 - Be truthful: this prototype's workspace registry and records are browser-local, not cross-device sync or production authentication.
+
+
+## BACKPACK publishing and offline shell — 18 November 2026
+- The owner publishing form must offer the same useful-link and attachment capabilities as engagement setup: HTTP(S) link, styled image/video/PDF picker, clear 4 MB image / 16 MB video / 4 MB PDF limits, upload progress, selected filename and remove-before-publish action.
+- Do not regress publishing to a raw browser file input. Publishing a link or attachment without a title/message remains valid.
+- When a visible app-shell layout changes, bump both BACKPACK service-worker cache namespaces and update offline verification so installed/offline clients do not retain an old shell. Preserve i13 cache namespaces and explicit user-approved Refresh.
