@@ -1,5 +1,2 @@
-import { redirect } from "next/navigation";
-
-export default function LegacyBusinessRoute(){
-  redirect("/");
-}
+import ProductDetail from "./product-detail";
+export default function ProductPage(){return <ProductDetail/>}

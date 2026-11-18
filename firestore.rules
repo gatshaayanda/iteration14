@@ -484,20 +484,6 @@ service cloud.firestore {
       allow create, update: if isAdmin() && validReconciliation();
     }
 
-    // BACKPACK OS personal records are private to the authenticated owner.
-    // Anonymous Authentication gives each browser a stable UID; Firestore persistence
-    // queues accepted writes while that browser is offline.
-    match /backpacks/{uid} {
-      allow read: if isOwner(uid);
-      allow create, update: if isOwner(uid)
-        && request.resource.data.keys().hasOnly(['ownerUid', 'schemaVersion', 'updatedAt', 'data'])
-        && request.resource.data.ownerUid == uid
-        && request.resource.data.schemaVersion == 1
-        && request.resource.data.updatedAt is string
-        && request.resource.data.data is map;
-      allow delete: if isOwner(uid);
-    }
-
     match /{document=**} {
       allow read, write: if false;
     }
