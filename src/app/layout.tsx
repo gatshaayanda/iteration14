@@ -7,7 +7,7 @@ import Script from "next/script";
 import "./globals.css"; import "./pwa.css"; import "./install-card.css";
 const siteUrl=process.env.NEXT_PUBLIC_BASE_URL||"https://iteration14.vercel.app";
 const EMBEDDED_BROWSER_PATTERN=/WhatsApp|Instagram|FBAN|FBAV|Messenger|Line[/]|Twitter|TikTok|Snapchat/i;
-export const metadata:Metadata={metadataBase:new URL(siteUrl),title:{default:"BACKPACK OS | Your Personal Channel",template:"%s | BACKPACK OS"},description:"A personal operating system for your channel, individual accounts, VIP circles and private Backpack.",applicationName:"BACKPACK OS",keywords:["BACKPACK OS","Personal OS","channel","individual accounts","VIP circles","Backpack"],alternates:{canonical:"/"},openGraph:{type:"website",url:siteUrl,siteName:"BACKPACK OS",title:"BACKPACK OS | Personal Channel",description:"Your personal channel, individual accounts, VIP circles and private Backpack."},twitter:{card:"summary",title:"BACKPACK OS | Personal Channel",description:"Your personal channel and private Backpack, online and offline."},icons:{icon:[{url:"/backpack-icon.svg",type:"image/svg+xml"}],apple:{url:"/backpack-icon.svg",type:"image/svg+xml"}},manifest:"/manifest.webmanifest",appleWebApp:{capable:true,title:"BACKPACK OS",statusBarStyle:"default"}};
+export const metadata:Metadata={metadataBase:new URL(siteUrl),title:{default:"BACKPACK OS | Your Personal Channel",template:"%s | BACKPACK OS"},description:"A personal operating system for your channel, individual accounts, VIP circles and private Backpack.",applicationName:"BACKPACK OS",keywords:["BACKPACK OS","Personal OS","channel","individual accounts","VIP circles","Backpack"],alternates:{canonical:"/"},openGraph:{type:"website",url:siteUrl,siteName:"BACKPACK OS",title:"BACKPACK OS | Personal Channel",description:"Your personal channel, individual accounts, VIP circles and private Backpack."},twitter:{card:"summary",title:"BACKPACK OS | Personal Channel",description:"Your personal channel and private Backpack, online and offline."},icons:{icon:[{url:"/backpack-icon.svg",type:"image/svg+xml"},{url:"/iteration13-icon-192.png",sizes:"192x192",type:"image/png"},{url:"/iteration13-icon-512.png",sizes:"512x512",type:"image/png"}],apple:{url:"/iteration13-icon-180.png",sizes:"180x180",type:"image/png"}},manifest:"/manifest.webmanifest",appleWebApp:{capable:true,title:"BACKPACK OS",statusBarStyle:"default"}};
 export const viewport:Viewport={themeColor:"#155eef",colorScheme:"light"};
 export default async function RootLayout({children}:{children:React.ReactNode}){
  const requestHeaders=await headers();
@@ -28,5 +28,5 @@ export default async function RootLayout({children}:{children:React.ReactNode}){
     window.__iteration13InstallPrompt = event;
   });
 })();
-`}</Script>{children}<PwaRegister initialEmbedded={embedded} initialAndroid={android}/><Analytics/><SpeedInsights/></body></html>
+`}</Script><PwaRegister initialEmbedded={embedded} initialAndroid={android}/>{children}<Analytics/><SpeedInsights/></body></html>
 }
