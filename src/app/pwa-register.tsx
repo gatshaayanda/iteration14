@@ -11,7 +11,7 @@ type InstallPromptEvent = Event & {
 };
 type InstallState = "hidden" | "native" | "embedded";
 
-const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at";
+const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at:v2";
 const INSTALL_DISMISS_MS = 7 * 24 * 60 * 60 * 1000;
 
 function environment() {
@@ -228,7 +228,10 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     try {
       await prompt.prompt();
       const choice = await prompt.userChoice;
-      if (choice.outcome === "dismissed") rememberDismissal();
+      if (choice.outcome === "dismissed") {
+        rememberDismissal();
+        setInstallCardDismissed(true);
+      }
     } catch {
       // The event is one-shot and browser-controlled. Do not replace it with
       // generic Chrome-menu instructions when the native prompt fails.
