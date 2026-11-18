@@ -71,6 +71,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
 
   useEffect(() => {
     const env = environment();
+    setInstallCardDismissed(dismissedRecently());
     const embedded = initialEmbedded || env.embedded;
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
     setCanShowManualInstall(isIosSafari());
@@ -289,7 +290,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
           <span className="i13-install-mark" aria-hidden="true">🎒</span>
           <span><strong>BACKPACK OS</strong><small>PERSONAL CHANNEL</small></span>
         </div>
-        <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={() => setInstallCardDismissed(true)}>×</button>
+        <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={dismissInstall}>×</button>
         <button className="i13-install-action" type="button" onClick={() => {
           if (installPromptRef.current) {
             void install();

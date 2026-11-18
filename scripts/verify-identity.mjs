@@ -56,6 +56,7 @@ if (/Install Iteration 13 from your browser|Chrome or Edge, open the <b>browser 
 // intentionally fail the production build if a future edit breaks the approved flow.
 const installContracts = [
   [layout.includes('strategy="beforeInteractive"') && layout.includes('event.preventDefault()') && layout.includes('window.__iteration13InstallPrompt = event'), "early beforeinstallprompt capture must retain the native event before hydration"],
+  [pwaRegister.includes("setInstallCardDismissed(dismissedRecently())") && pwaRegister.includes("onClick={dismissInstall}"), "install-card dismissal must persist across reloads for the configured dismissal window"],
   [pwaRegister.includes('promptWindow.__iteration13PwaListenerReady = true') && pwaRegister.includes('const earlyPrompt = promptWindow.__iteration13InstallPrompt'), "early prompt handoff to the single controller is missing"],
   [pwaRegister.includes('window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt)') && pwaRegister.includes('window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt)'), "native install listener setup/cleanup is missing"],
   [pwaRegister.includes('await prompt.prompt()') && pwaRegister.includes('await prompt.userChoice'), "branded install action must invoke and await the browser-owned prompt"],
