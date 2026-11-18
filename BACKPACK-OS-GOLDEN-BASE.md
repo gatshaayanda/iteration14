@@ -8,7 +8,15 @@ BACKPACK OS is the personal operating system (P.O.S.) paired with Iteration 13's
 - **Admin Hub** builds, configures and sells these branded operating systems. Do not conflate Admin Hub's commercial website with either customer's daily workspace.
 
 ## Navigation contract
-The Backpack 🎒 and i13 Briefcase 💼 destinations must be visibly paired wherever the customer/owner can move between systems. The i13 link opens the canonical Iteration 13 demo in a new tab until a customer-specific B.O.S. URL is configured. The owner's configured B.O.S. address is a separate, browser-local setting; never imply data synchronization.
+The Backpack 🎒 and i13 Briefcase 💼 destinations must be visibly paired in the fixed bottom dock, inside the device safe area. Open the canonical i13 B.O.S. in the same tab unless a customer-specific B.O.S. URL is configured. Never force a new tab or claim that Android automatically hands off to a separately installed PWA. The owner's configured B.O.S. address is a separate, browser-local setting; never imply data synchronization.
+
+## Create or load a Backpack OS
+- Every fresh BACKPACK launch opens the workspace chooser, not a previously active channel or owner dashboard.
+- The chooser offers **Create new Backpack OS** and **Load an existing Backpack**.
+- Creating a workspace asks for its Backpack/OS name and engagement/channel setup, then saves it as a distinct workspace.
+- Loading an existing workspace restores its channel, people, circles, invitations, posts, comments and requests. Provide a switch-back-to-workspaces action from inside the app.
+- Existing single-workspace browser data must be migrated into the workspace list without clearing or overwriting it.
+- This prototype stores the workspace index and content in browser-local storage; it is not cross-device account sync or production authentication.
 
 ## Setup experience
 Setup creates an engagement and seeds its channel with an optional useful URL and/or uploaded image, video or PDF. Keep identity fields and resources visually grouped, use a styled accessible file picker rather than the browser's raw file-input presentation, show upload progress and the selected attachment clearly, and allow removal before creation. UploadThing limits remain image 4 MB, video 16 MB and PDF 4 MB. Links are validated as HTTP(S).
@@ -23,7 +31,7 @@ Keep the early beforeinstallprompt capture, one authoritative PWA controller, na
 Dominant genre: **Quiet**, with **Data** reserved for the Backpack control centre. Use compact, calm, mobile-first layouts, clear typography, restrained blue accent, neutral surfaces, strong contrast, visible focus and useful empty/loading/success/error states. Prioritise direct use over marketing copy. The engagement setup should be short and scannable; upload controls are grouped resources, not another long-form section.
 
 ## QA acceptance
-- Create an engagement with only a name and owner details; optional description/link/file remain optional.
+- Fresh launch always presents Create new Backpack OS / Load an existing Backpack.\n- Create two named Backpacks, verify both appear in the chooser, and load each to confirm their data remains separate.\n- Verify an existing single-workspace browser profile is migrated and remains loadable.\n- Create an engagement with a Backpack name, channel name and owner details; optional description/link/file remain optional.
 - Add a valid HTTP(S) link and upload image/video/PDF; verify progress, filename, remove action and seeded channel post.
 - Navigate Channel → Individual account → Backpack → i13 B.O.S. and back. Verify both 🎒 and 💼 are clearly discoverable.
 - Verify public/restricted channel gates, invitations, VIP circle access and comment/request toggles in the same browser.
