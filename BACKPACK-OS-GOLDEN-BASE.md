@@ -45,3 +45,9 @@ The product owner approved the current Iteration 14 main experience as the new g
 ## Channel publishing and offline refresh
 - Publish an update mirrors the setup resource experience: optional HTTP(S) useful link plus optional image/video/PDF upload, styled accessible picker, explicit file limits, progress, selected filename and removal before publishing. A link or attachment alone is valid content.
 - Whenever the app-shell layout changes, bump the BACKPACK shell and media cache versions together, and update the offline verifier. The next service-worker install must precache the new app shell while preserving all i13 cache namespaces.
+
+
+## Demo-friendly access names
+- Invite individuals by name using a plain text field; do not ask for an email address in the invitation form.
+- VIP-circle member lists also use names, comma- or line-separated. Matching is case-insensitive and ignores repeated spaces.
+- Individual account profile may retain an email identifier in this prototype, but access is matched by the person's name. Existing legacy email invitations remain accepted. This is demo convenience, not secure identity verification.
