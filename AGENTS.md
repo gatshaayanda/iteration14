@@ -454,3 +454,14 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - Manual Add to Home Screen guidance is only for iOS Safari. Embedded browsers retain the existing blocking handoff gate. Standalone installed sessions hide the card.
 - Keep the BACKPACK dismissal key isolated from i13. Preserve the service-worker update flow and independent BACKPACK cache namespaces.
 - The bottom dock must show Backpack 🎒 beside B.O.S. 💼; B.O.S. opens the configured valid URL or defaults to https://iteration13.vercel.app/.
+
+
+## BACKPACK offline resilience hardening — 18 November 2026
+- Keep browser-local channel, account, circle, comment and request workflows usable offline wherever their code path only needs local state. Do not imply that browser-local changes are delivered to other people or synchronized to a server.
+- On startup, make a best-effort request for persistent origin storage. It must never block rendering or PWA installation; browser support and grant decisions are outside app control.
+- Public navigation uses network-first while connected, but on network failure or an origin 5xx it must recover from the exact cached request, the same pathname without query parameters, the cached root app shell, then the offline page. This fallback is only for public navigation.
+- Keep account/member/private routes and API requests out of public HTML caches. Never serve a cached public page as an authenticated private account, and never cache authorization-sensitive HTML.
+- Keep immutable Next.js assets cache-first and approved image media bounded in the separate media cache. Media or cache quota failures must not prevent the app shell from opening.
+- Bump the independent BACKPACK shell and media cache versions together with offline verification whenever offline-critical worker behavior changes. Preserve i13 cache namespaces and the explicit user-approved service-worker Refresh lifecycle.
+- Offline verification must cover canonical-path fallback, root-shell recovery, storage-persistence request, cache version isolation, private-route protection and truthful offline limitations.
+- Offline does not make UploadThing uploads, external links, remote AI, cross-device sync, notifications or server delivery available. Do not silently claim these actions are queued; provide clear connectivity-aware feedback if such queuing is implemented in a future approved change.
