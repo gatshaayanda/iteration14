@@ -52,7 +52,7 @@ if (!/appleWebApp\s*:\s*\{[^}]*\bcapable\s*:\s*true\b[^}]*\btitle\s*:\s*["']BACK
 const sw = fs.readFileSync(path.join(root, "public/sw.js"), "utf8");
 if (!/backpack-os-shell-v\d+/.test(sw)) failures.push("service worker: missing isolated cache namespace");
 if (!sw.includes("/backpack-icon.svg") || !sw.includes("/backpack-icon-180.png")) failures.push("service worker: BACKPACK icons missing from app shell");
-if (/iteration13-icon-(?:180|192|512)\\.(?:png|svg)/.test(manifestJson) || /iteration13-icon-(?:180|192|512)\\.(?:png|svg)/.test(appManifest) || /iteration13-icon-(?:180|192|512)\\.(?:png|svg)/.test(layout)) failures.push("PWA identity: inherited Iteration 13 icon reference remains");
+if (/iteration13-icon-(?:180|192|512)\\.(?:png|svg)/.test(JSON.stringify(manifest)) || /iteration13-icon-(?:180|192|512)\\.(?:png|svg)/.test(appManifest) || /iteration13-icon-(?:180|192|512)\\.(?:png|svg)/.test(layout)) failures.push("PWA identity: inherited Iteration 13 icon reference remains");
 if (!/backpack-os-shell-v\d+/.test(sw)) failures.push("service worker: BACKPACK cache namespace is not isolated");
 if (!sw.includes("/iphone-install") || !sw.includes("/iphone-install.svg")) failures.push("service worker: iPhone installation guide is not cached for offline use");
 
