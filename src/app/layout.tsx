@@ -19,7 +19,6 @@ export default async function RootLayout({children}:{children:React.ReactNode}){
    || (/Android/i.test(userAgent)&&/\bwv\b/i.test(userAgent))
    || /^(com\.whatsapp|com\.instagram\.android|com\.facebook\.katana|com\.facebook\.lite|com\.facebook\.orca)$/i.test(requestedWith);
  const android=/Android/i.test(userAgent);
- const androidChrome=android && /Chrome\//i.test(userAgent) && !/EdgA|OPR|SamsungBrowser|DuckDuckGo/i.test(userAgent);
  return <html lang="en"><body style={embedded?{overflow:"hidden"}:undefined}><Script id="iteration13-early-install-capture" strategy="beforeInteractive">{`
 (function () {
   window.addEventListener("beforeinstallprompt", function (event) {
@@ -29,5 +28,5 @@ export default async function RootLayout({children}:{children:React.ReactNode}){
     window.__iteration13InstallPrompt = event;
   });
 })();
-`}</Script><PwaRegister initialEmbedded={embedded} initialAndroid={android} initialAndroidChrome={androidChrome}/>{children}<Analytics/><SpeedInsights/></body></html>
+`}</Script><PwaRegister initialEmbedded={embedded} initialAndroid={android}/>{children}<Analytics/><SpeedInsights/></body></html>
 }
