@@ -92,7 +92,7 @@ export async function queueBackpackCloudWrite(uid: string, data: Record<string, 
     schemaVersion: 1,
     updatedAt: typeof data.updatedAt === "string" ? data.updatedAt : new Date().toISOString(),
     data: checkedCloudData(data),
-  }, { merge: true });
+  });
 }
 
 function writeCloudDocument(
@@ -108,7 +108,7 @@ function writeCloudDocument(
       schemaVersion: 1,
       updatedAt: typeof data.updatedAt === "string" ? data.updatedAt : new Date().toISOString(),
       data: checkedCloudData(data),
-    }, { merge: true }).catch(error => onStatus("error", error instanceof Error ? error.message : fallback));
+    }).catch(error => onStatus("error", error instanceof Error ? error.message : fallback));
   } catch (error) {
     onStatus("error", error instanceof Error ? error.message : fallback);
   }
