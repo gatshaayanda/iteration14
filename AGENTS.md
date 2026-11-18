@@ -439,3 +439,10 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - Resource attachments and links are stored as setup metadata on the workspace. This remains browser-local prototype behavior; it is not cloud sync, shared access control or production authentication.
 - Preserve existing channel posts, invitations, VIP circles, comments, requests, per-workspace inboxes and PWA behavior when editing identity or adding an engagement.
 - Verification: `npm run verify:offline` checks the edit and add-engagement affordances and persistence hooks.
+
+
+## Install and collapsible owner controls
+
+- BACKPACK retains its protected branded PWA install card and native browser prompt flow from `src/app/pwa-register.tsx`, with iOS Safari Share → Add to Home Screen guidance, embedded-browser handoff, dismissal and offline update handling. Do not rewrite this installation controller as part of feature work.
+- The owner workspace's Backpack identity editor is a native accessible `details/summary` disclosure, collapsed by default to keep the mobile control centre compact. The owner can expand it to edit identity/resources and collapse it again.
+- The offline shell cache namespace must be incremented when offline-critical UI changes; the collapsible editor update advances the BACKPACK shell/media cache to v4.
