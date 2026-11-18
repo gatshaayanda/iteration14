@@ -28,5 +28,5 @@ export default async function RootLayout({children}:{children:React.ReactNode}){
     window.__iteration13InstallPrompt = event;
   });
 })();
-`}</Script><PwaRegister initialEmbedded={embedded} initialAndroid={android}/>{children}<Analytics/><SpeedInsights/></body></html>
+`}</Script>{children}<PwaRegister initialEmbedded={embedded} initialAndroid={android}/><Analytics/><SpeedInsights/></body></html>
 }
