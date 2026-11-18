@@ -83,12 +83,6 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
       if (!registration || !navigator.onLine) return;
       void registration.update().then(inspect).catch(() => {});
     };
-    const online = () => {
-      checkForUpdates();
-    };
-    const visibilityChange = () => {
-      if (document.visibilityState === "visible") checkForUpdates();
-    };
 
     const onBeforeInstallPrompt = (event: Event) => {
       const current = environment();
