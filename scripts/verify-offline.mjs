@@ -4,6 +4,7 @@ const read = file => fs.readFileSync(path.resolve(process.cwd(), file), "utf8");
 const sw=read("public/sw.js");
 const page=read("src/app/page.tsx");
 const app=read("src/app/PersonalChannelOS.tsx");
+const css=read("src/app/personal-channel-os.css");
 const pwa=read("src/app/pwa-register.tsx");
 const install=read("src/app/install-card.css");
 const offline=read("src/app/offline/page.tsx");
@@ -24,7 +25,7 @@ check(app.includes("Post comment")&&app.includes("Send request")&&app.includes("
 check(app.includes("PRIVATE CONTROL CENTRE")&&app.includes("Publish an update")&&app.includes("Who can enter?"),"Backpack must administer publishing and audience access");
 check(app.includes("BACKPACK IDENTITY")&&app.includes("function editBackpack")&&app.includes("Save Backpack details")&&app.includes("resourceLink")&&app.includes("resourceAsset"),"owner must be able to edit and persist the Backpack identity and setup resources after creation");
 check(app.includes('<details className="bp-collapsible">')&&app.includes("<summary>")&&css.includes(".bp-collapsible>summary")&&css.includes(".bp-collapsible[open]>summary:after"),"Backpack identity editor must be compact and collapsible");
-check(app.includes('className="i13-install-card"')&&app.includes('Install BACKPACK OS')&&app.includes("isIosSafari()")&&app.includes("Share</b>, choose <b>Add to Home Screen</b>"),"BACKPACK must retain its branded install card, native install action and iOS Safari guidance");
+check(pwa.includes('className="i13-install-card"')&&pwa.includes("Install BACKPACK OS")&&pwa.includes("isIosSafari()")&&pwa.includes("Share</b>, choose <b>Add to Home Screen</b>"),"BACKPACK must retain its branded install card, native install action and iOS Safari guidance");
 check(app.includes("function startEngagement")&&app.includes("Add engagement")&&app.includes("Each engagement gets its own channel")&&app.includes("w.space.title"),"owner must be able to add distinct engagements under the Backpack identity and distinguish them in the workspace list");
 check(app.includes("businessOsUrl")&&app.includes("My B.O.S. address")&&app.includes("function isHttpUrl")&&app.includes('url.protocol==="https:"||url.protocol==="http:"')&&app.includes("href={isHttpUrl(s.businessOsUrl)?s.businessOsUrl:\"https://iteration13.vercel.app/\"}"),"Backpack must support a user-configured, HTTP(S)-validated return link to their connected i13 B.O.S.");
 check(app.includes("localStorage.setItem(KEY,JSON.stringify(v))"),"workspace changes must persist locally before success feedback");
