@@ -77,6 +77,9 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   }, []);
 
   useEffect(() => {
+    // Restore the user's seven-day dismissal preference before handling any
+    // early or newly emitted native prompt. A fresh native prompt below clears it.
+    setInstallCardDismissed(dismissedRecently());
     const env = environment();
     const embedded = initialEmbedded || env.embedded;
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
