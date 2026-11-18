@@ -91,6 +91,13 @@ for (const file of walkUiSource(path.join(root, "src"))) {
   }
 }
 
+
+const personalOs = fs.readFileSync(path.join(root, "src/app/PersonalChannelOS.tsx"), "utf8");
+const personalCss = fs.readFileSync(path.join(root, "src/app/personal-channel-os.css"), "utf8");
+if (!personalOs.includes('className="bp-bottom-dock"') || !personalOs.includes('aria-label="Open private Backpack"') || !personalOs.includes('aria-label="Open Business Operating System"')) failures.push("workspace navigation: Backpack and B.O.S. must remain in the bottom dock");
+if (personalOs.includes('className="bp-backpack-link"') || /iteration13\.vercel\.app\/" target="_blank"/.test(personalOs)) failures.push("workspace navigation: top-nav switchers or forced new-tab B.O.S. links returned");
+if (!personalCss.includes(".bp-bottom-dock{position:fixed") || !personalCss.includes("env(safe-area-inset-bottom)")) failures.push("workspace navigation: fixed bottom dock must respect the device safe area");
+
 if (failures.length) {
   console.error("IDENTITY VERIFICATION FAILED");
   failures.forEach(failure => console.error(" - " + failure));
