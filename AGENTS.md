@@ -2,18 +2,23 @@
 
 ## Repository identity
 - Work only in `gatshaayanda/iteration14`, default branch `main`.
-- This is the Iteration 14 personal operating system. Do not rename it, rebrand it as iB, or import another product's identity without an explicit instruction from the product owner.
+- This repository implements BACKPACK OS — the personal operating system (P.O.S.) in Iteration 14. Preserve the BACKPACK OS identity. B.O.S. is the separate business operating system; do not merge the two environments or rename this product as iB.
 - Iteration 13 is a source/reference repository only. Do not change it while working on Iteration 14.
 - Do not mistake copied Iteration 13 implementation or inherited labels for approved Iteration 14 product decisions.
 - Preserve existing working features unless the product owner explicitly asks to remove or replace them. Never force-push.
 
 ## Product direction
 - The product is a personal operating system with two connected modes:
-  - **Publish / My Channel** — a designed personal publishing space for episodes, videos, announcements, drafts, audience access and moderated contributions.
-  - **Organise / My Life** — lists, plans, notes, projects, goals, personal records, private documents and selected sharing.
+  - **Publish / My Channel** — the existing personal publishing space for episodes, videos, announcements, links, useful resources, drafts, audience access and moderated contributions.
+  - **Organise / My Life** — the existing personal workspace for lists, plans, notes, projects, goals, personal records, private documents and selected sharing, extended with purchasing, vendors, savings objectives, household stock, replenishment, bills, personal money and longer-term aspirations.
 - These are modes in one personal space, not separate accounts.
 - A person's personal records remain private by default. Sharing is intentional and permission-scoped.
-- Iteration 14 is a standalone personal product. Do not add Briefcase, business operations, customer orders or CRM navigation to its personal workspace.
+- BACKPACK OS must remain independently useful without a business. The Briefcase / B.O.S. is a separate business operating environment and may be reached through the supporting profile/space switcher, not mixed into My Life or My Channel records.
+- The primary modes remain Publish and Organise. Do not add a new top-level toggle for every capability; integrate new capabilities into the existing modes and connect shared records instead of duplicating them.
+- Financial philosophy: B.O.S. explains how money is earned through business activity; P.O.S. explains how money is spent through living. The P.O.S. must show what expenditure does for life, distinguish essential/lifestyle/obligation/development/unexpected spending, and keep savings transfers distinct from expenditure and asset acquisition.
+- Purchasing horizons must support this week, next 1–3 months, next 3–12 months, and next 1–5+ years. A purchase should connect its objective, budget, supplier, savings progress, actual expenditure and receipt/warranty record.
+- Product discovery, deals, new releases and useful web links belong inside the existing personal library/channel workflows. Media links must point to authorised sources; do not host or redistribute unlicensed streams.
+- These are approved product extensions, not a claim that every capability is already implemented. Label local-only prototypes and unconnected integrations honestly.
 
 ## Visual direction — mandatory
 The selected design genre is **DATA × QUIET**:
