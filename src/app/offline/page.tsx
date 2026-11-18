@@ -2,25 +2,25 @@ import Link from "next/link";
 
 export default function OfflinePage() {
   return (
-    <main className="orderPage">
-      <div className="orderWrap">
-        <div className="orderHeader">
-          <Link href="/" className="logo"><span className="logoMark">P</span><span>Iteration 13</span></Link>
+    <main className="po-entry">
+      <header className="po-entry-brand">
+        <span className="po-brand-mark">P</span>
+        <span><strong>BACKPACK OS</strong><small>YOUR PERSONAL OPERATING SYSTEM</small></span>
+      </header>
+      <section className="po-entry-card">
+        <span className="po-eyebrow">OFFLINE MODE</span>
+        <h1>Your Backpack is still here.</h1>
+        <p>The network is unavailable, but the app shell may still be available on this device.</p>
+        <div style={{display:"grid",gap:12,marginTop:24}}>
+          <p><strong>What works offline</strong><br />After BACKPACK OS has been opened successfully while online and its service worker has installed, you can reopen the cached app shell. My Life, My Channel, your setup and your locally saved records can work from this browser's local storage.</p>
+          <p><strong>What needs a connection</strong><br />Loading a Backpack from a remote service, cloud sync, public publishing, external links, new remote uploads and streaming media need internet. Changes made offline stay on this device; they are not queued for cloud delivery.</p>
+          <p><strong>Before you go offline</strong><br />Open BACKPACK OS once while connected and let it finish loading. The browser can clear cached files to free storage, and the first-ever visit cannot be made offline.</p>
         </div>
-        <section className="orderCard confirm">
-          <div className="confirmIcon">📶</div>
-          <span className="kicker">Offline mode</span>
-          <h1>Iteration 13 is still here.</h1>
-          <p>After the service worker has installed successfully while online, the current Store app shell—including its page markup, Next.js scripts and styles—and the offline screen are cached together. A newer shell is prepared in the background and waits for your Refresh choice before replacing the active version. Some previously viewed service images may also be retained when their host permits a size-checked download within the cache budget. Video streaming and playback are not cached for offline use; uncached or unsupported media still need internet. Cached content can be out of date, and the browser may clear it to free device storage.</p>
-          <p>Customer requests, account text messages, service edits, announcement changes, Briefcase notes and demo payment/status changes save in this browser. Customer and owner views use the same local records on this device; nothing is uploaded or synced to another device.</p>
-          <p>New UploadThing uploads, external links, remote Firebase features and other server-dependent actions need internet. Offline text and admin changes are saved locally, not queued for server delivery.</p>
-          <p><strong>Before going offline:</strong> open the Store while connected, browse the important service images, then reload once while still online so the latest app shell and eligible images can be prepared.</p>
-          <div className="actions centered">
-            <Link className="button buttonPrimary" href="/#service-order">Try customer journey</Link>
-            <Link className="button buttonLight" href="/">Open home</Link>
-          </div>
-        </section>
-      </div>
+        <div className="po-entry-actions" style={{justifyContent:"flex-start",marginTop:24}}>
+          <Link className="po-primary" href="/">Open BACKPACK OS →</Link>
+        </div>
+      </section>
+      <p className="po-entry-foot">Your personal workspace · My Life + My Channel</p>
     </main>
   );
 }
