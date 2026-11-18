@@ -1,5 +1,5 @@
 {
-  "id": "/",
+  "id": "/?app=backpack-os-14",
   "name": "BACKPACK OS",
   "short_name": "BACKPACK",
   "description": "A personal operating system for channels, individual accounts, VIP circles and private administration.",
@@ -7,7 +7,7 @@
     "lifestyle",
     "productivity"
   ],
-  "start_url": "/",
+  "start_url": "/?app=backpack-os-14",
   "scope": "/",
   "display": "standalone",
   "launch_handler": {
@@ -17,7 +17,7 @@
   "theme_color": "#155eef",
   "icons": [
     {
-      "src": "/backpack-icon.svg",
+      "src": "/backpack-icon.svg?v=14",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
@@ -30,7 +30,7 @@
       "url": "/",
       "icons": [
         {
-          "src": "/backpack-icon.svg",
+          "src": "/backpack-icon.svg?v=14",
           "sizes": "any",
           "type": "image/svg+xml"
         }
@@ -42,7 +42,7 @@
       "url": "/?view=account",
       "icons": [
         {
-          "src": "/backpack-icon.svg",
+          "src": "/backpack-icon.svg?v=14",
           "sizes": "any",
           "type": "image/svg+xml"
         }
@@ -54,7 +54,7 @@
       "url": "/?view=backpack",
       "icons": [
         {
-          "src": "/backpack-icon.svg",
+          "src": "/backpack-icon.svg?v=14",
           "sizes": "any",
           "type": "image/svg+xml"
         }
