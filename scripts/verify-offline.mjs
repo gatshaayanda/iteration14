@@ -34,7 +34,7 @@ check(sw.includes("navigationPreload.enable()")&&sw.includes("event.preloadRespo
 check(sw.includes("function isSafePublicHtml")&&sw.includes('value === "cookie"')&&sw.includes('value === "authorization"'),"offline HTML caching must reject private cookie- or authorization-varying responses");
 check(sw.includes("sensitiveQuery.test(key)")&&sw.includes("responseOrigin === self.location.origin"),"offline HTML caching must reject sensitive query strings and cross-origin redirects");
 check(sw.includes("response.status >= 500")&&sw.includes("networkFirstNavigation(request, event)"),"cached public pages must recover from transient server errors");
-check(/const CACHE_VERSION = "backpack-os-shell-v3"/.test(sw)&&/const MEDIA_CACHE = "backpack-os-media-v3"/.test(sw),"BACKPACK shell and media caches must be versioned independently from i13");
+check(/const CACHE_VERSION = "backpack-os-shell-v4"/.test(sw)&&/const MEDIA_CACHE = "backpack-os-media-v4"/.test(sw),"BACKPACK shell and media caches must be versioned independently from i13");
 check(sw.includes('key.startsWith("backpack-os-shell-") && key !== SHELL_CACHE')&&sw.includes('key.startsWith("backpack-os-media-") && key !== MEDIA_CACHE'),"activation must remove stale BACKPACK cache versions without deleting the active cache");
 check(!sw.includes('key.startsWith("iteration13-shell-")')&&!sw.includes('key.startsWith("iteration13-media-")'),"BACKPACK activation must not delete Iteration 13 cache namespaces");
 check(sw.includes('"/", "/offline"')&&sw.includes('"/iphone-install"'),"home, offline and installation guidance routes must be precached");
