@@ -18,7 +18,8 @@ export default async function RootLayout({children}:{children:React.ReactNode}){
  const embedded=EMBEDDED_BROWSER_PATTERN.test(userAgent)
    || (/Android/i.test(userAgent)&&/\bwv\b/i.test(userAgent))
    || /^(com\.whatsapp|com\.instagram\.android|com\.facebook\.katana|com\.facebook\.lite|com\.facebook\.orca)$/i.test(requestedWith);
- const android=/Android/i.test(userAgent);\n const androidChrome=android && /Chrome\\//i.test(userAgent) && !/EdgA|OPR|SamsungBrowser|DuckDuckGo/i.test(userAgent);
+ const android=/Android/i.test(userAgent);
+ const androidChrome=android && /Chrome\\//i.test(userAgent) && !/EdgA|OPR|SamsungBrowser|DuckDuckGo/i.test(userAgent);
  return <html lang="en"><body style={embedded?{overflow:"hidden"}:undefined}><Script id="iteration13-early-install-capture" strategy="beforeInteractive">{`
 (function () {
   window.addEventListener("beforeinstallprompt", function (event) {
