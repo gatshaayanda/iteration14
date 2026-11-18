@@ -16,7 +16,7 @@ const check=(ok,message)=>{if(!ok)failures.push(message);};
 
 check(manifest.name==="BACKPACK OS"&&manifest.short_name==="BACKPACK","web manifest must identify BACKPACK OS");
 check(manifest.theme_color==="#315f9f","web manifest must use the DATA × QUIET accent");
-check(appManifest.includes('name: "BACKPACK OS"')&&appManifest.includes('short_name: "BACKPACK OS"'),"Next app manifest must identify BACKPACK OS");
+check(appManifest.includes('name: "BACKPACK OS"')&&appManifest.includes('short_name: "BACKPACK"'),"Next app manifest must identify BACKPACK OS");
 check(layout.includes('default:"BACKPACK OS"')&&layout.includes('applicationName:"BACKPACK OS"'),"page metadata must identify BACKPACK OS");
 check(layout.includes('title:"BACKPACK OS"'),"Apple install metadata must identify BACKPACK OS");
 check(pwa.includes("Install BACKPACK OS")&&pwa.includes("BACKPACK OS · PERSONAL"),"branded PWA install card must identify BACKPACK OS");
