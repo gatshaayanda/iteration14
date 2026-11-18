@@ -295,7 +295,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
         <div className="plugInstallTop"><span className="plugInstallMark">🎒</span><span className="plugInstallTag">BACKPACK OS · PERSONAL CHANNEL</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
         <div className="plugInstallKicker">IPHONE & IPAD</div>
         <h2 id="plug-install-title">Add BACKPACK OS to Home Screen.</h2>
-        <p id="plug-install-message">{isAndroidChrome() ? <>In Chrome, tap <b>⋮</b> (top right), choose <b>Install app</b> or <b>Add to Home screen</b>, then confirm. Chrome controls which option is available for this site.</> : <>In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</>}</p>
+        <p id="plug-install-message">In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</p>
         <button type="button" className="plugInstallPrimary" onClick={dismissInstall}>Continue on the website</button>
       </section>
     </div>
