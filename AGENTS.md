@@ -430,3 +430,12 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 ## BACKPACK demo-friendly access labels
 - Keep access choices simple: **Public** and **Invite-only**. Invite people by name in a plain text field with a short **Add** action; display an invited count, never an email-address prompt or email-specific count.
 - Normalize invited names and VIP-circle member names case-insensitively with repeated whitespace collapsed. Preserve legacy email invitations for existing local demo data. Account email remains an identifier only; name is the access match. This is demo convenience, not identity security.
+
+
+## Backpack identity and engagement management
+
+- Each saved Backpack workspace has an editable identity: engagement category, Backpack/OS name, channel/engagement name, description, owner details, useful resource link and optional uploaded image/video/PDF.
+- The owner workspace exposes **Edit your Backpack** and **Add engagement**. Editing updates the active saved workspace in browser-local storage. Adding an engagement creates a distinct saved channel/workspace while carrying forward the parent Backpack name, category and owner details; engagement names distinguish entries in the workspace chooser.
+- Resource attachments and links are stored as setup metadata on the workspace. This remains browser-local prototype behavior; it is not cloud sync, shared access control or production authentication.
+- Preserve existing channel posts, invitations, VIP circles, comments, requests, per-workspace inboxes and PWA behavior when editing identity or adding an engagement.
+- Verification: `npm run verify:offline` checks the edit and add-engagement affordances and persistence hooks.
