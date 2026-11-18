@@ -425,3 +425,8 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - BACKPACK's demo invitations and VIP-circle membership use simple display names, not email addresses. The invite control is a plain text field; member lists accept names separated by commas or lines.
 - Account entry may still collect an email as an individual-account identifier, but restricted access is granted by matching the entered person's name against invited names or VIP-circle names. Keep legacy email invitations valid for existing browser data.
 - Do not describe name matching as production-grade identity verification.
+
+
+## BACKPACK demo-friendly access labels
+- Keep access choices simple: **Public** and **Invite-only**. Invite people by name in a plain text field with a short **Add** action; display an invited count, never an email-address prompt or email-specific count.
+- Normalize invited names and VIP-circle member names case-insensitively with repeated whitespace collapsed. Preserve legacy email invitations for existing local demo data. Account email remains an identifier only; name is the access match. This is demo convenience, not identity security.
