@@ -161,13 +161,27 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     };
 
     void register();
-    const controllerChange = () => { if (reloadForUpdate.current) window.location.reload(); };
+    const controllerChange = () => {
+      if (!reloadForUpdate.current) return;
+      // Consume the one-shot refresh flag before navigating so the timeout
+      // fallback cannot issue a second reload after controllerchange.
+      reloadForUpdate.current = false;
+      window.location.reload();
+    };
+    const checkForUpdate = () => {
+      if (!registration || !navigator.onLine) return;
+      void registration.update().then(inspect).catch(() => {});
+    };
     navigator.serviceWorker?.addEventListener("controllerchange", controllerChange);
+    window.addEventListener("focus", checkForUpdate);
+    document.addEventListener("visibilitychange", checkForUpdate);
 
     return () => {
       window.removeEventListener("iteration13-open-install", requestInstall);
       window.removeEventListener("appinstalled", appInstalled);
       window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+      window.removeEventListener("focus", checkForUpdate);
+      document.removeEventListener("visibilitychange", checkForUpdate);
       navigator.serviceWorker?.removeEventListener("controllerchange", controllerChange);
     };
   }, [initialEmbedded, initialAndroid]);
@@ -258,7 +272,11 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
       }
     }
     window.setTimeout(() => {
-      if (reloadForUpdate.current) window.location.reload();
+      if (!reloadForUpdate.current) return;
+      // If controllerchange did not arrive, consume the same one-shot flag
+      // before using the navigation fallback.
+      reloadForUpdate.current = false;
+      window.location.reload();
     }, 1800);
   }
 
