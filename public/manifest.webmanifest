@@ -1,17 +1,17 @@
 {
   "id": "/",
-  "name": "BACKPACK OS",
-  "short_name": "BACKPACK",
-  "description": "Your personal operating system for My Life, My Channel and everyday resources.",
+  "name": "Iteration 13 | Service Studio",
+  "short_name": "Iteration 13",
+  "description": "Your business in your pocket: a connected Store, customer Account and private owner Briefcase.",
   "categories": [
-    "lifestyle",
+    "business",
     "productivity"
   ],
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#f3f5f7",
-  "theme_color": "#315f9f",
+  "background_color": "#f6f5f0",
+  "theme_color": "#155eef",
   "icons": [
     {
       "src": "/iteration13-icon.svg",

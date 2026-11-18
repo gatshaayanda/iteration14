@@ -4,6 +4,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
+import { getIdToken, onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/lib/firebase/client";
 
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -11,7 +13,7 @@ type InstallPromptEvent = Event & {
 };
 type InstallState = "hidden" | "native" | "embedded";
 
-const INSTALL_DISMISSED_KEY = "iteration14:install:dismissed-at";
+const INSTALL_DISMISSED_KEY = "iteration13:install:dismissed-at";
 const INSTALL_DISMISS_MS = 7 * 24 * 60 * 60 * 1000;
 
 function environment() {
@@ -66,7 +68,6 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   const [canInstall, setCanInstall] = useState(false);
   const [canShowManualInstall, setCanShowManualInstall] = useState(false);
   const [installCardDismissed, setInstallCardDismissed] = useState(false);
-  const [installCardExpanded, setInstallCardExpanded] = useState(true);
   const embeddedActionRef = useRef<HTMLButtonElement | null>(null);
   const reloadForUpdate = useRef(false);
 
@@ -74,7 +75,28 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     const env = environment();
     const embedded = initialEmbedded || env.embedded;
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
-    setCanShowManualInstall(isIosSafari() && !dismissedRecently());
+    setCanShowManualInstall(isIosSafari());
+
+    const retryPendingOrderNotifications = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      const idToken = await getIdToken(user).catch(() => null);
+      if (!idToken) return;
+      const pendingKeys = Object.keys(localStorage).filter(key => key.startsWith("plug-pending-order-notification-"));
+      for (const key of pendingKeys) {
+        const orderId = key.replace("plug-pending-order-notification-", "");
+        try {
+          const response = await fetch("/api/notifications/order-created", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + idToken, "Content-Type": "application/json" },
+            body: JSON.stringify({ orderId })
+          });
+          if (response.ok) localStorage.removeItem(key);
+        } catch {}
+      }
+    };
+
+    const online = () => { void retryPendingOrderNotifications(); };
 
     const onBeforeInstallPrompt = (event: Event) => {
       const current = environment();
@@ -82,19 +104,20 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
       event.preventDefault();
       const prompt = event as InstallPromptEvent;
       installPromptRef.current = prompt;
-      setInstallCardDismissed(dismissedRecently());
+      setInstallCardDismissed(false);
       setCanInstall(true);
       // Retain the one-shot native event for the user's explicit Install click.
       // Do not interrupt page load with a second, custom install screen.
     };
 
-    const promptWindow = window as Window & { __iteration14InstallPrompt?: Event; __iteration14PwaListenerReady?: boolean };
+    window.addEventListener("online", online);
+    const promptWindow = window as Window & { __iteration13InstallPrompt?: Event; __iteration13PwaListenerReady?: boolean };
     // The browser can emit beforeinstallprompt before React hydrates. Adopt the
     // event captured by the tiny beforeInteractive script before listening normally.
-    promptWindow.__iteration14PwaListenerReady = true;
-    const earlyPrompt = promptWindow.__iteration14InstallPrompt;
+    promptWindow.__iteration13PwaListenerReady = true;
+    const earlyPrompt = promptWindow.__iteration13InstallPrompt;
     if (earlyPrompt) {
-      delete promptWindow.__iteration14InstallPrompt;
+      delete promptWindow.__iteration13InstallPrompt;
       onBeforeInstallPrompt(earlyPrompt);
     }
     window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
@@ -133,7 +156,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
       setInstallState("hidden");
       clearDismissal();
     };
-    window.addEventListener("iteration14-open-install", requestInstall);
+    window.addEventListener("iteration13-open-install", requestInstall);
     window.addEventListener("appinstalled", appInstalled);
 
     let registration: ServiceWorkerRegistration | null = null;
@@ -143,7 +166,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     const register = async () => {
       if (!("serviceWorker" in navigator)) return;
       try {
-        registration = await navigator.serviceWorker.register("/sw.js");
+        registration = await navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" });
         inspect();
         registration.addEventListener("updatefound", () => {
           const worker = registration?.installing;
@@ -156,14 +179,18 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     };
 
     void register();
+    void retryPendingOrderNotifications();
+    const stopPendingAuth = onAuthStateChanged(auth, () => { void retryPendingOrderNotifications(); });
     const controllerChange = () => { if (reloadForUpdate.current) window.location.reload(); };
     navigator.serviceWorker?.addEventListener("controllerchange", controllerChange);
 
     return () => {
-      window.removeEventListener("iteration14-open-install", requestInstall);
+      window.removeEventListener("iteration13-open-install", requestInstall);
       window.removeEventListener("appinstalled", appInstalled);
+      window.removeEventListener("online", online);
       window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
       navigator.serviceWorker?.removeEventListener("controllerchange", controllerChange);
+      stopPendingAuth();
     };
   }, [initialEmbedded, initialAndroid]);
 
@@ -262,9 +289,9 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   const installCard = installState === "native" && installHelpOpen && isIosSafari() ? (
     <div style={installShellStyle} role="presentation">
       <section className="plugInstallModal" role="dialog" aria-modal="false" aria-labelledby="plug-install-title" aria-describedby="plug-install-message">
-        <div className="plugInstallTop"><span className="plugInstallMark">14</span><span className="plugInstallTag">BACKPACK OS · PERSONAL</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
+        <div className="plugInstallTop"><span className="plugInstallMark">13</span><span className="plugInstallTag">ITERATION 13 · SERVICE STUDIO</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
         <div className="plugInstallKicker">IPHONE & IPAD</div>
-        <h2 id="plug-install-title">Add Iteration 14 to Home Screen.</h2>
+        <h2 id="plug-install-title">Add to Home Screen.</h2>
         <p id="plug-install-message">In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</p>
         <button type="button" className="plugInstallPrimary" onClick={dismissInstall}>Continue on the website</button>
       </section>
@@ -273,8 +300,8 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     <div style={embeddedInstallStyle} role="alertdialog" aria-modal="true" aria-labelledby="plug-embedded-title" aria-describedby="plug-embedded-message">
       <div className="pwaInstallInfo" style={{...installShellStyle, position: "relative", left: "auto", right: "auto", bottom: "auto", width: "100%", maxWidth: 520, margin: 0}}>
         <div>
-          <strong id="plug-embedded-title"><span aria-hidden="true">🌐 </span>OPEN ITERATION 14 IN YOUR BROWSER</strong>
-          <span id="plug-embedded-message">{embeddedAndroid ? <>Open Iteration 14 in Chrome to continue.</> : <>Iteration 14 opened inside another app. Open this page in your browser to continue.</>}</span>
+          <strong id="plug-embedded-title"><span aria-hidden="true">🌐 </span>OPEN ITERATION 13 IN YOUR BROWSER</strong>
+          <span id="plug-embedded-message">{embeddedAndroid ? <>Open Iteration 13 in Chrome to continue. Chrome will offer its own installation action when the app is eligible.</> : <>Iteration 13 opened inside another app. Open this page in your browser to continue.</>}</span>
         </div>
         <div className="pwaInstallActions" style={{display:"flex",justifyContent:"flex-end"}}>
           <button ref={embeddedActionRef} type="button" style={{background:"#0866FF",color:"#fff"}} onClick={openBrowser}>{embeddedAndroid ? "OPEN IN CHROME" : "OPEN IN BROWSER"}</button>
@@ -285,14 +312,13 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
 
   return <>
     {!environment().standalone && installState !== "embedded" && (canInstall || canShowManualInstall) && !installCardDismissed && !(installState === "native" && installHelpOpen) && (
-      <>
-      <aside className={"i13-install-card" + (installCardExpanded ? "" : " is-collapsed")} aria-label="Install BACKPACK OS">
+      <aside className="i13-install-card" aria-label="Install Iteration 13">
         <div className="i13-install-brand">
-          <span className="i13-install-mark" aria-hidden="true">14</span>
-          <span><strong>ITERATION 14</strong><small>YOUR PERSONAL SPACE</small></span>
+          <span className="i13-install-mark" aria-hidden="true">13</span>
+          <span><strong>ITERATION 13</strong><small>SERVICE STUDIO</small></span>
         </div>
-        <div className="i13-install-controls"><button className="i13-install-collapse" type="button" aria-label={installCardExpanded ? "Collapse install card" : "Expand install card"} aria-expanded={installCardExpanded} onClick={() => setInstallCardExpanded(value => !value)}>{installCardExpanded ? "−" : "+"}</button><button className="i13-install-close" type="button" aria-label="Dismiss install prompt for seven days" onClick={dismissInstall}>×</button></div>
-        {installCardExpanded && <button className="i13-install-action" type="button" onClick={() => {
+        <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={() => setInstallCardDismissed(true)}>×</button>
+        <button className="i13-install-action" type="button" onClick={() => {
           if (installPromptRef.current) {
             void install();
             return;
@@ -301,10 +327,8 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
             setInstallHelpOpen(true);
             setInstallState("native");
           }
-        }}>{canInstall ? "Install BACKPACK OS" : "Add Iteration 14 to Home Screen"} <span aria-hidden="true">↗</span></button>}
+        }}>{canInstall ? "Install Iteration 13" : "Add to Home Screen"} <span aria-hidden="true">↗</span></button>
       </aside>
-      <div className={"i13-install-spacer" + (installCardExpanded ? " is-expanded" : "")} aria-hidden="true" />
-      </>
     )}
     {installCard}
     {updateReady && <div className="pwaUpdate" role="status" aria-live="polite" aria-atomic="true"><div><strong>Update ready</strong><span>Refresh to load the latest app shell.</span></div><div className="pwaUpdateActions"><button type="button" className="pwaUpdateDismiss" onClick={() => setUpdateReady(null)}>Later</button><button type="button" className="button buttonPrimary" onClick={applyUpdate}>Refresh</button></div></div>}
