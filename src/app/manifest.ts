@@ -3,9 +3,9 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "Iteration 14",
-    short_name: "Iteration 14",
-    description: "A personal operating system to organise My Life and publish My Channel.",
+    name: "BACKPACK OS",
+    short_name: "BACKPACK OS",
+    description: "Your personal operating system for My Life, My Channel and everyday resources.",
     start_url: "/",
     scope: "/",
     display: "standalone",
