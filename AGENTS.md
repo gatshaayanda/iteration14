@@ -400,3 +400,9 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - Keep BACKPACK service-worker shell/media cache namespaces versioned independently from i13. On activation, remove stale BACKPACK versions while preserving the active cache; never delete i13 caches.
 - Detect waiting updates on registration and when the page returns to the foreground. Do not auto-skip a waiting worker: the user must choose **Refresh**.
 - An approved refresh reloads once after `controllerchange`; the timeout is recovery only and must not cause a second reload.
+
+## BACKPACK paired-workspace navigation
+- Keep the BACKPACK 🎒 and B.O.S. 💼 workspace switchers in the fixed bottom dock, inside the mobile safe area; do not move them into the top header.
+- The bottom dock must remain reachable on setup and channel/account/admin surfaces, with sufficient page bottom padding so it never covers content or notices.
+- The i13 B.O.S. link is an external-origin PWA destination. Use same-tab navigation (do not force `target="_blank"`); do not claim Android will automatically open the separately installed i13 PWA. Cross-origin installed-app handoff requires platform/domain association support and must be tested on-device.
+
