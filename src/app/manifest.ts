@@ -16,7 +16,7 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["lifestyle", "productivity"],
     prefer_related_applications: false,
     icons: [
-      { src: "/backpack-icon.svg?v=14", sizes: "any", type: "image/svg+xml", purpose: "any" }
+      { src: "/backpack-icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" }
     ],
     shortcuts: [
       {
@@ -24,21 +24,21 @@ export default function manifest(): MetadataRoute.Manifest {
         short_name: "Channel",
         description: "Open your personal channel",
         url: "/",
-        icons: [{ src: "/backpack-icon.svg?v=14", sizes: "any", type: "image/svg+xml" }]
+        icons: [{ src: "/backpack-icon.svg", sizes: "any", type: "image/svg+xml" }]
       },
       {
         name: "Individual account",
         short_name: "Account",
         description: "Open your channel account",
         url: "/?view=account",
-        icons: [{ src: "/backpack-icon.svg?v=14", sizes: "any", type: "image/svg+xml" }]
+        icons: [{ src: "/backpack-icon.svg", sizes: "any", type: "image/svg+xml" }]
       },
       {
         name: "Backpack",
         short_name: "Backpack",
         description: "Open the private owner workspace",
         url: "/?view=backpack",
-        icons: [{ src: "/backpack-icon.svg?v=14", sizes: "any", type: "image/svg+xml" }]
+        icons: [{ src: "/backpack-icon.svg", sizes: "any", type: "image/svg+xml" }]
       }
     ]
   };
