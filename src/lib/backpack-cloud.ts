@@ -10,6 +10,8 @@ export function startBackpackCloud(
   getLocalData: () => Record<string, unknown>,
   applyRemoteData: (data: Record<string, unknown>) => void,
   onStatus: (status: BackpackCloudStatus, detail?: string) => void,
+  onIdentity: (uid: string) => void,
+  onReady: () => void,
 ) {
   if (!hasFirebaseWebConfig) {
     onStatus("disabled", "Add the Firebase web configuration to enable cloud sync.");
@@ -32,6 +34,7 @@ export function startBackpackCloud(
     }
     if (activeUid === user.uid) return;
     activeUid = user.uid;
+    onIdentity(user.uid);
     onStatus("connecting", "Connecting this Backpack to its private cloud record.");
     stopDocument?.();
     const reference = doc(db, "backpacks", user.uid);
@@ -46,6 +49,11 @@ export function startBackpackCloud(
         return;
       }
       if (!snapshot.exists()) {
+        if (snapshot.metadata.fromCache) {
+          onStatus("offline", "Waiting for a connection before creating or updating the cloud copy.");
+          return;
+        }
+        onReady();
         const local = getLocalData();
         void setDoc(reference, {
           ownerUid: user.uid,
@@ -55,6 +63,7 @@ export function startBackpackCloud(
         }).catch(error => onStatus("error", error instanceof Error ? error.message : "Could not create the cloud Backpack."));
         return;
       }
+      onReady();
       const cloud = snapshot.data();
       const remoteData = cloud.data;
       if (remoteData && typeof remoteData === "object") {
