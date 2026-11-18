@@ -29,3 +29,18 @@
 .af-install-action:hover{background:#1249b8}
 .af-install-action span{color:#8be9f3;font-size:1rem}
 @media(max-width:560px){.offlineBanner{font-size:.74rem;line-height:1.4}.af-install-card{left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));width:auto;max-width:390px;margin:0 auto;padding:12px}}
+
+
+/* BACKPACK OS install card: Iteration 13's retained-prompt contract, rebranded. */
+.i13-install-card{position:fixed;right:18px;bottom:18px;z-index:1000;width:min(340px,calc(100vw - 28px));display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:14px;background:#fff;color:#17151d;border:1px solid #dedbe5;border-radius:14px;box-shadow:0 12px 34px rgba(39,20,63,.16);font-family:Arial,Helvetica,sans-serif}
+.i13-install-brand{display:flex;align-items:center;gap:10px;min-width:0}
+.i13-install-mark{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border-radius:10px;background:#155eef;color:#fff;font-size:1.25rem;font-weight:900}
+.i13-install-brand strong,.i13-install-brand small{display:block}
+.i13-install-brand strong{font-size:.78rem;letter-spacing:.1em}
+.i13-install-brand small{margin-top:4px;color:#5f5a69;font-size:.54rem;font-weight:800;letter-spacing:.08em}
+.i13-install-close{align-self:start;display:grid;place-items:center;width:28px;height:28px;padding:0;border:1px solid #dedbe5;border-radius:50%;background:#fff;color:#4c4656;font-size:1.2rem;line-height:1;cursor:pointer}
+.i13-install-action{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:42px;padding:10px 13px;border:1px solid #155eef;border-radius:8px;background:#155eef;color:#fff;font-size:.82rem;font-weight:800;cursor:pointer}
+.i13-install-action span{color:#c8f7ff}
+.bp-install-modal{display:grid;gap:12px;background:#fff;color:#111318;border:1px solid #e5e7eb;border-radius:16px;padding:18px;box-shadow:0 12px 30px rgba(0,0,0,.14)}
+.bp-install-top{display:flex;align-items:center;gap:9px}.bp-install-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#155eef;color:#fff}.bp-install-tag{font-size:.68rem;font-weight:900;letter-spacing:.08em}.bp-install-close{margin-left:auto}.bp-install-kicker{font-size:.7rem;font-weight:900;color:#155eef;letter-spacing:.12em}.bp-install-modal h2{margin:0;font-size:1.2rem}.bp-install-modal p{margin:0;font-size:.88rem;line-height:1.55}.bp-install-primary{justify-self:end;background:#155eef;color:#fff;border:0;border-radius:9px;padding:10px 14px;font-weight:800}
+@media(max-width:560px){.i13-install-card{left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));width:auto;max-width:390px;margin:0 auto;padding:12px}}
