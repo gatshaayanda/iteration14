@@ -16,7 +16,7 @@ check(app.includes("onUploadProgress")&&app.includes("Uploading · {progress}%")
 check(app.includes('visibility:"public"')&&app.includes('"restricted"')&&app.includes("Access by invitation"),"channel must support public and access-only visibility");
 check(app.includes("s.invites.includes(signed)")&&app.includes("s.circles.some(c=>c.members.includes(signed))"),"access-only entry must be scoped to invited individuals or VIP circle members");
 check(app.includes("restricted&&(!signed||!allowed)")&&app.includes("PRIVATE CHANNEL"),"restricted channel posts must remain hidden until access is verified");
-check(app.includes("VIP CIRCLES")&&app.includes("Create VIP circle")&&app.includes("member emails"),"Backpack must support creating and managing VIP circles");
+check(app.includes("VIP CIRCLES")&&app.includes("Create VIP circle")&&app.includes("Member emails"),"Backpack must support creating and managing VIP circles");
 check(app.includes("Allow comments")&&app.includes("Allow requests")&&app.includes("s.comments&&")&&app.includes("s.requests&&"),"Backpack must configure which channel interactions accounts can use");
 check(app.includes("Post comment")&&app.includes("Send request")&&app.includes("requests")&&app.includes("comments"),"individual accounts must support permitted comments and requests");
 check(app.includes("PRIVATE CONTROL CENTRE")&&app.includes("Publish an update")&&app.includes("Who can enter?"),"Backpack must administer publishing and audience access");
