@@ -1,1 +1,5 @@
-import PersonalChannelOS from "@/app/PersonalChannelOS";\nexport default function Home(){return <PersonalChannelOS/>;}
+import PersonalChannelOS from "@/app/PersonalChannelOS";
+
+export default function Home() {
+  return <PersonalChannelOS />;
+}
