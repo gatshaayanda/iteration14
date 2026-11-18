@@ -7,7 +7,7 @@ const ignoredFiles = new Set(["AGENTS.md","scripts/verify-identity.mjs"]);
 const textExtensions = new Set([".ts",".tsx",".js",".mjs",".css",".json",".webmanifest",".md",".yml",".yaml",".txt",".html",".svg"]);
 const failures = [];
 const page = fs.readFileSync(path.join(root, "src/app/page.tsx"), "utf8");
-if (!page.includes('url.searchParams.set("sample", "1")')) failures.push("shared business example links must launch visitors directly into the Store");
+if (!page.includes("PersonalChannelOS")) failures.push("the application entry point must load the personal channel experience");
 function walk(dir) {
   const files = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -40,7 +40,7 @@ if (!fs.existsSync(path.join(root, "public/backpack-icon.svg"))) failures.push("
 if (!fs.existsSync(path.join(root, "public/iteration13-icon-180.png"))) failures.push("Apple install icon file missing");
 const layout = fs.readFileSync(path.join(root, "src/app/layout.tsx"), "utf8");
 const pwaRegister = fs.readFileSync(path.join(root, "src/app/pwa-register.tsx"), "utf8");
-for (const expected of ["BACKPACK OS | Your Business in Your Pocket", "applicationName:\"BACKPACK OS\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
+for (const expected of ["BACKPACK OS | Your Personal Channel", "applicationName:\"BACKPACK OS\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
 // Validate Apple install metadata semantically; whitespace and additional metadata fields are harmless.
 if (!/appleWebApp\s*:\s*\{[^}]*\bcapable\s*:\s*true\b[^}]*\btitle\s*:\s*["']BACKPACK OS["']/s.test(layout)) failures.push('layout: missing appleWebApp capable=true and title="BACKPACK OS"');
 const sw = fs.readFileSync(path.join(root, "public/sw.js"), "utf8");
