@@ -394,3 +394,9 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - Load the saved business identity, catalogue, uploaded media URLs, announcement, customer requests, Account records, owner Briefcase notes and activity from their existing keys without reseeding, replacing or resetting them.
 - Continue must preserve the existing workspace and remove only obsolete launch query parameters from the URL; it must not migrate, clear or overwrite browser-local records.
 - Verify the existing workspace resumes unchanged, new requests still appear in Account and owner Briefcase, and the setup path remains independent. Keep Setup as the current QA checkpoint; do not redesign Account or Briefcase.
+
+## BACKPACK PWA refresh contract
+
+- Keep BACKPACK service-worker shell/media cache namespaces versioned independently from i13. On activation, remove stale BACKPACK versions while preserving the active cache; never delete i13 caches.
+- Detect waiting updates on registration and when the page returns to the foreground. Do not auto-skip a waiting worker: the user must choose **Refresh**.
+- An approved refresh reloads once after `controllerchange`; the timeout is recovery only and must not cause a second reload.
