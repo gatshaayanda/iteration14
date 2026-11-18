@@ -314,8 +314,8 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     {!environment().standalone && installState !== "embedded" && (canInstall || canShowManualInstall) && !installCardDismissed && !(installState === "native" && installHelpOpen) && (
       <aside className="i13-install-card" aria-label="Install BACKPACK OS">
         <div className="i13-install-brand">
-          <span className="i13-install-mark" aria-hidden="true">13</span>
-          <span><strong>BACKPACK OS</strong><small>SERVICE STUDIO</small></span>
+          <span className="i13-install-mark" aria-hidden="true">🎒</span>
+          <span><strong>BACKPACK OS</strong><small>PERSONAL CHANNEL</small></span>
         </div>
         <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={() => setInstallCardDismissed(true)}>×</button>
         <button className="i13-install-action" type="button" onClick={() => {
