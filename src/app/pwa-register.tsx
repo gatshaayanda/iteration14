@@ -4,8 +4,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-import { getIdToken, onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/lib/firebase/client";
 
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -77,27 +75,6 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
     setCanShowManualInstall(isIosSafari());
 
-    const retryPendingOrderNotifications = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const idToken = await getIdToken(user).catch(() => null);
-      if (!idToken) return;
-      const pendingKeys = Object.keys(localStorage).filter(key => key.startsWith("plug-pending-order-notification-"));
-      for (const key of pendingKeys) {
-        const orderId = key.replace("plug-pending-order-notification-", "");
-        try {
-          const response = await fetch("/api/notifications/order-created", {
-            method: "POST",
-            headers: { Authorization: "Bearer " + idToken, "Content-Type": "application/json" },
-            body: JSON.stringify({ orderId })
-          });
-          if (response.ok) localStorage.removeItem(key);
-        } catch {}
-      }
-    };
-
-    const online = () => { void retryPendingOrderNotifications(); };
-
     const onBeforeInstallPrompt = (event: Event) => {
       const current = environment();
       if (current.standalone) return;
@@ -110,7 +87,6 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
       // Do not interrupt page load with a second, custom install screen.
     };
 
-    window.addEventListener("online", online);
     const promptWindow = window as Window & { __iteration13InstallPrompt?: Event; __iteration13PwaListenerReady?: boolean };
     // The browser can emit beforeinstallprompt before React hydrates. Adopt the
     // event captured by the tiny beforeInteractive script before listening normally.
@@ -179,18 +155,14 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     };
 
     void register();
-    void retryPendingOrderNotifications();
-    const stopPendingAuth = onAuthStateChanged(auth, () => { void retryPendingOrderNotifications(); });
     const controllerChange = () => { if (reloadForUpdate.current) window.location.reload(); };
     navigator.serviceWorker?.addEventListener("controllerchange", controllerChange);
 
     return () => {
       window.removeEventListener("iteration13-open-install", requestInstall);
       window.removeEventListener("appinstalled", appInstalled);
-      window.removeEventListener("online", online);
       window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
       navigator.serviceWorker?.removeEventListener("controllerchange", controllerChange);
-      stopPendingAuth();
     };
   }, [initialEmbedded, initialAndroid]);
 
