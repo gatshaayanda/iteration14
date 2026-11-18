@@ -80,11 +80,6 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     const inspect = () => {
       if (registration?.waiting && navigator.serviceWorker.controller) setUpdateReady(registration.waiting);
     };
-    const checkForUpdates = () => {
-      if (!registration || !navigator.onLine) return;
-      void registration.update().then(inspect).catch(() => {});
-    };
-
     const onBeforeInstallPrompt = (event: Event) => {
       const current = environment();
       if (current.standalone) return;
