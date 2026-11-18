@@ -11,7 +11,7 @@ type InstallPromptEvent = Event & {
 };
 type InstallState = "hidden" | "native" | "embedded";
 
-const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at:v2";
+const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at:v3";
 const INSTALL_DISMISS_MS = 7 * 24 * 60 * 60 * 1000;
 
 function environment() {
@@ -71,10 +71,24 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
 
   useEffect(() => {
     const env = environment();
-    setInstallCardDismissed(dismissedRecently());
     const embedded = initialEmbedded || env.embedded;
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
-    setCanShowManualInstall(!env.standalone && !embedded);
+    setCanShowManualInstall(isIosSafari());
+
+    let registration: ServiceWorkerRegistration | null = null;
+    const inspect = () => {
+      if (registration?.waiting && navigator.serviceWorker.controller) setUpdateReady(registration.waiting);
+    };
+    const checkForUpdates = () => {
+      if (!registration || !navigator.onLine) return;
+      void registration.update().then(inspect).catch(() => {});
+    };
+    const online = () => {
+      checkForUpdates();
+    };
+    const visibilityChange = () => {
+      if (document.visibilityState === "visible") checkForUpdates();
+    };
 
     const onBeforeInstallPrompt = (event: Event) => {
       const current = environment();
@@ -118,10 +132,12 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
         void install();
         return;
       }
-      // If the browser has not exposed its one-shot native prompt, explain its
-      // own install-menu route instead of hiding the install entry point.
-      setInstallHelpOpen(true);
-      setInstallState("native");
+      // Only iOS Safari needs manual guidance. On desktop/Android, do not replace
+      // the browser-owned prompt with a custom explainer or fake install flow.
+      if (current.ios && isIosSafari()) {
+        setInstallHelpOpen(true);
+        setInstallState("native");
+      }
     };
     const appInstalled = () => {
       installPromptRef.current = null;
@@ -134,15 +150,6 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     window.addEventListener("iteration13-open-install", requestInstall);
     window.addEventListener("appinstalled", appInstalled);
 
-    let registration: ServiceWorkerRegistration | null = null;
-    const inspect = () => {
-      const waiting = registration?.waiting;
-      if (waiting && navigator.serviceWorker.controller) setUpdateReady(waiting);
-    };
-    const checkForUpdate = () => {
-      if (document.visibilityState !== "visible" || !registration) return;
-      void registration.update().then(inspect).catch(() => {});
-    };
     const register = async () => {
       if (!("serviceWorker" in navigator)) return;
       try {
@@ -151,12 +158,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
         registration.addEventListener("updatefound", () => {
           const worker = registration?.installing;
           if (!worker) return;
-          worker.addEventListener("statechange", () => {
-            if (worker.state === "installed" && navigator.serviceWorker.controller) {
-              setUpdateReady(registration?.waiting || worker);
-            }
-            inspect();
-          });
+          worker.addEventListener("statechange", inspect);
         });
         await registration.update();
         inspect();
@@ -164,23 +166,13 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     };
 
     void register();
-    const controllerChange = () => {
-      if (!reloadForUpdate.current) return;
-      reloadForUpdate.current = false;
-      window.location.reload();
-    };
+    const controllerChange = () => { if (reloadForUpdate.current) window.location.reload(); };
     navigator.serviceWorker?.addEventListener("controllerchange", controllerChange);
-    window.addEventListener("focus", checkForUpdate);
-    window.addEventListener("pageshow", checkForUpdate);
-    document.addEventListener("visibilitychange", checkForUpdate);
 
     return () => {
       window.removeEventListener("iteration13-open-install", requestInstall);
       window.removeEventListener("appinstalled", appInstalled);
       window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
-      window.removeEventListener("focus", checkForUpdate);
-      window.removeEventListener("pageshow", checkForUpdate);
-      document.removeEventListener("visibilitychange", checkForUpdate);
       navigator.serviceWorker?.removeEventListener("controllerchange", controllerChange);
     };
   }, [initialEmbedded, initialAndroid]);
@@ -219,19 +211,18 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   async function install() {
     const prompt = installPromptRef.current;
     if (!prompt) {
-      // Never manufacture a replacement prompt. Keep the install entry point
-      // useful by showing the browser's own install-menu route as a fallback.
-      setInstallHelpOpen(true);
-      setInstallState("native");
+      // Never manufacture a replacement prompt. Manual steps are only valid for
+      // iOS Safari, where beforeinstallprompt is not available.
+      if (isIosSafari()) {
+        setInstallHelpOpen(true);
+        setInstallState("native");
+      }
       return;
     }
     try {
       await prompt.prompt();
       const choice = await prompt.userChoice;
-      if (choice.outcome === "dismissed") {
-        rememberDismissal();
-        setInstallCardDismissed(true);
-      }
+      if (choice.outcome === "dismissed") rememberDismissal();
     } catch {
       // The event is one-shot and browser-controlled. Do not replace it with
       // generic Chrome-menu instructions when the native prompt fails.
@@ -272,21 +263,19 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
       }
     }
     window.setTimeout(() => {
-      if (!reloadForUpdate.current) return;
-      reloadForUpdate.current = false;
-      window.location.reload();
+      if (reloadForUpdate.current) window.location.reload();
     }, 1800);
   }
 
   const installShellStyle: CSSProperties = { position: "fixed", left: 16, right: 16, bottom: 16, zIndex: 1000, maxWidth: 720, margin: "0 auto", padding: 16, borderRadius: 18, background: "#FFFFFF", color: "#111318", boxShadow: "0 12px 40px rgba(0,0,0,.18)", border: "1px solid rgba(17,19,24,.12)" };
   const embeddedInstallStyle: CSSProperties = { position: "fixed", inset: 0, zIndex: 2147483647, display: "flex", alignItems: "center", justifyContent: "center", padding: 20, background: "rgba(0,0,0,.82)", backdropFilter: "blur(4px)", overscrollBehavior: "contain" };
-  const installCard = installState === "native" && installHelpOpen ? (
+  const installCard = installState === "native" && installHelpOpen && isIosSafari() ? (
     <div style={installShellStyle} role="presentation">
       <section className="plugInstallModal" role="dialog" aria-modal="false" aria-labelledby="plug-install-title" aria-describedby="plug-install-message">
-        <div className="plugInstallTop"><span className="plugInstallMark">🎒</span><span className="plugInstallTag">BACKPACK OS · PERSONAL OPERATING SYSTEM</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
-        <div className="plugInstallKicker">{isIosSafari() ? "IPHONE & IPAD" : environment().android ? "ANDROID · CHROME" : "DESKTOP · CHROME OR EDGE"}</div>
-        <h2 id="plug-install-title">Install BACKPACK OS.</h2>
-        <p id="plug-install-message">{isIosSafari() ? <>In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</> : environment().android ? <>In Chrome, open the <b>⋮ menu</b> and choose <b>Install app</b> or <b>Add to Home screen</b>. If neither appears, update Chrome and open this page directly in Chrome.</> : <>In Chrome or Edge, open the browser <b>⋮ menu</b> and choose <b>Install BACKPACK OS</b> or <b>Install page as app</b>. You can also use the install icon at the right of the address bar when it appears.</>}</p>
+        <div className="plugInstallTop"><span className="plugInstallMark">🎒</span><span className="plugInstallTag">BACKPACK OS · PERSONAL CHANNEL</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
+        <div className="plugInstallKicker">IPHONE & IPAD</div>
+        <h2 id="plug-install-title">Add BACKPACK OS to Home Screen.</h2>
+        <p id="plug-install-message">In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</p>
         <button type="button" className="plugInstallPrimary" onClick={dismissInstall}>Continue on the website</button>
       </section>
     </div>
@@ -294,8 +283,8 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     <div style={embeddedInstallStyle} role="alertdialog" aria-modal="true" aria-labelledby="plug-embedded-title" aria-describedby="plug-embedded-message">
       <div className="pwaInstallInfo" style={{...installShellStyle, position: "relative", left: "auto", right: "auto", bottom: "auto", width: "100%", maxWidth: 520, margin: 0}}>
         <div>
-          <strong id="plug-embedded-title"><span aria-hidden="true">🌐 </span>OPEN BACKPACK OS IN YOUR BROWSER</strong>
-          <span id="plug-embedded-message">{embeddedAndroid ? <>Open BACKPACK OS in Chrome to continue. Chrome will offer its own installation action when the app is eligible.</> : <>BACKPACK OS opened inside another app. Open this page in your browser to continue.</>}</span>
+          <strong id="plug-embedded-title"><span aria-hidden="true">🌐 </span>OPEN ITERATION 13 IN YOUR BROWSER</strong>
+          <span id="plug-embedded-message">{embeddedAndroid ? <>Open Iteration 13 in Chrome to continue. Chrome will offer its own installation action when the app is eligible.</> : <>Iteration 13 opened inside another app. Open this page in your browser to continue.</>}</span>
         </div>
         <div className="pwaInstallActions" style={{display:"flex",justifyContent:"flex-end"}}>
           <button ref={embeddedActionRef} type="button" style={{background:"#0866FF",color:"#fff"}} onClick={openBrowser}>{embeddedAndroid ? "OPEN IN CHROME" : "OPEN IN BROWSER"}</button>
@@ -311,15 +300,17 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
           <span className="i13-install-mark" aria-hidden="true">🎒</span>
           <span><strong>BACKPACK OS</strong><small>PERSONAL CHANNEL</small></span>
         </div>
-        <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={dismissInstall}>×</button>
+        <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={() => setInstallCardDismissed(true)}>×</button>
         <button className="i13-install-action" type="button" onClick={() => {
           if (installPromptRef.current) {
             void install();
             return;
           }
-          setInstallHelpOpen(true);
-          setInstallState("native");
-        }}>{canInstall ? "Install BACKPACK OS" : "Install BACKPACK OS"} <span aria-hidden="true">↗</span></button>
+          if (isIosSafari()) {
+            setInstallHelpOpen(true);
+            setInstallState("native");
+          }
+        }}>{canInstall ? "Install BACKPACK OS" : "Add to Home Screen"} <span aria-hidden="true">↗</span></button>
       </aside>
     )}
     {installCard}
