@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
     name: "BACKPACK OS",
-    short_name: "BACKPACK OS",
+    short_name: "BACKPACK",
     description: "Your personal operating system for My Life, My Channel and everyday resources.",
     start_url: "/",
     scope: "/",
