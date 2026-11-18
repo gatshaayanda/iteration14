@@ -406,3 +406,10 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - The bottom dock must remain reachable on setup and channel/account/admin surfaces, with sufficient page bottom padding so it never covers content or notices.
 - The i13 B.O.S. link is an external-origin PWA destination. Use same-tab navigation (do not force `target="_blank"`); do not claim Android will automatically open the separately installed i13 PWA. Cross-origin installed-app handoff requires platform/domain association support and must be tested on-device.
 
+## BACKPACK create-or-load startup contract
+- Every fresh BACKPACK OS launch must show the workspace chooser first; never silently reopen the last channel or jump directly into the owner dashboard.
+- Offer **Create new Backpack OS** and **Load an existing Backpack**. A new workspace gets its own Backpack/OS name and engagement/channel setup.
+- Persist multiple named workspaces separately in the browser-local workspace index. Loading one restores its channel, people, VIP circles, invitations, posts, comments and requests; switching workspaces must not mix their records.
+- Preserve and migrate the legacy single-workspace browser data into the new workspace list without clearing it.
+- Keep a visible route back to the workspace chooser from within an opened workspace.
+- Be truthful: this prototype's workspace registry and records are browser-local, not cross-device sync or production authentication.
