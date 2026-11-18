@@ -138,7 +138,12 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
 
     let registration: ServiceWorkerRegistration | null = null;
     const inspect = () => {
-      if (registration?.waiting && navigator.serviceWorker.controller) setUpdateReady(registration.waiting);
+      const waiting = registration?.waiting;
+      if (waiting && navigator.serviceWorker.controller) setUpdateReady(waiting);
+    };
+    const checkForUpdate = () => {
+      if (document.visibilityState !== "visible" || !registration) return;
+      void registration.update().then(inspect).catch(() => {});
     };
     const register = async () => {
       if (!("serviceWorker" in navigator)) return;
@@ -148,7 +153,12 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
         registration.addEventListener("updatefound", () => {
           const worker = registration?.installing;
           if (!worker) return;
-          worker.addEventListener("statechange", inspect);
+          worker.addEventListener("statechange", () => {
+            if (worker.state === "installed" && navigator.serviceWorker.controller) {
+              setUpdateReady(registration?.waiting || worker);
+            }
+            inspect();
+          });
         });
         await registration.update();
         inspect();
@@ -156,13 +166,23 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     };
 
     void register();
-    const controllerChange = () => { if (reloadForUpdate.current) window.location.reload(); };
+    const controllerChange = () => {
+      if (!reloadForUpdate.current) return;
+      reloadForUpdate.current = false;
+      window.location.reload();
+    };
     navigator.serviceWorker?.addEventListener("controllerchange", controllerChange);
+    window.addEventListener("focus", checkForUpdate);
+    window.addEventListener("pageshow", checkForUpdate);
+    document.addEventListener("visibilitychange", checkForUpdate);
 
     return () => {
       window.removeEventListener("iteration13-open-install", requestInstall);
       window.removeEventListener("appinstalled", appInstalled);
       window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+      window.removeEventListener("focus", checkForUpdate);
+      window.removeEventListener("pageshow", checkForUpdate);
+      document.removeEventListener("visibilitychange", checkForUpdate);
       navigator.serviceWorker?.removeEventListener("controllerchange", controllerChange);
     };
   }, [initialEmbedded, initialAndroid]);
@@ -253,7 +273,9 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
       }
     }
     window.setTimeout(() => {
-      if (reloadForUpdate.current) window.location.reload();
+      if (!reloadForUpdate.current) return;
+      reloadForUpdate.current = false;
+      window.location.reload();
     }, 1800);
   }
 
