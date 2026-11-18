@@ -77,6 +77,9 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   }, []);
 
   useEffect(() => {
+    // Honour an explicit user dismissal across reloads for the configured window.
+    // A newly captured native prompt below clears this state and restores the card.
+    setInstallCardDismissed(dismissedRecently());
     const env = environment();
     const embedded = initialEmbedded || env.embedded;
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
