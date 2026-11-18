@@ -1,5 +1,5 @@
-// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v6";
-const MEDIA_CACHE = "backpack-os-media-v5";
+// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v7";
+const MEDIA_CACHE = "backpack-os-media-v6";
 const SHELL_CACHE = CACHE_VERSION;
 const STATIC_LIMIT = 100;
 const PUBLIC_PAGE_LIMIT = 12;
@@ -128,6 +128,23 @@ function isSafePublicHtml(request, response) {
     && !queryKeys.some(key => sensitiveQuery.test(key));
 }
 
+async function cachedPublicFallback(request) {
+  try {
+    const cache = await caches.open(SHELL_CACHE);
+    const url = new URL(request.url);
+    // A query string can make Cache.match miss an otherwise reusable public
+    // screen. Never use this helper for private/member routes.
+    const canonical = new Request(url.origin + url.pathname, { method: "GET" });
+    return await cache.match(request)
+      || await cache.match(canonical)
+      || await cache.match("/")
+      || await cache.match("/offline")
+      || Response.error();
+  } catch {
+    return Response.error();
+  }
+}
+
 async function networkFirstNavigation(request, event) {
   try {
     const preloaded = event.preloadResponse ? await event.preloadResponse.catch(() => undefined) : undefined;
@@ -143,22 +160,17 @@ async function networkFirstNavigation(request, event) {
           // Cache quota failures must not affect the live navigation response.
         }
       }).catch(() => {});
-    } else if (response.status >= 500) {
-      // A transient server failure should not blank a previously cached public page.
-      try {
-        const cache = await caches.open(SHELL_CACHE);
-        const cached = await cache.match(request);
-        if (cached) return cached;
-      } catch {}
+      return response;
+    }
+    if (response.status >= 500) {
+      // Recover from origin errors as well as a disconnected network. A public
+      // route with harmless query parameters can still reuse its cached pathname.
+      const fallback = await cachedPublicFallback(request);
+      if (fallback.status !== 0) return fallback;
     }
     return response;
   } catch {
-    try {
-      const cache = await caches.open(SHELL_CACHE);
-      return await cache.match(request) || await cache.match("/") || await cache.match("/offline") || Response.error();
-    } catch {
-      return Response.error();
-    }
+    return cachedPublicFallback(request);
   }
 }
 
