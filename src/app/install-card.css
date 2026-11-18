@@ -9,3 +9,20 @@
 .i13-install-action{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:44px;padding:11px 13px;border:0;border-radius:10px;background:#155eef;color:#fff;font:inherit;font-size:.86rem;font-weight:850;cursor:pointer}
 .i13-install-action:focus-visible,.i13-install-close:focus-visible{outline:3px solid #7da5ff;outline-offset:3px}
 @media(min-width:700px){.i13-install-card{width:350px}}
+
+/* BACKPACK OS install dock: collapsed and fixed to the bottom edge. */
+.i14-install-dock{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:1000;width:auto;max-width:430px;margin:0 auto;border:1px solid rgba(17,19,24,.16);border-radius:15px;background:#fff;color:#111318;box-shadow:0 8px 28px rgba(0,0,0,.18);overflow:hidden}
+.i14-install-summary{display:flex;min-height:62px;align-items:center;gap:10px;padding:10px 12px;list-style:none;cursor:pointer}
+.i14-install-summary::-webkit-details-marker{display:none}
+.i14-install-mark{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border-radius:11px;background:#155eef;color:#fff;font-size:1.05rem}
+.i14-install-brand{display:grid;gap:3px;min-width:0;flex:1}
+.i14-install-brand strong{font-size:.78rem;letter-spacing:.06em;font-weight:900}
+.i14-install-brand small{font-size:.66rem;color:#626773;letter-spacing:.07em}
+.i14-install-summary-action{flex:none;padding:9px 11px;border-radius:9px;background:#155eef;color:#fff;font-size:.78rem;font-weight:850}
+.i14-install-chevron{flex:none;color:#586174;font-size:1.1rem;transition:transform .16s ease}
+.i14-install-dock[open] .i14-install-chevron{transform:rotate(180deg)}
+.i14-install-expanded{display:grid;gap:8px;padding:0 12px 11px}
+.i14-install-expanded .i13-install-action{grid-column:auto}
+.i14-install-dismiss{min-height:34px;border:0;background:transparent;color:#596273;font:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+.i14-install-summary:focus-visible,.i14-install-expanded button:focus-visible{outline:3px solid #7da5ff;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.i14-install-chevron{transition:none}}
