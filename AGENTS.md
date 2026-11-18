@@ -6,6 +6,8 @@
 
 # Iteration 13 — Reusable PWA Foundation Contract
 
+**Permanent install lock:** before any PWA/install/icon change, read `docs/PWA-INSTALLATION-LOCK.md`. Reuse the approved Africhiko installation behavior exactly; identity/assets may change, runtime mechanics may not. Iteration 14 uses BACKPACK backpack artwork for every app/install icon.
+
 ## Fast handoff for future implementation chats
 - **Golden baseline:** [GOLDEN-BASELINE.md](./GOLDEN-BASELINE.md) records protected behavior, recovery policy and new-project adaptation steps. Do not casually move or develop on the golden reference branch.
 - **Installation lock:** [docs/PWA-INSTALLATION-LOCK.md](./docs/PWA-INSTALLATION-LOCK.md) is mandatory before any PWA/install change and must be carried into every clone. Installation behavior is frozen during routine identity, styling and feature work.
