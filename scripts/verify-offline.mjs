@@ -20,7 +20,7 @@ check(app.includes("VIP CIRCLES")&&app.includes("Create VIP circle")&&app.includ
 check(app.includes("Allow comments")&&app.includes("Allow requests")&&app.includes("s.comments&&")&&app.includes("s.requests&&"),"Backpack must configure which channel interactions accounts can use");
 check(app.includes("Post comment")&&app.includes("Send request")&&app.includes("requests")&&app.includes("comments"),"individual accounts must support permitted comments and requests");
 check(app.includes("PRIVATE CONTROL CENTRE")&&app.includes("Publish an update")&&app.includes("Who can enter?"),"Backpack must administer publishing and audience access");
-check(app.includes("businessOsUrl")&&app.includes("Business OS ↗")&&app.includes("My B.O.S. address"),"Backpack must support a user-configured return link to their connected i13 B.O.S.");
+check(app.includes("businessOsUrl")&&app.includes("Business OS ↗")&&app.includes("My B.O.S. address")&&app.includes("bp-navlink")&&app.includes("https?:\\/\\/"),"Backpack must support a user-configured, HTTP(S)-validated return link to their connected i13 B.O.S.");
 check(app.includes("localStorage.setItem(KEY,JSON.stringify(v))"),"workspace changes must persist locally before success feedback");
 check(sw.includes('event.waitUntil(self.skipWaiting())'),"worker activation must await the user-approved update");
 check(sw.includes("navigationPreload.enable()")&&sw.includes("event.preloadResponse"),"navigation preload must remain optional and used");
