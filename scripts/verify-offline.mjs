@@ -47,7 +47,7 @@ check(sw.includes('return await cache.match(request) || await cache.match("/") |
 check(pwa.includes('register("/sw.js", { updateViaCache: "none" })')&&pwa.includes("await registration.update()")&&pwa.includes('window.addEventListener("focus", checkForUpdate)')&&pwa.includes('document.addEventListener("visibilitychange", checkForUpdate)'),"PWA controller must check for updates on registration and when the app returns to the foreground");
 check(pwa.includes("reloadForUpdate.current = false;")&&pwa.includes("window.location.reload();"),"approved service-worker refresh must reload once, not twice");
 check(pwa.includes("Refresh to load the latest app shell.")&&pwa.includes("onClick={applyUpdate}"),"a waiting update must offer an explicit refresh action");
-check(pwa.includes('const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at"'),"BACKPACK install dismissal must be isolated from Iteration 13 dismissal state");
+check(pwa.includes('const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at:v2"'),"BACKPACK install dismissal must be isolated from Iteration 13 dismissal state");
 check(pwa.includes("await prompt.prompt()")&&pwa.includes("await prompt.userChoice"),"install CTA must invoke the native browser prompt");
 check(pwa.includes('className="i13-install-card"')&&pwa.includes("setInstallCardDismissed(true)"),"install card must remain dismissible");
 check(install.includes(".i13-install-card{position:fixed")&&install.includes("env(safe-area-inset-bottom)"),"install card must be fixed to the bottom safe area");
