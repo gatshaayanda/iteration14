@@ -28,3 +28,7 @@
 .bp-workspace-card small{color:#788394;font-size:.7rem}
 .bp-workspace-card .bp-button{flex:0 0 auto}
 @media(max-width:560px){.bp-workspace-card{align-items:stretch;flex-direction:column;gap:12px}.bp-workspace-card .bp-button{width:100%}}
+
+.bp-invite-list{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:10px}
+.bp-invite-list>small{width:100%;color:var(--bp-muted)}
+.bp-invite-chip{display:inline-flex;align-items:center;border:1px solid var(--bp-line);border-radius:999px;padding:5px 10px;font-size:.82rem;background:var(--bp-soft)}
