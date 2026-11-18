@@ -12,6 +12,7 @@ const check=(condition,message)=>{if(!condition)failures.push(message);};
 check(page.includes("PersonalChannelOS"),"the root route must render the personal channel application");
 check(app.includes("START WITH AN ENGAGEMENT")&&app.includes("Engagement category")&&app.includes("Channel / engagement name"),"setup must begin with an engagement and relevant category");
 check(app.includes("Useful link")&&app.includes('accept="image/*,video/*,application/pdf"'),"setup must accept useful links, images, video and PDF resources");
+check(app.includes('className="bp-file-drop"')&&app.includes("Attachment ready to publish")&&app.includes('aria-label="Remove attachment"')&&app.includes("16 MB · PDF up to 4 MB"),"publishing must mirror setup resource controls with visible file limits, progress-ready upload, and removal");
 check(app.includes("onUploadProgress")&&app.includes("Uploading · {progress}%"),"file uploads must expose truthful percentage progress");
 check(app.includes('visibility:"public"')&&app.includes('"restricted"')&&app.includes("Access by invitation"),"channel must support public and access-only visibility");
 check(app.includes("s.invites.includes(signed)")&&app.includes("s.circles.some(c=>c.members.includes(signed))"),"access-only entry must be scoped to invited individuals or VIP circle members");
