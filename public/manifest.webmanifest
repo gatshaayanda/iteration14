@@ -17,7 +17,7 @@
   "theme_color": "#155eef",
   "icons": [
     {
-      "src": "/backpack-icon.svg?v=14",
+      "src": "/backpack-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
@@ -30,7 +30,7 @@
       "url": "/",
       "icons": [
         {
-          "src": "/backpack-icon.svg?v=14",
+          "src": "/backpack-icon.svg",
           "sizes": "any",
           "type": "image/svg+xml"
         }
@@ -42,7 +42,7 @@
       "url": "/?view=account",
       "icons": [
         {
-          "src": "/backpack-icon.svg?v=14",
+          "src": "/backpack-icon.svg",
           "sizes": "any",
           "type": "image/svg+xml"
         }
@@ -54,7 +54,7 @@
       "url": "/?view=backpack",
       "icons": [
         {
-          "src": "/backpack-icon.svg?v=14",
+          "src": "/backpack-icon.svg",
           "sizes": "any",
           "type": "image/svg+xml"
         }
