@@ -70,7 +70,6 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   const reloadForUpdate = useRef(false);
 
   useEffect(() => {
-    setInstallCardDismissed(dismissedRecently());
     const env = environment();
     const embedded = initialEmbedded || env.embedded;
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
