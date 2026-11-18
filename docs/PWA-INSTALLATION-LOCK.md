@@ -113,3 +113,12 @@ Report separately what was changed, committed, pushed, build-verified and produc
 ### Final instruction
 
 **Africhiko's approved installation experience is the permanent default for Iteration 13 and every project based on it. Preserve it exactly in behaviour and user experience. Rebrand it for each project, leave its protected implementation alone, and make no exceptions unless the product owner explicitly authorizes otherwise.**
+
+
+## Iteration 14 — permanent installation and identity lock (18 November 2026)
+
+The installation controller in `src/app/pwa-register.tsx` is the approved Africhiko baseline adapted only for BACKPACK OS. Its behavior is frozen. Do not rewrite, refactor, simplify, replace, duplicate, defer, or “improve” its listener, retained native event, direct user-click prompt invocation, userChoice handling, dismissible card, or service-worker registration. Do not modify the runtime as a response to stale tests; update tests to assert the approved implementation. Any mechanics change requires explicit, specific product-owner authorization.
+
+Routine adaptation is identity/assets only: app name, backpack artwork/icons, manifest and metadata icon references, theme colour, and branded card copy/style. All Iteration 14 launcher, manifest, favicon and Apple icon references must resolve to the BACKPACK backpack mark. Never use Iteration 13's briefcase icon for Iteration 14. The canonical source contract is Iteration 13's `docs/PWA-INSTALLATION-LOCK.md`; this project's lock adds the BACKPACK identity requirement.
+
+This section supersedes any older project note that implies installation mechanics may be independently redesigned or that a different controller should be grafted in. If install behavior appears broken, inspect actual code, verification, deployed commit, manifest/assets and service-worker state; compare with Africhiko and fix only the first proven cause.
