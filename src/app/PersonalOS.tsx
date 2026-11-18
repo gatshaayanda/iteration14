@@ -24,7 +24,8 @@ type LifeTab="Overview"|"Lists"|"Notes"|"Projects"|"Everyday";
 type ChannelTab="Overview"|"Library"|"Design"|"Media";
 export default function PersonalOS(){
  const [data,setData]=useState<PersonalData>(initial);
- const [ready,setReady]=useState(false);\n const [cloudUid,setCloudUid]=useState("");\n const [cloudReady,setCloudReady]=useState(false);\n const [cloudStatus,setCloudStatus]=useState<BackpackCloudStatus>("disabled");\n const [cloudDetail,setCloudDetail]=useState("");\n const dataRef=useRef(data);\n useEffect(()=>{dataRef.current=data;},[data]);
+ const [ready,setReady]=useState(false);
+ const [cloudUid,setCloudUid]=useState("");\n const [cloudReady,setCloudReady]=useState(false);\n const [cloudStatus,setCloudStatus]=useState<BackpackCloudStatus>("disabled");\n const [cloudDetail,setCloudDetail]=useState("");\n const dataRef=useRef(data);\n useEffect(()=>{dataRef.current=data;},[data]);
  const [entryStage,setEntryStage]=useState<"entry"|"setup"|"app">("entry");
  const [setupName,setSetupName]=useState("");
  const [setupDescription,setSetupDescription]=useState("");
@@ -65,7 +66,7 @@ export default function PersonalOS(){
    ()=>dataRef.current as unknown as Record<string,unknown>,
    remote=>{
     const parsed=remote as Partial<PersonalData>;
-    setData(current=>({...initial,...parsed,updatedAt:parsed.updatedAt||stamp(),profileImage:parsed.profileImage||current.profileImage,lists:Array.isArray(parsed.lists)?parsed.lists:[],notes:Array.isArray(parsed.notes)?parsed.notes:[],projects:Array.isArray(parsed.projects)?parsed.projects:[],posts:Array.isArray(parsed.posts)?parsed.posts:[],engagements:Array.isArray(parsed.engagements)?parsed.engagements:[],everyday:{...emptyEverydayData,...(parsed.everyday||{}),purchases:Array.isArray(parsed.everyday?.purchases)?parsed.everyday.purchases:[],suppliers:Array.isArray(parsed.everyday?.suppliers)?parsed.everyday.suppliers:[],goals:Array.isArray(parsed.everyday?.goals)?parsed.everyday.goals:[],consumables:Array.isArray(parsed.everyday?.consumables)?parsed.everyday.consumables:[],discoveries:Array.isArray(parsed.everyday?.discoveries)?parsed.everyday.discoveries:[],media:Array.isArray(parsed.everyday?.media)?parsed.everyday.media:[]}));
+    setData(current=>({...initial,...parsed,updatedAt:parsed.updatedAt||stamp(),profileImage:parsed.profileImage||current.profileImage,lists:Array.isArray(parsed.lists)?parsed.lists:[],notes:Array.isArray(parsed.notes)?parsed.notes:[],projects:Array.isArray(parsed.projects)?parsed.projects:[],posts:Array.isArray(parsed.posts)?parsed.posts:[],engagements:Array.isArray(parsed.engagements)?parsed.engagements:[],everyday:{...emptyEverydayData,...(parsed.everyday||{}),purchases:Array.isArray(parsed.everyday?.purchases)?parsed.everyday.purchases:[],suppliers:Array.isArray(parsed.everyday?.suppliers)?parsed.everyday.suppliers:[],goals:Array.isArray(parsed.everyday?.goals)?parsed.everyday.goals:[],consumables:Array.isArray(parsed.everyday?.consumables)?parsed.everyday.consumables:[],discoveries:Array.isArray(parsed.everyday?.discoveries)?parsed.everyday.discoveries:[],media:Array.isArray(parsed.everyday?.media)?parsed.everyday.media:[]}}));
    },
    (status,detail)=>{setCloudStatus(status);setCloudDetail(detail||"");},
    uid=>setCloudUid(uid),
