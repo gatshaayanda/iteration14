@@ -17,7 +17,7 @@ Setup creates an engagement and seeds its channel with an optional useful URL an
 Current prototype data, accounts, circles, invitations, comments and requests are browser-local. The owner word is demo-only, not authentication. UploadThing file bytes are remote, while the channel record that references them remains local. Do not add Firebase/cloud sync or change Firebase rules without explicit approval.
 
 ## PWA contract
-Keep the early beforeinstallprompt capture, one authoritative PWA controller, native prompt invoked directly by the explicit install click, iOS Safari Share guidance, embedded-browser handoff, fixed dismissible install card, service-worker update notice and offline shell. Do not invent a native prompt or generic Android/desktop install instructions when the browser has not supplied a prompt. BACKPACK uses its own seven-day dismissal key and isolated service-worker cache namespaces, separate from i13. Verify both generated and public manifest copies, icon assets, service-worker cache namespace and real eligibility separately. A browser may withhold beforeinstallprompt; code cannot force the browser to display it.
+Keep the early beforeinstallprompt capture, one authoritative PWA controller, native prompt invoked directly by the explicit install click, iOS Safari Share guidance, embedded-browser handoff, fixed dismissible install card, service-worker update notice, foreground update checks, a single-reload Refresh handoff and offline shell. Do not invent a native prompt or generic Android/desktop install instructions when the browser has not supplied a prompt. BACKPACK uses its own seven-day dismissal key and isolated service-worker cache namespaces, separate from i13. Verify both generated and public manifest copies, icon assets, service-worker cache namespace and real eligibility separately. A browser may withhold beforeinstallprompt; code cannot force the browser to display it.
 
 ## Design direction
 Dominant genre: **Quiet**, with **Data** reserved for the Backpack control centre. Use compact, calm, mobile-first layouts, clear typography, restrained blue accent, neutral surfaces, strong contrast, visible focus and useful empty/loading/success/error states. Prioritise direct use over marketing copy. The engagement setup should be short and scannable; upload controls are grouped resources, not another long-form section.
@@ -28,7 +28,7 @@ Dominant genre: **Quiet**, with **Data** reserved for the Backpack control centr
 - Navigate Channel → Individual account → Backpack → i13 B.O.S. and back. Verify both 🎒 and 💼 are clearly discoverable.
 - Verify public/restricted channel gates, invitations, VIP circle access and comment/request toggles in the same browser.
 - Verify the install card can appear on eligible browsers, its dismissal is BACKPACK-specific, native prompt is called only by explicit click, and embedded-browser gate remains intact.
-- Verify online load, offline app shell, service-worker update notice and installed/standalone suppression.
+- Verify online load, offline app shell, update detection after foreground return, the explicit Refresh action and one-reload handoff, and installed/standalone suppression.
 - Do not describe local prototype access controls as production security or claim cross-device sync.
 
 ## Golden checkpoint
