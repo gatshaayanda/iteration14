@@ -44,7 +44,7 @@ check(sw.includes("for (const match of html.matchAll")&&sw.includes("/_next\\/st
 check(sw.includes('event.data?.type === "CACHE_MEDIA"')&&sw.includes('request.destination === "image"'),"approved image media cache must remain bounded and explicit");
 check(sw.includes("private|no-store")&&sw.includes("cache-control"),"private/no-store pages must not be cached");
 check(sw.includes('url.pathname.startsWith("/api/")'),"API routes must remain outside public page caching");
-check(sw.includes('return await cache.match(request) || await cache.match("/") || await cache.match("/offline")'),"offline navigation must fall back to the saved app shell");
+check(sw.includes("async function cachedPublicFallback(request)")&&sw.includes("await cache.match(canonical)")&&sw.includes('await cache.match("/")')&&sw.includes('await cache.match("/offline")')&&sw.includes("return cachedPublicFallback(request)"),"offline navigation must fall back to the saved app shell");
 check(pwa.includes('register("/sw.js", { updateViaCache: "none" })')&&pwa.includes("await registration.update()")&&pwa.includes('window.addEventListener("focus", checkForUpdate)')&&pwa.includes('document.addEventListener("visibilitychange", checkForUpdate)'),"PWA controller must check for updates on registration and when the app returns to the foreground");
 check(pwa.includes("reloadForUpdate.current = false;")&&pwa.includes("window.location.reload();"),"approved service-worker refresh must reload once, not twice");
 check(pwa.includes("Refresh to load the latest app shell.")&&pwa.includes("onClick={applyUpdate}"),"a waiting update must offer an explicit refresh action");
