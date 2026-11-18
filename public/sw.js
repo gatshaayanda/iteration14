@@ -99,7 +99,7 @@ async function cacheMediaUrl(value) {
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter(key => (key.startsWith("backpack-os-shell-") && key !== SHELL_CACHE) || (key.startsWith("backpack-os-media-") && key !== MEDIA_CACHE) || key.startsWith("theplug-shell-") || key.startsWith("theplug-media-") || (key.startsWith("iteration13-shell-") && key !== SHELL_CACHE) || (key.startsWith("iteration13-media-") && key !== MEDIA_CACHE)).map(key => caches.delete(key)));
+    await Promise.all(keys.filter(key => (key.startsWith("backpack-os-shell-") && key !== SHELL_CACHE) || (key.startsWith("backpack-os-media-") && key !== MEDIA_CACHE)).map(key => caches.delete(key)));
     // Navigation preload overlaps the network request with worker startup. It is
     // optional and must never prevent activation on browsers that do not support it.
     try {
