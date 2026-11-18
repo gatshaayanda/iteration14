@@ -262,7 +262,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   const installCard = installState === "native" && installHelpOpen && isIosSafari() ? (
     <div style={installShellStyle} role="presentation">
       <section className="plugInstallModal" role="dialog" aria-modal="false" aria-labelledby="plug-install-title" aria-describedby="plug-install-message">
-        <div className="plugInstallTop"><span className="plugInstallMark">14</span><span className="plugInstallTag">ITERATION 14 · PERSONAL OS</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
+        <div className="plugInstallTop"><span className="plugInstallMark">14</span><span className="plugInstallTag">BACKPACK OS · PERSONAL</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
         <div className="plugInstallKicker">IPHONE & IPAD</div>
         <h2 id="plug-install-title">Add Iteration 14 to Home Screen.</h2>
         <p id="plug-install-message">In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</p>
@@ -286,7 +286,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   return <>
     {!environment().standalone && installState !== "embedded" && (canInstall || canShowManualInstall) && !installCardDismissed && !(installState === "native" && installHelpOpen) && (
       <>
-      <aside className={"i13-install-card" + (installCardExpanded ? "" : " is-collapsed")} aria-label="Install Iteration 14">
+      <aside className={"i13-install-card" + (installCardExpanded ? "" : " is-collapsed")} aria-label="Install BACKPACK OS">
         <div className="i13-install-brand">
           <span className="i13-install-mark" aria-hidden="true">14</span>
           <span><strong>ITERATION 14</strong><small>YOUR PERSONAL SPACE</small></span>
@@ -301,7 +301,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
             setInstallHelpOpen(true);
             setInstallState("native");
           }
-        }}>{canInstall ? "Install Iteration 14" : "Add Iteration 14 to Home Screen"} <span aria-hidden="true">↗</span></button>}
+        }}>{canInstall ? "Install BACKPACK OS" : "Add Iteration 14 to Home Screen"} <span aria-hidden="true">↗</span></button>}
       </aside>
       <div className={"i13-install-spacer" + (installCardExpanded ? " is-expanded" : "")} aria-hidden="true" />
       </>
