@@ -9,9 +9,9 @@ const failures = [];
 const page = fs.readFileSync(path.join(root, "src/app/page.tsx"), "utf8");
 if (!page.includes("PersonalChannelOS")) failures.push("the application entry point must load the personal channel experience");
 const personalOS = fs.readFileSync(path.join(root, "src/app/PersonalChannelOS.tsx"), "utf8");
-if (!personalOS.includes('type="text" value={invite}') || !personalOS.includes("Invite an individual") || personalOS.includes('type="email" value={invite}')) failures.push("BACKPACK demo invitations must use a plain text name field, not email");
-if (!personalOS.includes("Member names") || !personalOS.includes("filter(Boolean)")) failures.push("VIP circle membership must accept simple names");
-if (!personalOS.includes("s.invites.includes(signedName)") || !personalOS.includes("c.members.includes(signedName)")) failures.push("restricted demo access must match invited and VIP member names");
+if (!personalOS.includes('type="text" value={invite}') || !personalOS.includes("Invite someone") || !personalOS.includes('placeholder="Enter a name"') || personalOS.includes('type="email" value={invite}') || personalOS.includes("invited emails")) failures.push("BACKPACK demo invitations must use a plain text name field, not email");
+if (!personalOS.includes("Member names") || !personalOS.includes("filter(Boolean)") || !personalOS.includes("personKey(member)")) failures.push("VIP circle membership must accept simple names");
+if (!personalOS.includes("personKey(signedPerson.name)") || !personalOS.includes("personKey(item)===key") || !personalOS.includes("personKey(member)===key")) failures.push("restricted demo access must match invited and VIP member names case-insensitively");
 
 function walk(dir) {
   const files = [];
