@@ -15,7 +15,7 @@ export default async function RootLayout({children}:{children:React.ReactNode}){
  const requestHeaders=await headers();
  const userAgent=requestHeaders.get("user-agent")||"";
  const requestedWith=requestHeaders.get("x-requested-with")||"";
- const embedded=EMBEDDED_BROWSER_PATTERN.test(userAgent)||(/Android/i.test(userAgent)&&/; wv\\)/i.test(userAgent))||/^(com\\.whatsapp|com\\.instagram\\.android|com\\.facebook\\.katana|com\\.facebook\\.lite|com\\.facebook\\.orca)$/i.test(requestedWith);
+ const embedded=EMBEDDED_BROWSER_PATTERN.test(userAgent)||(/Android/i.test(userAgent)&&/; wv\)/i.test(userAgent))||/^(com\.whatsapp|com\.instagram\.android|com\.facebook\.katana|com\.facebook\.lite|com\.facebook\.orca)$/i.test(requestedWith);
  const android=/Android/i.test(userAgent);
  return <html lang="en"><body style={embedded?{overflow:"hidden"}:undefined}><Script id="iteration13-early-install-capture" strategy="beforeInteractive">{`
 (function () {
