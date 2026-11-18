@@ -41,6 +41,7 @@ export function startBackpackCloud(
     stopDocument = onSnapshot(reference, { includeMetadataChanges: true }, snapshot => {
       if (stopped) return;
       if (snapshot.metadata.hasPendingWrites) {
+        if (snapshot.exists()) onReady();
         onStatus(typeof navigator !== "undefined" && !navigator.onLine ? "queued" : "syncing", "Changes are saved locally and waiting for cloud confirmation.");
         return;
       }
@@ -59,7 +60,7 @@ export function startBackpackCloud(
           ownerUid: user.uid,
           schemaVersion: 1,
           updatedAt: typeof local.updatedAt === "string" ? local.updatedAt : new Date().toISOString(),
-          data: stripLocalFiles(local),
+          data: checkedCloudData(local),
         }).catch(error => onStatus("error", error instanceof Error ? error.message : "Could not create the cloud Backpack."));
         return;
       }
@@ -77,7 +78,7 @@ export function startBackpackCloud(
             ownerUid: user.uid,
             schemaVersion: 1,
             updatedAt: String(local.updatedAt),
-            data: stripLocalFiles(local),
+            data: checkedCloudData(local),
           }, { merge: true }).catch(error => onStatus("error", error instanceof Error ? error.message : "Could not update the cloud Backpack."));
         }
       }
@@ -100,8 +101,15 @@ export async function queueBackpackCloudWrite(uid: string, data: Record<string, 
     ownerUid: uid,
     schemaVersion: 1,
     updatedAt: typeof data.updatedAt === "string" ? data.updatedAt : new Date().toISOString(),
-    data: stripLocalFiles(data),
+    data: checkedCloudData(data),
   }, { merge: true });
+}
+
+function checkedCloudData(data: Record<string, unknown>) {
+  const cloudData = stripLocalFiles(data);
+  const bytes = new TextEncoder().encode(JSON.stringify(cloudData)).length;
+  if (bytes > 850_000) throw new Error("This Backpack is too large to fit in one cloud record. Large files stay on this device; remove oversized text or records to resume sync.");
+  return cloudData;
 }
 
 function stripLocalFiles(data: Record<string, unknown>) {
