@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     id: "/",
     name: "BACKPACK OS",
     short_name: "BACKPACK",
-    description: "A mobile-first service-order demo with customer requests, local admin tools, installation guidance and offline-aware behavior.",
+    description: "A personal operating system for channels, individual accounts, VIP circles and private administration.",
     start_url: "/",
     scope: "/",
     display: "standalone",
@@ -13,7 +13,7 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#155eef",
     orientation: "portrait-primary",
     lang: "en",
-    categories: ["business", "productivity"],
+    categories: ["lifestyle", "productivity"],
     prefer_related_applications: false,
     icons: [
       { src: "/iteration13-icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
