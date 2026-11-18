@@ -25,7 +25,12 @@ type ChannelTab="Overview"|"Library"|"Design"|"Media";
 export default function PersonalOS(){
  const [data,setData]=useState<PersonalData>(initial);
  const [ready,setReady]=useState(false);
- const [cloudUid,setCloudUid]=useState("");\n const [cloudReady,setCloudReady]=useState(false);\n const [cloudStatus,setCloudStatus]=useState<BackpackCloudStatus>("disabled");\n const [cloudDetail,setCloudDetail]=useState("");\n const dataRef=useRef(data);\n useEffect(()=>{dataRef.current=data;},[data]);
+ const [cloudUid,setCloudUid]=useState("");
+ const [cloudReady,setCloudReady]=useState(false);
+ const [cloudStatus,setCloudStatus]=useState<BackpackCloudStatus>("disabled");
+ const [cloudDetail,setCloudDetail]=useState("");
+ const dataRef=useRef(data);
+ useEffect(()=>{dataRef.current=data;},[data]);
  const [entryStage,setEntryStage]=useState<"entry"|"setup"|"app">("entry");
  const [setupName,setSetupName]=useState("");
  const [setupDescription,setSetupDescription]=useState("");
