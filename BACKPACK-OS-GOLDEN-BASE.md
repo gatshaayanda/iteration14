@@ -41,3 +41,7 @@ Dominant genre: **Quiet**, with **Data** reserved for the Backpack control centr
 
 ## Golden checkpoint
 The product owner approved the current Iteration 14 main experience as the new golden base on 18 November 2026. Preserve it and make focused, reviewed improvements. Do not reset to i13 or replace this architecture without explicit instruction. Record each accepted checkpoint here and in AGENTS.md.
+
+## Channel publishing and offline refresh
+- Publish an update mirrors the setup resource experience: optional HTTP(S) useful link plus optional image/video/PDF upload, styled accessible picker, explicit file limits, progress, selected filename and removal before publishing. A link or attachment alone is valid content.
+- Whenever the app-shell layout changes, bump the BACKPACK shell and media cache versions together, and update the offline verifier. The next service-worker install must precache the new app shell while preserving all i13 cache namespaces.
