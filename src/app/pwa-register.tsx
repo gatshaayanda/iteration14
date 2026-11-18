@@ -37,7 +37,7 @@ function isIosSafari() {
 function isAndroidChrome() {
   if (typeof window === "undefined") return false;
   const ua = navigator.userAgent || "";
-  return /Android/i.test(ua) && /Chrome\\/\\d+/i.test(ua) && !/EdgA|OPR|SamsungBrowser|DuckDuckGo/i.test(ua);
+  return /Android/i.test(ua) && ua.includes("Chrome/") && !/EdgA|OPR|SamsungBrowser|DuckDuckGo/i.test(ua);
 }
 
 function dismissedRecently() {
