@@ -8,12 +8,13 @@ type Asset={name:string;url:string;type:string;size:number};
 type Post={id:string;title:string;body:string;link:string;asset?:Asset;at:string};
 type Circle={id:string;name:string;description:string;members:string[]};
 type Person={name:string;email:string;circleIds:string[];invited:boolean};
-type Space={title:string;category:string;description:string;ownerName:string;ownerEmail:string;businessOsUrl:string;posts:Post[];people:Person[];circles:Circle[];visibility:"public"|"restricted";comments:boolean;requests:boolean;invites:string[]};
-const KEY="backpack-os:channel:v1",blank:Space={title:"",category:"Personal projects",description:"",ownerName:"",ownerEmail:"",businessOsUrl:"",posts:[],people:[],circles:[],visibility:"public",comments:true,requests:true,invites:[]};
+type Space={backpackName:string;title:string;category:string;description:string;ownerName:string;ownerEmail:string;businessOsUrl:string;posts:Post[];people:Person[];circles:Circle[];visibility:"public"|"restricted";comments:boolean;requests:boolean;invites:string[]};
+type SavedWorkspace={id:string;space:Space;updatedAt:string};
+const KEY="backpack-os:channel:v1",INDEX_KEY="backpack-os:workspaces:v1",blank:Space={backpackName:"",title:"",category:"Personal projects",description:"",ownerName:"",ownerEmail:"",businessOsUrl:"",posts:[],people:[],circles:[],visibility:"public",comments:true,requests:true,invites:[]};
 const categories=["Current engagement","Household projects","Creator","Learning & growth","Community & causes","Personal projects","Travel & experiences","Health & wellbeing","Custom"];
 function isHttpUrl(value:string){try{const url=new URL(value.trim());return url.protocol==="https:"||url.protocol==="http:";}catch{return false;}}
 export default function PersonalChannelOS(){
- const [s,setS]=useState<Space>(blank),[loaded,setLoaded]=useState(false),[screen,setScreen]=useState("setup");
+ const [s,setS]=useState<Space>(blank),[loaded,setLoaded]=useState(false),[screen,setScreen]=useState("chooser"),[workspaces,setWorkspaces]=useState<SavedWorkspace[]>([]),[activeWorkspaceId,setActiveWorkspaceId]=useState("");
  const [ownerWord,setOwnerWord]=useState(""),[name,setName]=useState(""),[email,setEmail]=useState(""),[signed,setSigned]=useState("");
  const [notice,setNotice]=useState(""),[uploading,setUploading]=useState(false),[progress,setProgress]=useState(0);
  const [setupLink,setSetupLink]=useState(""),[setupAsset,setSetupAsset]=useState<Asset|undefined>();
