@@ -1,3 +1,17 @@
+# BACKPACK OS — Personal OS / Channel + Backpack
+
+**Golden base:** Iteration 14 is the personal operating system paired with Iteration 13 B.O.S. The product definition, navigation contract, local-data boundaries, PWA protections and QA acceptance are recorded in [BACKPACK-OS-GOLDEN-BASE.md](./BACKPACK-OS-GOLDEN-BASE.md). The canonical i13 B.O.S. demo is [iteration13.vercel.app](https://iteration13.vercel.app/), with source in [gatshaayanda/iteration13](https://github.com/gatshaayanda/iteration13).
+
+## First QA pass
+
+1. Create an engagement with a name, owner name and email.
+2. Add a useful link and/or an image, video or PDF. The setup resource area presents these as one grouped step; uploaded file progress and the selected filename are visible, and an attachment can be removed before creation.
+3. Use the 💼 i13 B.O.S. switch in setup or the channel navigation to open Iteration 13. The 🎒 Backpack remains the personal owner workspace. A separately configured My B.O.S. address is available in Backpack navigation.
+4. Verify channel, individual account, public/restricted access, invitations, VIP circles, comments and requests in one browser profile.
+5. Test installation in an eligible browser and offline behavior separately. A browser-controlled native install prompt cannot be forced by the app; the branded card appears only when the browser provides the retained prompt (or on iOS Safari for manual guidance).
+
+---
+
 # Iteration 13 — Business OS / Store + Briefcase
 
 **Start every new implementation or QA chat at [START-HERE.md](./START-HERE.md).** The [Iteration 13 Portfolio Handoff](./docs/ITERATION13-PORTFOLIO-HANDOFF.md) explains how this repository is used as the shared reference for new and existing portfolio projects. The complete [documentation map](./docs/README.md) shows the shortest task-specific reading path. The mandatory [Change Safety & Regression Prevention Standard](./docs/CHANGE-SAFETY-STANDARD.md) applies to every change and requires the fix and adjacent working behavior to be verified. [AGENTS.md](./AGENTS.md) contains repository rules; [FOUNDATION-BLUEPRINT.md](./FOUNDATION-BLUEPRINT.md) documents architecture; [CLONING.md](./CLONING.md) governs source selection and adaptation; [docs/ADMIN-HUB-APP-FACTORY-SOP.md](./docs/ADMIN-HUB-APP-FACTORY-SOP.md) and [docs/CLONE-RESET-CHECKLIST.md](./docs/CLONE-RESET-CHECKLIST.md) govern new-project execution. [docs/VISUAL-DIRECTION-STANDARD.md](./docs/VISUAL-DIRECTION-STANDARD.md) defines the visual craftsmanship and mobile-first experience standard. Iteration 13 is the engineering standards/reference repository, not the default clone source. The product owner chooses each new project's source; if none is named, use `gatshaayanda/africhiko`. Existing projects are improved in place.

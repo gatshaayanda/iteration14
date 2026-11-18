@@ -9,7 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#f6f5f0",
+    background_color: "#f4f5f7",
     theme_color: "#155eef",
     orientation: "portrait-primary",
     lang: "en",
@@ -43,7 +43,7 @@ export default function manifest(): MetadataRoute.Manifest {
         name: "Backpack",
         short_name: "Backpack",
         description: "Open the private owner workspace",
-        url: "/#admin",
+        url: "/?view=backpack",
         icons: [{ src: "/iteration13-icon-192.png", sizes: "192x192", type: "image/png" }]
       }
     ]
