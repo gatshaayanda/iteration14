@@ -42,7 +42,8 @@ if (!appManifest.includes('name: "BACKPACK OS"')) failures.push("app manifest: w
 if (appManifest.includes("The Plug") || appManifest.includes("plug-icon")) failures.push("app manifest: inherited The Plug identity remains");
 if (!appManifest.includes("/backpack-icon.svg")) failures.push("app manifest: BACKPACK icon missing");
 if (!fs.existsSync(path.join(root, "public/backpack-icon.svg"))) failures.push("Backpack OS icon file missing");
-if (!layout.includes('apple:{url:"/backpack-icon.svg"')) failures.push("Apple install metadata must use the BACKPACK icon");
+if (!layout.includes('apple:{url:"/backpack-icon-180.png"')) failures.push("Apple install metadata must use the BACKPACK icon");
+if (!fs.existsSync(path.join(root, "public/backpack-icon-180.png"))) failures.push("BACKPACK Apple install icon file missing");
 const layout = fs.readFileSync(path.join(root, "src/app/layout.tsx"), "utf8");
 const pwaRegister = fs.readFileSync(path.join(root, "src/app/pwa-register.tsx"), "utf8");
 for (const expected of ["BACKPACK OS | Your Personal Channel", "applicationName:\"BACKPACK OS\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
