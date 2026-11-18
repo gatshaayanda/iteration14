@@ -18,7 +18,7 @@ function environment() {
   const standalone = window.matchMedia("(display-mode: standalone)").matches || Boolean((navigator as Navigator & { standalone?: boolean }).standalone);
   const ios = /iPad|iPhone|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   const android = /Android/i.test(ua);
-  const embedded = /WhatsApp|Instagram|FBAN|FBAV|Messenger|Line\\/|Twitter|TikTok|Snapchat/i.test(ua) || (/Android/i.test(ua) && /; wv\\)/i.test(ua));
+  const embedded = /WhatsApp|Instagram|FBAN|FBAV|Messenger|Line\/|Twitter|TikTok|Snapchat/i.test(ua) || (/Android/i.test(ua) && /; wv\)/i.test(ua));
   return { standalone, ios, android, embedded };
 }
 
@@ -189,7 +189,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
   function openBrowser() {
     const url = window.location.href;
     if (environment().android) {
-      window.location.href = "intent://" + url.replace(/^https?:\\/\\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+      window.location.href = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
       return;
     }
     window.open(url, "_blank", "noopener,noreferrer");
