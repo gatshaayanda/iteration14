@@ -1,4 +1,4 @@
-// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v11";
+// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v12";
 const MEDIA_CACHE = "backpack-os-media-v8";
 const SHELL_CACHE = CACHE_VERSION;
 const STATIC_LIMIT = 100;
@@ -6,7 +6,7 @@ const PUBLIC_PAGE_LIMIT = 12;
 const MEDIA_LIMIT = 24;
 const MEDIA_MAX_BYTES = 4 * 1024 * 1024;
 const MEDIA_HOSTS = ["images.unsplash.com", "utfs.io", "ufs.sh"];
-const APP_SHELL = ["/", "/offline", "/patterns", "/iphone-install", "/iphone-install.svg", "/backpack-icon.svg", "/backpack-icon-180.png", "/manifest.webmanifest"];
+const APP_SHELL = ["/", "/offline", "/patterns", "/iphone-install", "/iphone-install.svg", "/backpack-icon.svg", "/backpack-icon-180.png", "/backpack-icon-192.png", "/manifest.webmanifest"];
 
 self.addEventListener("install", event => {
   event.waitUntil((async () => {
