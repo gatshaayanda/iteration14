@@ -11,7 +11,7 @@ type InstallPromptEvent = Event & {
 };
 type InstallState = "hidden" | "native" | "embedded";
 
-const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at:v4";
+const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at:v3";
 const INSTALL_DISMISS_MS = 7 * 24 * 60 * 60 * 1000;
 
 function environment() {
@@ -33,11 +33,6 @@ function isIosSafari() {
   return ios && /Safari/i.test(nav.userAgent) && !/CriOS|FxiOS|EdgiOS|OPiOS|DuckDuckGo/i.test(nav.userAgent);
 }
 
-function isAndroidChrome() {
-  if (typeof window === "undefined") return false;
-  const ua = navigator.userAgent || "";
-  return /Android/i.test(ua) && /Chrome\/\d+/i.test(ua) && !/EdgA|OPR|SamsungBrowser|DuckDuckGo/i.test(ua);
-}
 
 function dismissedRecently() {
   try {
@@ -91,7 +86,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
     // Keep a visible install route on Android Chrome even when Chrome withholds
     // beforeinstallprompt. The native event remains preferred whenever available.
-    setCanShowManualInstall(isIosSafari() || isAndroidChrome());
+    setCanShowManualInstall(isIosSafari());
 
     let registration: ServiceWorkerRegistration | null = null;
     const inspect = () => {
@@ -294,12 +289,12 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
 
   const installShellStyle: CSSProperties = { position: "fixed", left: 16, right: 16, bottom: 16, zIndex: 1000, maxWidth: 720, margin: "0 auto", padding: 16, borderRadius: 18, background: "#FFFFFF", color: "#111318", boxShadow: "0 12px 40px rgba(0,0,0,.18)", border: "1px solid rgba(17,19,24,.12)" };
   const embeddedInstallStyle: CSSProperties = { position: "fixed", inset: 0, zIndex: 2147483647, display: "flex", alignItems: "center", justifyContent: "center", padding: 20, background: "rgba(0,0,0,.82)", backdropFilter: "blur(4px)", overscrollBehavior: "contain" };
-  const installCard = installState === "native" && installHelpOpen && (isIosSafari() || isAndroidChrome()) ? (
+  const installCard = installState === "native" && installHelpOpen && isIosSafari() ? (
     <div style={installShellStyle} role="presentation">
       <section className="plugInstallModal" role="dialog" aria-modal="false" aria-labelledby="plug-install-title" aria-describedby="plug-install-message">
         <div className="plugInstallTop"><span className="plugInstallMark">🎒</span><span className="plugInstallTag">BACKPACK OS · PERSONAL CHANNEL</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
-        <div className="plugInstallKicker">{isAndroidChrome() ? "ANDROID · GOOGLE CHROME" : "IPHONE & IPAD"}</div>
-        <h2 id="plug-install-title">{isAndroidChrome() ? "Install BACKPACK OS from Chrome." : "Add BACKPACK OS to Home Screen."}</h2>
+        <div className="plugInstallKicker">IPHONE & IPAD</div>
+        <h2 id="plug-install-title">Add BACKPACK OS to Home Screen.</h2>
         <p id="plug-install-message">{isAndroidChrome() ? <>In Chrome, tap <b>⋮</b> (top right), choose <b>Install app</b> or <b>Add to Home screen</b>, then confirm. Chrome controls which option is available for this site.</> : <>In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</>}</p>
         <button type="button" className="plugInstallPrimary" onClick={dismissInstall}>Continue on the website</button>
       </section>
@@ -331,11 +326,11 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
             void install();
             return;
           }
-          if (isIosSafari() || isAndroidChrome()) {
+          if (isIosSafari()) {
             setInstallHelpOpen(true);
             setInstallState("native");
           }
-        }}>{canInstall ? "Install BACKPACK OS" : isAndroidChrome() ? "How to install in Chrome" : "Add to Home Screen"} <span aria-hidden="true">↗</span></button>
+        }}>{canInstall ? "Install BACKPACK OS" : "Add to Home Screen"} <span aria-hidden="true">↗</span></button>
       </aside>
     )}
     {installCard}
