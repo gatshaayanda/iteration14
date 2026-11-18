@@ -11,7 +11,7 @@ type InstallPromptEvent = Event & {
 };
 type InstallState = "hidden" | "native" | "embedded";
 
-const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at:v3";
+const INSTALL_DISMISSED_KEY = "backpack-os:install:dismissed-at:v4";
 const INSTALL_DISMISS_MS = 7 * 24 * 60 * 60 * 1000;
 
 function environment() {
@@ -92,7 +92,7 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
     setEmbeddedAndroid((initialEmbedded && initialAndroid) || (env.embedded && env.android));
     // Keep a visible install route on Android Chrome even when Chrome withholds
     // beforeinstallprompt. The native event remains preferred whenever available.
-    setCanShowManualInstall(isIosSafari() || isAndroidChrome());
+    setCanShowManualInstall(isIosSafari());
 
     let registration: ServiceWorkerRegistration | null = null;
     const inspect = () => {
@@ -295,17 +295,16 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
 
   const installShellStyle: CSSProperties = { position: "fixed", left: 16, right: 16, bottom: 16, zIndex: 1000, maxWidth: 720, margin: "0 auto", padding: 16, borderRadius: 18, background: "#FFFFFF", color: "#111318", boxShadow: "0 12px 40px rgba(0,0,0,.18)", border: "1px solid rgba(17,19,24,.12)" };
   const embeddedInstallStyle: CSSProperties = { position: "fixed", inset: 0, zIndex: 2147483647, display: "flex", alignItems: "center", justifyContent: "center", padding: 20, background: "rgba(0,0,0,.82)", backdropFilter: "blur(4px)", overscrollBehavior: "contain" };
-  const installCard = installState === "native" && installHelpOpen && (isIosSafari() || isAndroidChrome()) ? (
+  const installCard = installState === "native" && installHelpOpen && isIosSafari() ? (
     <div style={installShellStyle} role="presentation">
       <section className="plugInstallModal" role="dialog" aria-modal="false" aria-labelledby="plug-install-title" aria-describedby="plug-install-message">
         <div className="plugInstallTop"><span className="plugInstallMark">🎒</span><span className="plugInstallTag">BACKPACK OS · PERSONAL CHANNEL</span><button type="button" className="plugInstallClose" aria-label="Close install guidance" onClick={dismissInstall}>×</button></div>
-        <div className="plugInstallKicker">{isAndroidChrome() ? "ANDROID · GOOGLE CHROME" : "IPHONE & IPAD"}</div>
-        <h2 id="plug-install-title">{isAndroidChrome() ? "Install BACKPACK OS from Chrome." : "Add BACKPACK OS to Home Screen."}</h2>
-        <p id="plug-install-message">{isAndroidChrome() ? <>In Chrome, tap <b>⋮</b> (top right), choose <b>Install app</b> or <b>Add to Home screen</b>, then confirm. Chrome controls which option is available for this site.</> : <>In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</>}</p>
+        <div className="plugInstallKicker">IPHONE & IPAD</div>
+        <h2 id="plug-install-title">Add BACKPACK OS to Home Screen.</h2>
+        <p id="plug-install-message">In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. Open the new Home Screen icon to launch the installed app.</p>
         <button type="button" className="plugInstallPrimary" onClick={dismissInstall}>Continue on the website</button>
       </section>
-    </div>
-) : installState === "embedded" ? (
+    </div>) : installState === "embedded" ? (
     <div style={embeddedInstallStyle} role="alertdialog" aria-modal="true" aria-labelledby="plug-embedded-title" aria-describedby="plug-embedded-message">
       <div className="pwaInstallInfo" style={{...installShellStyle, position: "relative", left: "auto", right: "auto", bottom: "auto", width: "100%", maxWidth: 520, margin: 0}}>
         <div>
@@ -321,23 +320,18 @@ export default function PwaRegister({ initialEmbedded = false, initialAndroid = 
 
   return <>
     {!environment().standalone && installState !== "embedded" && (canInstall || canShowManualInstall) && !installCardDismissed && !(installState === "native" && installHelpOpen) && (
-      <aside className="i13-install-card" aria-label="Install BACKPACK OS">
-        <div className="i13-install-brand">
-          <span className="i13-install-mark" aria-hidden="true">🎒</span>
-          <span><strong>BACKPACK OS</strong><small>PERSONAL CHANNEL</small></span>
+      <details className="i14-install-dock" aria-label="Install BACKPACK OS">
+        <summary className="i14-install-summary">
+          <span className="i14-install-mark" aria-hidden="true">🎒</span>
+          <span className="i14-install-brand"><strong>BACKPACK OS</strong><small>PERSONAL CHANNEL</small></span>
+          <span className="i14-install-summary-action">{canInstall ? "Install app" : "Add to Home Screen"}</span>
+          <span className="i14-install-chevron" aria-hidden="true">⌃</span>
+        </summary>
+        <div className="i14-install-expanded">
+          {canInstall ? <button className="i13-install-action" type="button" onClick={() => { void install(); }}>Install BACKPACK OS <span aria-hidden="true">↗</span></button> : <button className="i13-install-action" type="button" onClick={() => { setInstallHelpOpen(true); setInstallState("native"); }}>Add to Home Screen <span aria-hidden="true">↗</span></button>}
+          <button className="i14-install-dismiss" type="button" onClick={dismissInstall}>Not now</button>
         </div>
-        <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={dismissInstall}>×</button>
-        <button className="i13-install-action" type="button" onClick={() => {
-          if (installPromptRef.current) {
-            void install();
-            return;
-          }
-          if (isIosSafari() || isAndroidChrome()) {
-            setInstallHelpOpen(true);
-            setInstallState("native");
-          }
-        }}>{canInstall ? "Install BACKPACK OS" : isAndroidChrome() ? "How to install in Chrome" : "Add to Home Screen"} <span aria-hidden="true">↗</span></button>
-      </aside>
+      </details>
     )}
     {installCard}
     {updateReady && <div className="pwaUpdate" role="status" aria-live="polite" aria-atomic="true"><div><strong>Update ready</strong><span>Refresh to load the latest app shell.</span></div><div className="pwaUpdateActions"><button type="button" className="pwaUpdateDismiss" onClick={() => setUpdateReady(null)}>Later</button><button type="button" className="button buttonPrimary" onClick={applyUpdate}>Refresh</button></div></div>}
