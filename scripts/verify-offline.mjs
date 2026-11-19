@@ -11,7 +11,7 @@ const offline=read("src/app/offline/page.tsx");
 const failures=[];
 const check=(condition,message)=>{if(!condition)failures.push(message);};
 check(page.includes("PersonalChannelOS"),"the root route must render the personal channel application");
-check(app.includes("START WITH AN ENGAGEMENT")&&app.includes("Engagement category")&&app.includes("Channel / engagement name")&&app.includes('mode:"selling"|"buying"')&&app.includes("Sell a service")&&app.includes("Buy a service"),"setup must let the owner choose selling a service or buying a service");
+check(app.includes("START WITH AN ENGAGEMENT")&&app.includes("Engagement category")&&app.includes("Channel / engagement name")&&app.includes('mode:"selling"|"buying"')&&app.includes("Are you selling a service or buying one?")&&app.includes("Selling a service")&&app.includes("Buying a service")&&app.includes("bp-mode-confirmation"),"setup must let the owner choose selling a service or buying a service");
 check(app.includes("Useful link")&&app.includes('accept="image/*,video/*,application/pdf"'),"setup must accept useful links, images, video and PDF resources");
 check(app.includes('className="bp-file-drop"')&&app.includes("Attachment ready to publish")&&app.includes('aria-label="Remove attachment"')&&app.includes("16 MB · PDF up to 4 MB"),"publishing must mirror setup resource controls with visible file limits, progress-ready upload, and removal");
 check(app.includes("onUploadProgress")&&app.includes("Uploading · {progress}%"),"file uploads must expose truthful percentage progress");
@@ -38,7 +38,7 @@ check(sw.includes("navigationPreload.enable()")&&sw.includes("event.preloadRespo
 check(sw.includes("function isSafePublicHtml")&&sw.includes('value === "cookie"')&&sw.includes('value === "authorization"'),"offline HTML caching must reject private cookie- or authorization-varying responses");
 check(sw.includes("sensitiveQuery.test(key)")&&sw.includes("responseOrigin === self.location.origin"),"offline HTML caching must reject sensitive query strings and cross-origin redirects");
 check(sw.includes("response.status >= 500")&&sw.includes("networkFirstNavigation(request, event)"),"cached public pages must recover from transient server errors");
-check(/const CACHE_VERSION = "backpack-os-shell-v24"/.test(sw)&&/const MEDIA_CACHE = "backpack-os-media-v10"/.test(sw),"BACKPACK shell and media caches must be versioned independently from i13");
+check(/const CACHE_VERSION = "backpack-os-shell-v25"/.test(sw)&&/const MEDIA_CACHE = "backpack-os-media-v10"/.test(sw),"BACKPACK shell and media caches must be versioned independently from i13");
 check(sw.includes('key.startsWith("backpack-os-shell-") && key !== SHELL_CACHE')&&sw.includes('key.startsWith("backpack-os-media-") && key !== MEDIA_CACHE'),"activation must remove stale BACKPACK cache versions without deleting the active cache");
 check(!sw.includes('key.startsWith("iteration13-shell-")')&&!sw.includes('key.startsWith("iteration13-media-")'),"BACKPACK activation must not delete Iteration 13 cache namespaces");
 check(sw.includes('"/", "/offline"')&&sw.includes('"/iphone-install"'),"home, offline and installation guidance routes must be precached");
@@ -51,7 +51,7 @@ check(pwa.includes('window.addEventListener("beforeinstallprompt", captureInstal
 check(pwa.includes('className="bp-install-card"')&&pwa.includes("Install BACKPACK OS")&&pwa.includes("onClick={dismissInstall}")&&pwa.includes("installable || iosGuide")&&pwa.includes("!dismissed"),"BACKPACK must render its branded native install card and dismiss action");
 check(sw.includes("async function cachedPublicFallback")&&sw.includes("await cache.match(canonical)")&&sw.includes("await cache.match(\"/\")"),"public navigation must recover by canonical pathname and saved app shell when offline or the origin returns a server error");
 check(sw.includes('const CACHE_VERSION = "backpack-os-shell-v24"')&&sw.includes('const MEDIA_CACHE = "backpack-os-media-v10"'),"offline hardening must advance independent BACKPACK shell and media caches");
-check(offline.includes("PersonalChannelOS")&&offline.includes("bp-offline-notice")&&pwaCss.includes(".bp-offline-notice"),"offline route must reuse the live BACKPACK OS experience and its branded offline status");
+check(offline.includes("PersonalChannelOS")&&offline.includes("bp-offline-notice")&&offline.includes('src="/backpack-os-icon-v4.svg"')&&offline.includes("BACKPACK")&&pwaCss.includes(".bp-offline-notice"),"offline route must reuse the live BACKPACK OS experience and its branded offline status");
 check(pwa.includes("bp-connectivity")&&pwa.includes("navigator.onLine")&&pwa.includes("fetch(\"/\", { method: \"HEAD\", cache: \"no-store\"")&&pwa.includes("window.addEventListener(\"offline\"")&&pwa.includes("window.addEventListener(\"online\""),"workspace must expose verified live/offline/reconnecting connectivity state");
 check(pwa.includes("navigator.storage?.persist")&&pwa.includes("navigator.storage?.estimate")&&pwa.includes("storageWarning"),"local Backpack storage must request persistence and warn before quota pressure");
 check(pwa.includes("setEmbeddedBrowser")&&pwa.includes("Open BACKPACK in your browser")&&pwa.includes("Copy page link"),"embedded browsers must receive a clear handoff instruction and copyable link");
