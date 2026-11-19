@@ -1,4 +1,4 @@
-// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v26";
+// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v27";
 const MEDIA_CACHE = "backpack-os-media-v10";
 const SHELL_CACHE = CACHE_VERSION;
 const STATIC_LIMIT = 100;
@@ -17,45 +17,52 @@ self.addEventListener("install", event => {
 });
 
 async function precacheShell() {
-  // Match the proven Iteration 13 resilience model: one optional route or icon
-  // must not prevent the worker from installing and controlling the app.
-  // Root and offline pages are attempted first; every successful response is saved.
   let shell;
   try {
     shell = await caches.open(SHELL_CACHE);
   } catch {
-    return;
+    throw new Error("BACKPACK app-shell storage is unavailable");
   }
+
+  // The real home screen is the required offline entry point. Do not count an
+  // offline notice page as a successful shell install if "/" was not saved.
   const discovered = new Set();
-  for (const path of APP_SHELL) {
-    try {
-      const request = new Request(path, { cache: "reload" });
-      const response = await fetch(request);
-      if (!response.ok) continue;
-      if (["/", "/offline", "/iphone-install"].includes(path) &&
-          !(response.headers.get("content-type") || "").includes("text/html")) continue;
-      try { await shell.put(request, response.clone()); } catch {}
-      if (!(response.headers.get("content-type") || "").includes("text/html")) continue;
-      const html = await response.text();
-      for (const match of html.matchAll(/(?:src|href)=["'](\\/_next\\/static\\/[^"']+)["']/g)) {
-        discovered.add(match[1].replaceAll("&amp;", "&"));
-      }
-    } catch {
-      // Continue preparing the rest of the shell when an optional resource fails.
+  const corePaths = ["/", "/offline"];
+  for (const path of corePaths) {
+    const request = new Request(new URL(path, self.location.origin).href, { cache: "reload" });
+    const response = await fetch(request);
+    if (!response.ok || !(response.headers.get("content-type") || "").includes("text/html")) {
+      if (path === "/") throw new Error("BACKPACK home screen could not be precached");
+      continue;
+    }
+    await shell.put(request, response.clone());
+    const html = await response.text();
+    for (const match of html.matchAll(/(?:src|href)=["']([^"']*\\/_next\\/static\\/[^"']+)["']/g)) {
+      discovered.add(new URL(match[1].replaceAll("&amp;", "&"), self.location.origin).href);
     }
   }
-  for (const path of discovered) {
+
+  // Cache identity, install guidance and manifest resources independently.
+  for (const path of APP_SHELL.filter(path => !corePaths.includes(path))) {
     try {
-      const request = new Request(path, { cache: "reload" });
+      const request = new Request(new URL(path, self.location.origin).href, { cache: "reload" });
       const response = await fetch(request);
-      if (response.ok) {
-        try { await shell.put(request, response); } catch {}
-      }
+      if (response.ok) await shell.put(request, response.clone());
     } catch {
-      // The live app can still cache this asset on its next online request.
+      // Optional artwork and guidance must not block the core shell.
     }
   }
-  try { await trimCache(SHELL_CACHE, STATIC_LIMIT, APP_SHELL); } catch {}
+
+  // Store every script and stylesheet referenced by the server-rendered home
+  // and offline pages before allowing the new worker to finish installation.
+  for (const url of discovered) {
+    const request = new Request(url, { cache: "reload" });
+    const response = await fetch(request);
+    if (!response.ok) throw new Error("A required BACKPACK app-shell asset could not be precached");
+    await shell.put(request, response);
+  }
+
+  await trimCache(SHELL_CACHE, STATIC_LIMIT, APP_SHELL);
 }
 
 self.addEventListener("message", event => {
