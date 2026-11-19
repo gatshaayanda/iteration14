@@ -11,7 +11,7 @@ if (!page.includes("PersonalChannelOS")) failures.push("the application entry po
 const personalOS = fs.readFileSync(path.join(root, "src/app/PersonalChannelOS.tsx"), "utf8");
 if (!personalOS.includes('type="text" value={invite}') || !personalOS.includes("Invite someone") || !personalOS.includes('placeholder="Enter a name"') || personalOS.includes('type="email" value={invite}') || personalOS.includes("invited emails")) failures.push("BACKPACK demo invitations must use a plain text name field, not email");
 if (!personalOS.includes("Member names") || !personalOS.includes("filter(Boolean)") || !personalOS.includes("personKey(member)")) failures.push("VIP circle membership must accept simple names");
-if (!personalOS.includes("personKey(signedPerson.name)") || !personalOS.includes("personKey(item)===key") || !personalOS.includes("personKey(member)===key")) failures.push("restricted demo access must match invited and VIP member names case-insensitively");
+if (!personalOS.includes("personKey(p.name)===key") || !personalOS.includes("personKey(item)===key") || !personalOS.includes("personKey(member)===key") || !personalOS.includes('visibility:"vip"') || !personalOS.includes('visibility:"restricted"') || personalOS.includes('type="email"') || personalOS.includes("Your email")) failures.push("BACKPACK audience entry must be name-only and support public, VIP and access-only modes");
 
 function walk(dir) {
   const files = [];
@@ -111,7 +111,7 @@ for (const legacyAlias of ["public/icon.svg", "public/backpack-icon.svg"]) {
   if (!/shoulder straps/i.test(alias) || !alias.includes("fbbf24")) failures.push(legacyAlias + ": legacy install artwork must resolve to the dedicated BACKPACK mark");
 }
 const shellVersion = sw.match(/const CACHE_VERSION = "(backpack-os-shell-v\d+)"/)?.[1];
-if (shellVersion !== "backpack-os-shell-v21") failures.push("service worker: shell cache version must advance for the current BACKPACK identity");
+if (shellVersion !== "backpack-os-shell-v22") failures.push("service worker: shell cache version must advance for the current BACKPACK identity");
 if (!sw.includes('"/backpack-icon.svg?v=2"') || !sw.includes('"/icon.svg"')) failures.push("service worker: current branded backpack aliases must be precached");
 
 if (failures.length) {
