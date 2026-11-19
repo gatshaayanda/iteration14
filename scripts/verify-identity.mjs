@@ -63,19 +63,14 @@ if (/iteration13-icon-(?:180|192|512)\.(?:png|svg)/.test(JSON.stringify(manifest
 if (!/backpack-os-shell-v\d+/.test(sw)) failures.push("service worker: BACKPACK cache namespace is not isolated");
 if (!sw.includes("/iphone-install") || !sw.includes("/iphone-install.svg")) failures.push("service worker: iPhone installation guide is not cached for offline use");
 
-if (!pwaRegister.includes("await deferredPrompt.prompt()") || !pwaRegister.includes("setInstallable(true)")) failures.push("PWA install: native prompt is not connected to the branded install action");
-if (!pwaRegister.includes("installable && !installCardDismissed")) failures.push("PWA install: card must appear when the browser provides its native install event");
-if (/Install Iteration 13 from your browser|Chrome or Edge, open the <b>browser menu|platform-specific fallback as Odi/i.test(pwaRegister)) failures.push("PWA install: generic desktop/Android explainer fallback must not replace the native browser prompt");
-
-// Guard the actual installation lifecycle, not just its visible copy. These checks
-// intentionally fail the production build if a future edit breaks the approved flow.
-const installContracts = [
-  [pwaRegister.includes('window.addEventListener("beforeinstallprompt", installPrompt)') && pwaRegister.includes("event.preventDefault()"), "Africhiko baseline beforeinstallprompt listener is missing"],
-  [pwaRegister.includes("setDeferredPrompt(event as InstallPromptEvent)") && pwaRegister.includes("await deferredPrompt.prompt()") && pwaRegister.includes("await deferredPrompt.userChoice"), "native install event must be retained and invoked directly from the install button"],
-  [pwaRegister.includes('className="bp-install-card"') && pwaRegister.includes('className="bp-install-close"') && pwaRegister.includes("setInstallCardDismissed(true)"), "BACKPACK branded dismissible install card is missing"],
-  [pwaRegister.includes('navigator.serviceWorker.register("/sw.js")'), "Africhiko baseline service-worker registration is missing"],
-];
-for (const [passed, message] of installContracts) if (!passed) failures.push("PWA install contract: " + message);
+if (!pwaRegister.includes('src="/backpack-os-icon-v4.svg"')) failures.push("PWA install card must display the approved BACKPACK artwork");
+if (!pwaRegister.includes("prompt.prompt()") || !pwaRegister.includes("setInstallable(true)")) failures.push("PWA install: native prompt is not connected to the branded install action");
+if (!pwaRegister.includes('window.addEventListener("beforeinstallprompt", captureInstall)') || !pwaRegister.includes("event.preventDefault()")) failures.push("PWA install: browser install event capture is missing");
+if (!pwaRegister.includes("window.__backpackInstallPrompt") || !layout.includes("backpack-early-install-capture")) failures.push("PWA install: early pre-hydration event capture is missing");
+if (!pwaRegister.includes("DISMISS_FOR = 7 * 24 * 60 * 60 * 1000") || !pwaRegister.includes("dismissedRecently()")) failures.push("PWA install: dismissal persistence is missing");
+if (!pwaRegister.includes('window.addEventListener("appinstalled", installed)')) failures.push("PWA install: installed-state cleanup is missing");
+if (!pwaRegister.includes('navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" })')) failures.push("PWA install: service-worker registration must bypass stale update metadata");
+if (!pwaRegister.includes("registration.waiting") || !pwaRegister.includes("SKIP_WAITING") || !pwaRegister.includes("BACKPACK OS update ready")) failures.push("PWA update: waiting-worker refresh lifecycle is incomplete");
 
 const installGuidePath = path.join(root, "src/app/iphone-install/page.tsx");
 if (!fs.existsSync(installGuidePath)) failures.push("iPhone installation guide route missing");
