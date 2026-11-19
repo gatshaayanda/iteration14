@@ -1,4 +1,4 @@
-name: Iteration 13 prototype quality
+name: BACKPACK OS quality
 on:
   push:
     branches: [main]
