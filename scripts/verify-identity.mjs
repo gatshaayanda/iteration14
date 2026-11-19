@@ -36,7 +36,7 @@ if (manifest.theme_color !== "#155eef") failures.push("manifest: wrong theme col
 if (!manifest.icons?.some(icon => icon.src === "/backpack-os-icon-v4-192.png" && icon.sizes === "192x192")) failures.push("manifest: BACKPACK PNG icon missing");
 if (!manifest.icons?.some(icon => icon.src === "/backpack-os-icon-v4-192.png" && icon.sizes === "192x192" && icon.type === "image/png")) failures.push("manifest: Android 192px BACKPACK PNG missing");
 const rasterIcon = fs.readFileSync(path.join(root, "public/backpack-os-icon-v4-192.png"));
-if (createHash("sha256").update(rasterIcon).digest("hex") !== "7cd6a8c938c5656156bc36aca91849eca1ccf70f6380c40a51131b4dfd417025") failures.push("PWA raster icon: expected approved BACKPACK artwork, not a stale launcher icon");
+if (createHash("sha256").update(rasterIcon).digest("hex") !== "13a4214548dacfb24ef0bf1d926015d11b095f9c652cca0ce6ec7b8f13c96f0f") failures.push("PWA raster icon: expected approved BACKPACK artwork, not a stale launcher icon");
 for (const iconPath of ["/backpack-os-icon-v4-192.png"]) {
   if (!manifest.icons?.some(icon => icon.src === iconPath)) failures.push("manifest: icon missing " + iconPath);
   if (!fs.existsSync(path.join(root, "public", iconPath.slice(1)))) failures.push("manifest icon asset missing " + iconPath);
