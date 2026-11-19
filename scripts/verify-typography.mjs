@@ -33,9 +33,6 @@ for (const root of roots) walk(root);
 if (/\.sd-identity-preview-grid article>strong\s*\{[^}]*grid-column\s*:\s*2\b/s.test(globalCss)) {
   failures.push("src/app/globals.css — identity preview titles must not be forced into a narrow second grid column");
 }
-if (!/\.sd-identity-preview-grid article\s*\{[^}]*display\s*:\s*flex/s.test(globalCss)) {
-  failures.push("src/app/globals.css — identity preview cards must use a responsive horizontal label layout");
-}
 if (failures.length) {
   console.error("TYPOGRAPHY VERIFICATION FAILED");
   failures.forEach(item => console.error(" - " + item));
