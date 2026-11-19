@@ -1,128 +1,43 @@
-# BACKPACK OS — Personal OS / Channel + Backpack
+# BACKPACK OS
 
-**Golden base:** Iteration 14 is the personal operating system paired with Iteration 13 B.O.S. The product definition, navigation contract, local-data boundaries, PWA protections and QA acceptance are recorded in [BACKPACK-OS-GOLDEN-BASE.md](./BACKPACK-OS-GOLDEN-BASE.md). The canonical i13 B.O.S. demo is [iteration13.vercel.app](https://iteration13.vercel.app/), with source in [gatshaayanda/iteration13](https://github.com/gatshaayanda/iteration13).
+**BACKPACK OS is a personal operating system** for organizing engagements, running a personal channel, managing individual accounts and VIP circles, and keeping a private owner workspace in one installable app.
+
+It pairs with the separate Iteration 13 Business Operating System. The bottom dock keeps the two destinations distinct: 🎒 Backpack for personal operations and 💼 B.O.S. for business operations.
+
+## Current product
+
+- Create and manage multiple named Backpacks.
+- Give each Backpack its own channel and optional starting resources.
+- Publish updates with links, images, video or PDF attachments.
+- Choose a public or invite-only audience.
+- Create VIP circles and invite people by name.
+- Let individual accounts view permitted updates, comment and send requests.
+- Manage the Backpack identity and audience from its private owner workspace.
+- Install as a PWA and use the cached application shell offline.
 
 ## First QA pass
 
-1. Create an engagement with a name, owner name and email.
-2. Add a useful link and/or an image, video or PDF. The setup resource area presents these as one grouped step; uploaded file progress and the selected filename are visible, and an attachment can be removed before creation.
-3. Use the 💼 i13 B.O.S. switch in setup or the channel navigation to open Iteration 13. The 🎒 Backpack remains the personal owner workspace. A separately configured My B.O.S. address is available in Backpack navigation.
-4. Verify channel, individual account, public/restricted access, invitations, VIP circles, comments and requests in one browser profile.
-5. Test installation in an eligible browser and offline behavior separately. A browser-controlled native install prompt cannot be forced by the app; the branded card appears only when the browser provides the retained prompt (or on iOS Safari for manual guidance).
+1. Create a Backpack with a name, channel name and owner details.
+2. Add an optional useful link and/or image, video or PDF.
+3. Publish an update and confirm it appears in the channel.
+4. Create an individual account; test comments and requests.
+5. Switch the channel to Invite-only, invite a name and create a VIP circle.
+6. Open the private Backpack workspace and edit the identity.
+7. Use the bottom dock to open the paired i13 B.O.S.
+8. Test installation in an eligible browser and test offline behavior separately.
 
----
+## Data and integration boundaries
 
-# Iteration 13 — Business OS / Store + Briefcase
+This is a browser-local prototype. Workspace records, people, circles, invitations, comments and requests are stored in the current browser profile; they do not sync across devices or browsers and are not production authentication or authorization. UploadThing stores uploaded file bytes remotely, but the records that reference those files remain local. Uploads and external links require a connection.
 
-**Start every new implementation or QA chat at [START-HERE.md](./START-HERE.md).** The [Iteration 13 Portfolio Handoff](./docs/ITERATION13-PORTFOLIO-HANDOFF.md) explains how this repository is used as the shared reference for new and existing portfolio projects. The complete [documentation map](./docs/README.md) shows the shortest task-specific reading path. The mandatory [Change Safety & Regression Prevention Standard](./docs/CHANGE-SAFETY-STANDARD.md) applies to every change and requires the fix and adjacent working behavior to be verified. [AGENTS.md](./AGENTS.md) contains repository rules; [FOUNDATION-BLUEPRINT.md](./FOUNDATION-BLUEPRINT.md) documents architecture; [CLONING.md](./CLONING.md) governs source selection and adaptation; [docs/ADMIN-HUB-APP-FACTORY-SOP.md](./docs/ADMIN-HUB-APP-FACTORY-SOP.md) and [docs/CLONE-RESET-CHECKLIST.md](./docs/CLONE-RESET-CHECKLIST.md) govern new-project execution. [docs/VISUAL-DIRECTION-STANDARD.md](./docs/VISUAL-DIRECTION-STANDARD.md) defines the visual craftsmanship and mobile-first experience standard. Iteration 13 is the engineering standards/reference repository, not the default clone source. The product owner chooses each new project's source; if none is named, use `gatshaayanda/africhiko`. Existing projects are improved in place.
+## Development
 
-The Sparkle Legacy chat-widget reference and evidence-led proposal live in [CHAT-WIDGET-RESEARCH.md](./CHAT-WIDGET-RESEARCH.md). These files explain what to preserve, where to edit, what is demo-only, and what needs deliberate project-specific replacement.
-
-The approved foundation baseline and recovery policy are documented in [GOLDEN-BASELINE.md](./GOLDEN-BASELINE.md). A reusable, mobile-first PWA foundation candidate. The homepage demonstrates a compact business-branded Store connected to an owner Briefcase/Business OS. The customer header provides Store and Account; the footer is reserved for the single icon-only owner Briefcase entry. Owners can edit services, announcements and the Store accent theme in the local demo. The interface uses the BoardSignal-derived 25 GB monthly capacity reference and high-volume customer-day scenario supplied by the product owner; it is not live server metering or a universal capacity guarantee. Firebase configuration, rules and data were intentionally left unchanged.
-## Customer demo
-
-1. Open the homepage and browse the four example services:
-   - Website — P100
-   - App — P200
-   - Monthly support — P50
-   - Phaser games — P500
-2. Select **Request this service**, enter a name and email, choose a requested timeline date (today or later), and optionally describe the project.
-3. Submit the request. It should take you to **Account** in the header, where the request, requested date, starting price and status are shown.
-4. Return to Store to submit another request or filter account requests by the same email. Each request has a branded request/payment record that can be printed or saved as PDF, even before a payment is recorded. Use the receipt's **Print / Save PDF** action to open the browser's native print dialog, then choose **Save as PDF**; the prototype does not generate or download a server-side PDF.
-
-The date is a requested timeline, not a confirmed delivery promise. No payment is taken.
-
-## Local admin demo
-
-Use the single **💼 briefcase icon** in the footer to open the one-word local Briefcase demo. There is no separate Login/Admin navigation item. From the owner workspace you can:
-
-- Add, edit, hide/show and delete services.
-- Change prices, descriptions, image/video URLs and media type.
-- Publish or clear a storefront announcement.
-- Review each customer and their requests, then move work through New request, Reviewing, Accepted, In progress, Completed or Declined.
-- Record full or partial simulated payments against a request. Download or print a branded receipt / request record from both the customer account and owner job record, including unpaid, partially paid and fully paid states. The receipt uses the current business name and selected Store colour; no money moves.
-- Review the customer directory, payments received, completed value, projected accepted/in-progress value, requested value and completed-unpaid balance.
-- Choose whether a clean lap in the embedded Big Brothers Racing 3D warm-up awards P10 or P20 off. The customer enters an email, earns a one-use code on a clean lap, and can redeem it against a Store request. Owners can also assign a promotion directly to a customer email.
-- Switch between Today, Customers & jobs, Money, Store design, My Notes and Insights tabs instead of scrolling through one long owner page.
-- Configure the business details and tax references shown on prototype receipts for the business's own record-keeping setup.
-- Review local operational analytics: browser-recorded Store visits, service selections, Account opens, saved enquiries and a recent activity trail. These counts describe only activity recorded in the current browser profile; they are not shared public-visitor analytics.
-- See the approximate size of the app's `iteration13:` browser-local data separately from the BoardSignal 25 GB Firebase reference ceiling. Firebase is not connected in this prototype, so Firebase reads, writes, bandwidth and storage usage are not measured or displayed as live consumption.
-- Vercel Analytics and Speed Insights are included at application level; Firebase Analytics and private Vercel dashboard data are not connected.
-- See summary counts for requests, statuses, services, customer emails and recorded demo visits.
-- Change the Store's accent colour using vivid presets or a custom colour picker; the chosen colour is used as an accent on neutral, readable surfaces across the Store, Briefcase and receipts.
-- Keep private My Notes in this browser.
-- Review the BoardSignal 25 GB capacity reference as a future Firebase-connected operating ceiling, not as a current usage meter.
-- Review the infrastructure flow showing the current browser-local demo and the planned Vercel Functions → Firestore path (Johannesburg database region; Cape Town is Vercel's listed South African compute region). The interactive payload calculator is an explicitly illustrative 25 GB workload model, not a tested server limit, live telemetry or revenue forecast.
-- Reset the local sample data for another walkthrough.
-
-This is a prototype control surface, not a secure admin boundary. Do not enter real customer data.
-
-## Persistence and offline QA
-
-- Orders, service edits, announcements and statuses are stored in this browser's `localStorage`; customer and admin views share the same local data on the same browser profile.
-- Data is not shared with other devices, sent to a business, or synchronized to Firebase.
-- Visit the homepage while online and allow the service worker to finish installing; then reload once while online. Switch the device/browser offline and reload the homepage. Confirm the app shell opens, submit a sample request, and use the footer 💼 Briefcase entry to open the owner demo and change its status. Return to **Account** in the header and confirm the status is reflected.
-- The service worker caches the app shell and offline fallback, uses network-first navigation with a cached-page/home/offline fallback, and keeps private routes and API responses out of the public page cache. Eligible service images from supported hosts may be retained only when a readable response exposes a size within the 4 MB per-image limit (24 image entries maximum). Video streaming, opaque/oversized images and other external assets need internet; service cards should use their local visual placeholder when media is unavailable. Browser storage can be evicted, so this is best-effort offline support—not a guaranteed download or backup.
-- If local storage is blocked or full, the app should show a notice; do not interpret a local save notice as server synchronization.
-
-## Installation — protected behavior
-
-The existing installation mechanics are intentionally preserved:
-
-- The browser's retained `beforeinstallprompt` event is invoked from the user's explicit branded install action when available.
-- When a native prompt is unavailable, platform-specific guidance is shown instead of a dead button or fake native prompt.
-- Embedded browsers receive a blocking open-in-browser handoff.
-- `/iphone-install` explains Safari Share → Add to Home Screen and includes the walkthrough link.
-- Service-worker caches use an Iteration 13 namespace and provide an update/refresh action.
-
-The duplicate header install CTA has been removed; the persistent branded install action remains the single install entry point. Do not alter install mechanics when changing icon artwork.
-
-## Interaction feedback
-
-Action buttons provide visible press/focus feedback. Successful local changes and validation/storage failures use a dismissible, screen-reader-announced toast. A success message is shown only after the browser accepts the localStorage write; it does not imply server synchronization.
-
-## Development and verification
-
-```sh
-npm install
-npx tsc --noEmit
+```bash
+npm ci
 npm run verify:identity
+npm run verify:offline
 npm run lint
 npm run build
 ```
 
-The GitHub Actions workflow in `.github/workflows/verify.yml` runs `npm ci`, identity verification, lint and build checks on pushes to `main` and pull requests. A green CI run is evidence of code checks; it does not by itself prove a Vercel deployment or device/offline behavior succeeded.
-
-After changing icons, inspect both `public/manifest.webmanifest` and `src/app/manifest.ts`, verify all referenced assets and the manifest actually served by the built app, and test Chrome/Android plus physical iPhone Safari. Firebase configuration and rules are outside this prototype's scope.
-
-
-## Guided customer and admin flow
-
-The floating **Need a hand?** guide is optional and scripted. Customers can choose a service, continue into the existing request form or open Account from the header. In Admin demo, it links directly to service management, announcements, incoming requests and the storefront. It does not send chat messages to a server or use an AI model. Its compact right-side control stays closed until a visitor opens it.
-
-Before cloning/adapting the guide, read [CHAT-WIDGET-RESEARCH.md](./CHAT-WIDGET-RESEARCH.md) and [FOUNDATION-BLUEPRINT.md](./FOUNDATION-BLUEPRINT.md). Keep the main customer journey obvious when the guide is closed.
-
-
-## Customer account workspace
-
-**Account** now demonstrates more than an empty request list:
-- Filter and review request history, requested timeline, discounted or regular price and current status.
-- Submit repeat requests for the same customer, browse new services, and view assigned or earned racing discount codes.
-- Open a conversation attached to a specific request, send a message and share an image, video or PDF attachment while online.
-- See admin/studio replies in the same thread in the Admin demo on this same browser.
-- Use a project-preparation checklist and save a project note for later in this browser. Account sections use consistent Service Studio styling; optional extras are chosen for the actual product context rather than copied from another client.
-- Continue reading saved local state and sending text messages offline after the app shell has been cached. File uploads require internet and are not queued.
-
-**Important limitation:** this remains a local prototype. Requests, messages, replies, statuses, project checklist progress and notes use this browser's storage. They are not sent to a real admin, emailed, or synchronized to another device. UploadThing files are uploaded remotely while online (images up to 4 MB, PDFs up to 4 MB, videos up to 16 MB), but their message metadata is saved in this browser's local thread. Do not use real customer data.
-
-### Reusing the account in another project
-
-Read the customer account adaptation contract in `AGENTS.md` and the account section in `CLONING.md`. Keep the useful capabilities, but replace the theme/game, wording, account extras, status language, file policy and actions with those that fit the actual project. Inspect its authentication, persistence, admin workflow and security rules. A production account requires verified per-customer data access and staff authorization; the demo's localStorage thread is not a real support inbox.
-
-## Share a business example
-
-From the owner Briefcase, use **Generate share link** in the business identity section. The link opens a choice to explore that exact business example or create a separate business. It carries the public-facing setup in the URL (business name, currency, palette, catalogue, each listing's image/video URL and media type, announcement text/image/publication state, availability and public reward settings); customer requests, contact details, messages, payment records, private receipt details, owner notes and activity history are excluded. Uploaded media is hosted separately (for example, by UploadThing), so the recipient's browser loads it from that public media URL; the file itself is not embedded in the link. Keep those media URLs publicly readable and do not delete the uploaded files if the shared example must keep displaying them. Recipients need an internet connection to load remote media; autoplay is attempted muted and inline, but browser/device power or data-saving policies may still require a tap. Each visitor's edits are saved in a separate browser-local workspace and do not change the owner's business. This is a URL-carried local demo, not cloud sharing, cross-device synchronization or production data isolation. Very large setups can exceed the 16,000-character encoded-data limit and will be rejected with an on-screen message.
-
-## Owner shift measurement
-
-A shift starts when the owner successfully opens the Briefcase. Switching between Briefcase tabs does not restart it. Leaving the Briefcase, closing/reloading the page, the 30-minute idle lock, maximum duration or signing out ends the shift. A login by itself is not counted, and a previous shift is never resumed on a later opening.
+The PWA installation behavior is protected by [docs/PWA-INSTALLATION-LOCK.md](docs/PWA-INSTALLATION-LOCK.md). The accepted product definition and navigation contract are in [BACKPACK-OS-GOLDEN-BASE.md](BACKPACK-OS-GOLDEN-BASE.md).
