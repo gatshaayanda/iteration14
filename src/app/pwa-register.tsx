@@ -48,10 +48,14 @@ export default function PwaRegister() {
   const [dismissed, setDismissed] = useState(true);
   const [updateReady, setUpdateReady] = useState(false);
   const [connection, setConnection] = useState<"online" | "offline" | "checking">("checking");
-  const [storageWarning, setStorageWarning] = useState(false);\n  const [embeddedBrowser, setEmbeddedBrowser] = useState(false);\n  const [linkCopied, setLinkCopied] = useState(false);
+  const [storageWarning, setStorageWarning] = useState(false);
+  const [embeddedBrowser, setEmbeddedBrowser] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
-    const standalone = isStandalone();\n    const userAgent = navigator.userAgent || "";\n    setEmbeddedBrowser(/FBAN|FBAV|Instagram|Line\\/|LinkedInApp|Twitter|TikTok|Snapchat|; wv\\)/i.test(userAgent));
+    const standalone = isStandalone();
+    const userAgent = navigator.userAgent || "";
+    setEmbeddedBrowser(/FBAN|FBAV|Instagram|Line\\/|LinkedInApp|Twitter|TikTok|Snapchat|; wv\\)/i.test(userAgent));\n    const userAgent = navigator.userAgent || "";\n    setEmbeddedBrowser(/FBAN|FBAV|Instagram|Line\\/|LinkedInApp|Twitter|TikTok|Snapchat|; wv\\)/i.test(userAgent));
     setDismissed(dismissedRecently() || standalone);
     setIosGuide(!standalone && isIosSafari());
 
