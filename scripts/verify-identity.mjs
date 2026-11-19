@@ -72,7 +72,7 @@ if (/Install Iteration 13 from your browser|Chrome or Edge, open the <b>browser 
 const installContracts = [
   [pwaRegister.includes('window.addEventListener("beforeinstallprompt", installPrompt)') && pwaRegister.includes("event.preventDefault()"), "Africhiko baseline beforeinstallprompt listener is missing"],
   [pwaRegister.includes("setDeferredPrompt(event as InstallPromptEvent)") && pwaRegister.includes("await deferredPrompt.prompt()") && pwaRegister.includes("await deferredPrompt.userChoice"), "native install event must be retained and invoked directly from the install button"],
-  [pwaRegister.includes('className="i13-install-card"') && pwaRegister.includes('className="i13-install-close"') && pwaRegister.includes("setInstallCardDismissed(true)"), "BACKPACK branded dismissible install card is missing"],
+  [pwaRegister.includes('className="bp-install-card"') && pwaRegister.includes('className="bp-install-close"') && pwaRegister.includes("setInstallCardDismissed(true)"), "BACKPACK branded dismissible install card is missing"],
   [pwaRegister.includes('navigator.serviceWorker.register("/sw.js")'), "Africhiko baseline service-worker registration is missing"],
 ];
 for (const [passed, message] of installContracts) if (!passed) failures.push("PWA install contract: " + message);
@@ -113,9 +113,9 @@ if (!personalOs.includes('backpack-legacy') || !personalOs.includes('backpack-os
 
 for (const legacyAlias of ["public/icon.svg", "public/backpack-icon.svg"]) {
   const alias = fs.readFileSync(path.join(root, legacyAlias), "utf8");
-  if (!alias.includes("shoulder straps") || !alias.includes("fbbf24")) failures.push(legacyAlias + ": legacy install artwork must resolve to the dedicated BACKPACK mark");
+  if (!/shoulder straps/i.test(alias) || !alias.includes("fbbf24")) failures.push(legacyAlias + ": legacy install artwork must resolve to the dedicated BACKPACK mark");
 }
-if (!sw.includes('const CACHE_VERSION = "backpack-os-shell-v15"')) failures.push("service worker: icon identity change must advance the shell cache version");
+if (!sw.includes('const CACHE_VERSION = "backpack-os-shell-v16"')) failures.push("service worker: icon identity change must advance the shell cache version");
 if (!sw.includes('"/backpack-icon.svg"') || !sw.includes('"/icon.svg"')) failures.push("service worker: branded backpack aliases must be precached");
 
 if (failures.length) {
