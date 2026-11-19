@@ -37,8 +37,9 @@ async function precacheShell() {
     }
     await shell.put(request, response.clone());
     const html = await response.text();
-    for (const match of html.matchAll(/(?:src|href)=["']([^"']*\\/_next\\/static\\/[^"']+)["']/g)) {
-      discovered.add(new URL(match[1].replaceAll("&amp;", "&"), self.location.origin).href);
+    // Match ordinary Next.js asset URLs directly; do not depend on escaped HTML attributes.
+    for (const assetPath of html.match(/\/_next\/static\/[^"'\s<>]+/g) || []) {
+      discovered.add(new URL(assetPath.replaceAll("&amp;", "&"), self.location.origin).href);
     }
   }
 
