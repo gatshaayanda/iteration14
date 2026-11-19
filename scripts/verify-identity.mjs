@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 
 const root = process.cwd();
 const ignoredDirs = new Set([".git","node_modules",".next","coverage"]);
@@ -33,7 +34,9 @@ if (manifest.name !== "BACKPACK OS") failures.push("manifest: wrong application 
 if (manifest.short_name !== "BACKPACK") failures.push("manifest: wrong short name");
 if (manifest.theme_color !== "#155eef") failures.push("manifest: wrong theme color");
 if (!manifest.icons?.some(icon => icon.src === "/backpack-os-icon-v4-192.png" && icon.sizes === "192x192")) failures.push("manifest: BACKPACK PNG icon missing");
-if (!manifest.icons?.some(icon => icon.src === "/backpack-os-icon-v4-192.png" && icon.sizes === "192x192")) failures.push("manifest: Android 192px BACKPACK PNG missing");
+if (!manifest.icons?.some(icon => icon.src === "/backpack-os-icon-v4-192.png" && icon.sizes === "192x192" && icon.type === "image/png")) failures.push("manifest: Android 192px BACKPACK PNG missing");
+const rasterIcon = fs.readFileSync(path.join(root, "public/backpack-os-icon-v4-192.png"));
+if (createHash("sha256").update(rasterIcon).digest("hex") !== "7cd6a8c938c5656156bc36aca91849eca1ccf70f6380c40a51131b4dfd417025") failures.push("PWA raster icon: expected approved BACKPACK artwork, not a stale launcher icon");
 for (const iconPath of ["/backpack-os-icon-v4-192.png"]) {
   if (!manifest.icons?.some(icon => icon.src === iconPath)) failures.push("manifest: icon missing " + iconPath);
   if (!fs.existsSync(path.join(root, "public", iconPath.slice(1)))) failures.push("manifest icon asset missing " + iconPath);
@@ -41,7 +44,7 @@ for (const iconPath of ["/backpack-os-icon-v4-192.png"]) {
 const appManifest = fs.readFileSync(path.join(root, "src/app/manifest.ts"), "utf8");
 if (!appManifest.includes('name: "BACKPACK OS"')) failures.push("app manifest: wrong application name");
 if (appManifest.includes("The Plug") || appManifest.includes("plug-icon")) failures.push("app manifest: inherited The Plug identity remains");
-if (!appManifest.includes("/backpack-os-icon-v4.svg")) failures.push("app manifest: BACKPACK PNG icon missing");
+if (!appManifest.includes("/backpack-os-icon-v4.svg") || !appManifest.includes("/backpack-os-icon-v4-192.png")) failures.push("app manifest: approved BACKPACK SVG and PNG icons must both be declared");
 if (!fs.existsSync(path.join(root, "public/backpack-os-icon-v4-192.png"))) failures.push("Backpack OS 192px PNG icon file missing");
 const layout = fs.readFileSync(path.join(root, "src/app/layout.tsx"), "utf8");
 if (!layout.includes('<link rel="apple-touch-icon" href="/backpack-os-icon-v4-192.png"/>')) failures.push("Apple install metadata must use the current BACKPACK iOS touch icon");
@@ -50,6 +53,9 @@ if (!layout.includes('url:"/backpack-os-icon-v4-192.png"')) failures.push("brows
 if (!fs.existsSync(path.join(root, "public/backpack-os-icon-v4-192.png"))) failures.push("BACKPACK Android install icon file missing");
 const pwaRegister = fs.readFileSync(path.join(root, "src/app/pwa-register.tsx"), "utf8");
 if (!pwaRegister.includes('src="/backpack-os-icon-v4.svg"')) failures.push("PWA install card must display the approved BACKPACK artwork, not a generic symbol");
+const offlinePage = fs.readFileSync(path.join(root, "src/app/offline/page.tsx"), "utf8");
+if (!offlinePage.includes('src="/backpack-os-icon-v4.svg"') || !offlinePage.includes("BACKPACK")) failures.push("offline screen: visible BACKPACK artwork and identity are required");
+if (!personalOS.includes("Are you selling a service or buying one?") || !personalOS.includes("bp-mode-confirmation") || !personalOS.includes("Access customer account")) failures.push("setup: selling/buying selection and customer-account storefront path must be explicit");
 if (pwaRegister.includes("i13-install")) failures.push("PWA install card must use BACKPACK-owned styles, not inherited Iteration 13 class names");
 for (const expected of ["BACKPACK OS | Your Personal Channel", "applicationName:\"BACKPACK OS\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
 // Validate Apple install metadata semantically; whitespace and additional metadata fields are harmless.
@@ -111,7 +117,7 @@ for (const legacyAlias of ["public/icon.svg", "public/backpack-icon.svg"]) {
   if (!/shoulder straps/i.test(alias) || !alias.includes("fbbf24")) failures.push(legacyAlias + ": legacy install artwork must resolve to the dedicated BACKPACK mark");
 }
 const shellVersion = sw.match(/const CACHE_VERSION = "(backpack-os-shell-v\d+)"/)?.[1];
-if (shellVersion !== "backpack-os-shell-v24") failures.push("service worker: shell cache version must advance for the current BACKPACK identity");
+if (shellVersion !== "backpack-os-shell-v25") failures.push("service worker: shell cache version must advance for the current BACKPACK identity");
 if (!sw.includes('"/backpack-icon.svg?v=2"') || !sw.includes('"/icon.svg"')) failures.push("service worker: current branded backpack aliases must be precached");
 
 if (failures.length) {
