@@ -34,7 +34,7 @@ check(sw.includes("navigationPreload.enable()")&&sw.includes("event.preloadRespo
 check(sw.includes("function isSafePublicHtml")&&sw.includes('value === "cookie"')&&sw.includes('value === "authorization"'),"offline HTML caching must reject private cookie- or authorization-varying responses");
 check(sw.includes("sensitiveQuery.test(key)")&&sw.includes("responseOrigin === self.location.origin"),"offline HTML caching must reject sensitive query strings and cross-origin redirects");
 check(sw.includes("response.status >= 500")&&sw.includes("networkFirstNavigation(request, event)"),"cached public pages must recover from transient server errors");
-check(/const CACHE_VERSION = "backpack-os-shell-v16"/.test(sw)&&/const MEDIA_CACHE = "backpack-os-media-v9"/.test(sw),"BACKPACK shell and media caches must be versioned independently from i13");
+check(/const CACHE_VERSION = "backpack-os-shell-v20"/.test(sw)&&/const MEDIA_CACHE = "backpack-os-media-v10"/.test(sw),"BACKPACK shell and media caches must be versioned independently from i13");
 check(sw.includes('key.startsWith("backpack-os-shell-") && key !== SHELL_CACHE')&&sw.includes('key.startsWith("backpack-os-media-") && key !== MEDIA_CACHE'),"activation must remove stale BACKPACK cache versions without deleting the active cache");
 check(!sw.includes('key.startsWith("iteration13-shell-")')&&!sw.includes('key.startsWith("iteration13-media-")'),"BACKPACK activation must not delete Iteration 13 cache namespaces");
 check(sw.includes('"/", "/offline"')&&sw.includes('"/iphone-install"'),"home, offline and installation guidance routes must be precached");
@@ -46,7 +46,7 @@ check(sw.includes("async function cachedPublicFallback(request)")&&sw.includes("
 check(pwa.includes('window.addEventListener("beforeinstallprompt", captureInstall)')&&pwa.includes("prompt.prompt()")&&pwa.includes("prompt.userChoice"),"BACKPACK install controller must retain and invoke the browser native install prompt");
 check(pwa.includes('className="bp-install-card"')&&pwa.includes("Install BACKPACK OS")&&pwa.includes("onClick={dismissInstall}")&&pwa.includes("installable || iosGuide")&&pwa.includes("!dismissed"),"BACKPACK must render its branded native install card and dismiss action");
 check(sw.includes("async function cachedPublicFallback")&&sw.includes("await cache.match(canonical)")&&sw.includes("await cache.match(\"/\")"),"public navigation must recover by canonical pathname and saved app shell when offline or the origin returns a server error");
-check(sw.includes('const CACHE_VERSION = "backpack-os-shell-v16"')&&sw.includes('const MEDIA_CACHE = "backpack-os-media-v9"'),"offline hardening must advance independent BACKPACK shell and media caches");
+check(sw.includes('const CACHE_VERSION = "backpack-os-shell-v20"')&&sw.includes('const MEDIA_CACHE = "backpack-os-media-v10"'),"offline hardening must advance independent BACKPACK shell and media caches");
 check(offline.includes("PersonalChannelOS")&&offline.includes("bp-offline-notice")&&pwaCss.includes(".bp-offline-notice"),"offline route must reuse the live BACKPACK OS experience and its branded offline status");
 if(failures.length){console.error("PERSONAL CHANNEL VERIFICATION FAILED");failures.forEach(x=>console.error(" - "+x));process.exit(1);}
 console.log("PERSONAL CHANNEL VERIFIED — setup resources, audience gates, individual interactions, Backpack controls and protected offline/PWA foundation.");
