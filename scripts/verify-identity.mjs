@@ -111,7 +111,7 @@ for (const legacyAlias of ["public/icon.svg", "public/backpack-icon.svg"]) {
   if (!/shoulder straps/i.test(alias) || !alias.includes("fbbf24")) failures.push(legacyAlias + ": legacy install artwork must resolve to the dedicated BACKPACK mark");
 }
 const shellVersion = sw.match(/const CACHE_VERSION = "(backpack-os-shell-v\d+)"/)?.[1];
-if (shellVersion !== "backpack-os-shell-v20") failures.push("service worker: shell cache version must advance for the current BACKPACK identity");
+if (shellVersion !== "backpack-os-shell-v21") failures.push("service worker: shell cache version must advance for the current BACKPACK identity");
 if (!sw.includes('"/backpack-icon.svg?v=2"') || !sw.includes('"/icon.svg"')) failures.push("service worker: current branded backpack aliases must be precached");
 
 if (failures.length) {
