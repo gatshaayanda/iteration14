@@ -43,7 +43,7 @@ check(/const CACHE_VERSION = "backpack-os-shell-v27"/.test(sw)&&/const MEDIA_CAC
 check(sw.includes('key.startsWith("backpack-os-shell-") && key !== SHELL_CACHE')&&sw.includes('key.startsWith("backpack-os-media-") && key !== MEDIA_CACHE'),"activation must remove stale BACKPACK cache versions without deleting the active cache");
 check(!sw.includes('key.startsWith("iteration13-shell-")')&&!sw.includes('key.startsWith("iteration13-media-")'),"BACKPACK activation must not delete Iteration 13 cache namespaces");
 check(sw.includes('"/", "/offline"')&&sw.includes('"/iphone-install"'),"home, offline and installation guidance routes must be precached");
-check(sw.includes("for (const match of html.matchAll")&&sw.includes("/_next\\/static\\/"),"app-shell HTML must discover versioned Next.js assets");
+check(sw.includes("html.match(/\\/_next\\/static\\/")&&sw.includes("assetPath.replaceAll"),"app-shell HTML must discover and precache actual versioned Next.js asset URLs");
 check(sw.includes('event.data?.type === "CACHE_MEDIA"')&&sw.includes('request.destination === "image"'),"approved image media cache must remain bounded and explicit");
 check(sw.includes("private|no-store")&&sw.includes("cache-control"),"private/no-store pages must not be cached");
 check(sw.includes('url.pathname.startsWith("/api/")'),"API routes must remain outside public page caching");
