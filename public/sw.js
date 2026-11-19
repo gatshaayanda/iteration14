@@ -1,4 +1,4 @@
-// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v25";
+// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v26";
 const MEDIA_CACHE = "backpack-os-media-v10";
 const SHELL_CACHE = CACHE_VERSION;
 const STATIC_LIMIT = 100;
@@ -17,45 +17,45 @@ self.addEventListener("install", event => {
 });
 
 async function precacheShell() {
-  // A new worker is installable only when its complete critical shell is safely
-  // stored. If any required route or asset fails, discard this partial cache and
-  // reject installation so the currently active worker and its cache remain usable.
+  // Match the proven Iteration 13 resilience model: one optional route or icon
+  // must not prevent the worker from installing and controlling the app.
+  // Root and offline pages are attempted first; every successful response is saved.
   let shell;
   try {
     shell = await caches.open(SHELL_CACHE);
-    const discovered = new Set();
-    for (const path of APP_SHELL) {
+  } catch {
+    return;
+  }
+  const discovered = new Set();
+  for (const path of APP_SHELL) {
+    try {
       const request = new Request(path, { cache: "reload" });
       const response = await fetch(request);
-      if (!response.ok) throw new Error("Required app-shell resource failed: " + path);
+      if (!response.ok) continue;
       if (["/", "/offline", "/iphone-install"].includes(path) &&
-          !(response.headers.get("content-type") || "").includes("text/html")) {
-        throw new Error("Required app-shell route was not HTML: " + path);
-      }
-      await shell.put(request, response.clone());
+          !(response.headers.get("content-type") || "").includes("text/html")) continue;
+      try { await shell.put(request, response.clone()); } catch {}
       if (!(response.headers.get("content-type") || "").includes("text/html")) continue;
       const html = await response.text();
-      for (const match of html.matchAll(/(?:src|href)=["'](\/_next\/static\/[^"']+)["']/g)) {
+      for (const match of html.matchAll(/(?:src|href)=["'](\\/_next\\/static\\/[^"']+)["']/g)) {
         discovered.add(match[1].replaceAll("&amp;", "&"));
       }
+    } catch {
+      // Continue preparing the rest of the shell when an optional resource fails.
     }
-    for (const path of discovered) {
+  }
+  for (const path of discovered) {
+    try {
       const request = new Request(path, { cache: "reload" });
       const response = await fetch(request);
-      if (!response.ok) throw new Error("Required app-shell asset failed: " + path);
-      await shell.put(request, response);
+      if (response.ok) {
+        try { await shell.put(request, response); } catch {}
+      }
+    } catch {
+      // The live app can still cache this asset on its next online request.
     }
-    for (const path of APP_SHELL) {
-      if (!await shell.match(new Request(path))) throw new Error("App-shell cache verification failed: " + path);
-    }
-    for (const path of discovered) {
-      if (!await shell.match(new Request(path))) throw new Error("App-shell asset verification failed: " + path);
-    }
-    await trimCache(SHELL_CACHE, STATIC_LIMIT, APP_SHELL);
-  } catch (error) {
-    try { await caches.delete(SHELL_CACHE); } catch {}
-    throw error;
   }
+  try { await trimCache(SHELL_CACHE, STATIC_LIMIT, APP_SHELL); } catch {}
 }
 
 self.addEventListener("message", event => {
