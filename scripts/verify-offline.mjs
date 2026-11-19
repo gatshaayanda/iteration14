@@ -5,6 +5,7 @@ const sw=read("public/sw.js");
 const page=read("src/app/page.tsx");
 const app=read("src/app/PersonalChannelOS.tsx");
 const css=read("src/app/personal-channel-os.css");
+const pwaCss=read("src/app/pwa.css");
 const pwa=read("src/app/pwa-register.tsx");
 const offline=read("src/app/offline/page.tsx");
 const failures=[];
@@ -46,6 +47,6 @@ check(pwa.includes('window.addEventListener("beforeinstallprompt", installPrompt
 check(pwa.includes('className="i13-install-card"')&&pwa.includes("Install BACKPACK OS")&&pwa.includes("onClick={() => setInstallCardDismissed(true)}")&&pwa.includes("installable && !installCardDismissed"),"BACKPACK must render its branded native install card and dismiss action");
 check(sw.includes("async function cachedPublicFallback")&&sw.includes("await cache.match(canonical)")&&sw.includes("await cache.match(\"/\")"),"public navigation must recover by canonical pathname and saved app shell when offline or the origin returns a server error");
 check(sw.includes('const CACHE_VERSION = "backpack-os-shell-v15"')&&sw.includes('const MEDIA_CACHE = "backpack-os-media-v9"'),"offline hardening must advance independent BACKPACK shell and media caches");
-check(offline.includes("PersonalChannelOS")&&offline.includes("bp-offline-notice")&&css.includes(".bp-offline-notice"),"offline route must reuse the live BACKPACK OS experience and its branded offline status");
+check(offline.includes("PersonalChannelOS")&&offline.includes("bp-offline-notice")&&pwaCss.includes(".bp-offline-notice"),"offline route must reuse the live BACKPACK OS experience and its branded offline status");
 if(failures.length){console.error("PERSONAL CHANNEL VERIFICATION FAILED");failures.forEach(x=>console.error(" - "+x));process.exit(1);}
 console.log("PERSONAL CHANNEL VERIFIED — setup resources, audience gates, individual interactions, Backpack controls and protected offline/PWA foundation.");
