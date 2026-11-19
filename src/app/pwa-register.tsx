@@ -47,6 +47,8 @@ export default function PwaRegister() {
   const [iosGuide, setIosGuide] = useState(false);
   const [dismissed, setDismissed] = useState(true);
   const [updateReady, setUpdateReady] = useState(false);
+  const [connection, setConnection] = useState<"online" | "offline" | "checking">("checking");
+  const [storageWarning, setStorageWarning] = useState(false);
 
   useEffect(() => {
     const standalone = isStandalone();
@@ -79,6 +81,31 @@ export default function PwaRegister() {
     window.addEventListener("appinstalled", installed);
 
     let active = true;
+    let connectionCheck = 0;
+    const verifyConnection = () => {
+      const attempt = ++connectionCheck;
+      if (!navigator.onLine) { setConnection("offline"); return; }
+      setConnection("checking");
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 5000);
+      fetch("/", { method: "HEAD", cache: "no-store", signal: controller.signal })
+        .then(response => { if (active && attempt === connectionCheck) setConnection(response.ok ? "online" : "offline"); })
+        .catch(() => { if (active && attempt === connectionCheck) setConnection("offline"); })
+        .finally(() => window.clearTimeout(timeout));
+    };
+    const onOffline = () => { connectionCheck++; setConnection("offline"); };
+    const onOnline = () => verifyConnection();
+    const protectLocalStorage = async () => {
+      try {
+        if (navigator.storage?.persist) await navigator.storage.persist();
+        const estimate = await navigator.storage?.estimate?.();
+        if (estimate?.quota && estimate.usage !== undefined && estimate.usage / estimate.quota >= 0.85) {
+          if (active) setStorageWarning(true);
+        }
+      } catch { /* Storage protection is best-effort and must not block the app. */ }
+    };
+    verifyConnection();
+    void protectLocalStorage();
     const inspect = () => {
       if (active && registrationRef.current?.waiting && navigator.serviceWorker.controller) {
         setUpdateReady(true);
@@ -89,7 +116,7 @@ export default function PwaRegister() {
       if (registration && navigator.onLine) void registration.update().then(inspect).catch(() => {});
     };
     const onVisibility = () => {
-      if (document.visibilityState === "visible") refresh();
+      if (document.visibilityState === "visible") { refresh(); verifyConnection(); }
     };
     const onControllerChange = () => {
       if (updateRequested.current) window.location.reload();
@@ -111,13 +138,15 @@ export default function PwaRegister() {
       navigator.serviceWorker.addEventListener("controllerchange", onControllerChange);
     }
 
-    window.addEventListener("online", refresh);
+    window.addEventListener("online", onOnline);
+    window.addEventListener("offline", onOffline);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       active = false;
       window.removeEventListener("beforeinstallprompt", captureInstall);
       window.removeEventListener("appinstalled", installed);
-      window.removeEventListener("online", refresh);
+      window.removeEventListener("online", onOnline);
+      window.removeEventListener("offline", onOffline);
       document.removeEventListener("visibilitychange", onVisibility);
       navigator.serviceWorker?.removeEventListener("controllerchange", onControllerChange);
     };
@@ -173,6 +202,11 @@ export default function PwaRegister() {
         {iosGuide && !installable ? "How to add to Home Screen" : "Install BACKPACK OS"} <span aria-hidden="true">↗</span>
       </button>
     </aside>}
+    <aside className={"bp-connectivity bp-connectivity-" + connection} role="status" aria-live="polite">
+      <span className="bp-connectivity-dot" aria-hidden="true" />
+      <span>{connection === "offline" ? "OFFLINE · SAVED ON THIS DEVICE" : connection === "checking" ? "RECONNECTING · CHECKING CONNECTION" : "ONLINE · LIVE CONNECTION"}</span>
+    </aside>
+    {storageWarning && <aside className="bp-storage-warning" role="status">Device storage is nearly full. Export or remove local data to protect your saved Backpack work.</aside>}
     {updateReady && <aside className="pwaUpdate" role="status" aria-live="polite">
       <div><strong>BACKPACK OS update ready</strong><span>Refresh to use the latest version.</span></div>
       <div className="pwaUpdateActions"><button className="button" type="button" onClick={applyUpdate}>Refresh</button><button className="pwaUpdateDismiss" type="button" onClick={() => setUpdateReady(false)}>Later</button></div>
