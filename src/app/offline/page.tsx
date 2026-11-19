@@ -1,2 +1,14 @@
-import Link from "next/link";
-export default function OfflinePage(){return <main className="orderPage"><div className="orderWrap"><div className="orderHeader"><Link href="/" className="logo"><span className="logoMark">🎒</span><span>BACKPACK OS</span></Link></div><section className="orderCard confirm"><div className="confirmIcon">📶</div><span className="kicker">OFFLINE MODE</span><h1>Your Backpack is still here.</h1><p>After the service worker has installed while online, BACKPACK OS keeps its app shell and offline screen available. The browser may clear cached files to free device storage, and cached content can be out of date.</p><p>This prototype stores the channel setup, posts, individual accounts, VIP-circle settings, comments and requests in this browser. Those records are not synced to another device or served to other people yet.</p><p>New image, video and PDF uploads, external links and other server-dependent actions need an internet connection. Offline changes are saved locally, not queued for server delivery.</p><p><strong>Before going offline:</strong> open BACKPACK OS while connected and reload once so the latest app shell can be prepared.</p><div className="actions centered"><Link className="button buttonPrimary" href="/">Open channel</Link><Link className="button buttonLight" href="/">Return to BACKPACK OS</Link></div></section></div></main>}
+import PersonalChannelOS from "@/app/PersonalChannelOS";
+
+export default function OfflinePage() {
+  return (
+    <>
+      <div className="bp-offline-notice" role="status">
+        <span aria-hidden="true">●</span>
+        <strong>OFFLINE MODE</strong>
+        <span>Your Backpack is available on this device. Uploads and external links need a connection.</span>
+      </div>
+      <PersonalChannelOS />
+    </>
+  );
+}

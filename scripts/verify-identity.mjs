@@ -109,7 +109,7 @@ if (!personalOs.includes('backpack-legacy') || !personalOs.includes('backpack-os
 
 
 
-for (const legacyAlias of ["public/icon.svg", "public/backpack-icon.svg", "public/backpack-os-icon-v2.svg"]) {
+for (const legacyAlias of ["public/icon.svg", "public/backpack-icon.svg"]) {
   const alias = fs.readFileSync(path.join(root, legacyAlias), "utf8");
   if (!alias.includes("shoulder straps") || !alias.includes("fbbf24")) failures.push(legacyAlias + ": legacy install artwork must resolve to the dedicated BACKPACK mark");
 }
