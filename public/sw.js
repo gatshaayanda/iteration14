@@ -1,4 +1,4 @@
-// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v13";
+// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v14";
 const MEDIA_CACHE = "backpack-os-media-v9";
 const SHELL_CACHE = CACHE_VERSION;
 const STATIC_LIMIT = 100;
