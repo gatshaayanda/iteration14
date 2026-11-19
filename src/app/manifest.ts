@@ -40,7 +40,7 @@ export default function manifest(): MetadataRoute.Manifest {
         short_name: "Backpack",
         description: "Open the private owner workspace",
         url: "/?view=backpack",
-        icons: [{ src: "/backpack-icon-192.png", sizes: "any", type: "image/svg+xml" }]
+        icons: [{ src: "/backpack-icon-192.png", sizes: "192x192", type: "image/png" }]
       }
     ]
   };
