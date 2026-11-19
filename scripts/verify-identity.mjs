@@ -108,6 +108,14 @@ if (!personalOs.includes('Load Backpack ↗') || !personalOs.includes('INDEX_KEY
 if (!personalOs.includes('backpack-legacy') || !personalOs.includes('backpack-os:workspaces:v1')) failures.push("workspace launcher: legacy single-Backpack data must migrate without loss");
 
 
+
+for (const legacyAlias of ["public/icon.svg", "public/backpack-icon.svg", "public/backpack-os-icon-v2.svg"]) {
+  const alias = fs.readFileSync(path.join(root, legacyAlias), "utf8");
+  if (!alias.includes("shoulder straps") || !alias.includes("fbbf24")) failures.push(legacyAlias + ": legacy install artwork must resolve to the dedicated BACKPACK mark");
+}
+if (!sw.includes('const CACHE_VERSION = "backpack-os-shell-v14"')) failures.push("service worker: icon identity change must advance the shell cache version");
+if (!sw.includes('"/backpack-icon.svg"') || !sw.includes('"/icon.svg"')) failures.push("service worker: branded backpack aliases must be precached");
+
 if (failures.length) {
   console.error("IDENTITY VERIFICATION FAILED");
   failures.forEach(failure => console.error(" - " + failure));
