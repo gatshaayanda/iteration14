@@ -34,7 +34,7 @@ if (manifest.short_name !== "BACKPACK") failures.push("manifest: wrong short nam
 if (manifest.theme_color !== "#155eef") failures.push("manifest: wrong theme color");
 if (!manifest.icons?.some(icon => icon.src === "/backpack-os-icon-v3-192.png" && icon.sizes === "192x192")) failures.push("manifest: BACKPACK PNG icon missing");
 if (!manifest.icons?.some(icon => icon.src === "/backpack-os-icon-v3-192.png" && icon.sizes === "192x192")) failures.push("manifest: Android 192px BACKPACK PNG missing");
-for (const iconPath of ["/backpack-os-icon-v3-192.png", "/backpack-os-icon-v3-512.png"]) {
+for (const iconPath of ["/backpack-os-icon-v3-192.png"]) {
   if (!manifest.icons?.some(icon => icon.src === iconPath)) failures.push("manifest: icon missing " + iconPath);
   if (!fs.existsSync(path.join(root, "public", iconPath.slice(1)))) failures.push("manifest icon asset missing " + iconPath);
 }
@@ -43,7 +43,6 @@ if (!appManifest.includes('name: "BACKPACK OS"')) failures.push("app manifest: w
 if (appManifest.includes("The Plug") || appManifest.includes("plug-icon")) failures.push("app manifest: inherited The Plug identity remains");
 if (!appManifest.includes("/backpack-os-icon-v3.svg")) failures.push("app manifest: BACKPACK PNG icon missing");
 if (!fs.existsSync(path.join(root, "public/backpack-os-icon-v3-192.png"))) failures.push("Backpack OS 192px PNG icon file missing");
-if (!fs.existsSync(path.join(root, "public/backpack-os-icon-v3-512.png"))) failures.push("Backpack OS 512px PNG icon file missing");
 const layout = fs.readFileSync(path.join(root, "src/app/layout.tsx"), "utf8");
 if (!layout.includes('apple:{url:"/backpack-os-icon-v2.png"')) failures.push("Apple install metadata must retain the iOS touch icon");
 if (!layout.includes('url:"/backpack-os-icon-v3-192.png"')) failures.push("browser/Android icon metadata must use the BACKPACK PNG");
@@ -57,7 +56,7 @@ const iconSvg = fs.readFileSync(path.join(root, "public/backpack-os-icon-v3.svg"
 if (!iconSvg.includes("<svg") || !iconSvg.includes("shoulder straps") && !iconSvg.includes("fbbf24")) failures.push("BACKPACK icon: expected the dedicated backpack SVG artwork");
 const sw = fs.readFileSync(path.join(root, "public/sw.js"), "utf8");
 if (!/backpack-os-shell-v\d+/.test(sw)) failures.push("service worker: missing isolated cache namespace");
-if (!sw.includes("/backpack-os-icon-v3-192.png") || !sw.includes("/backpack-os-icon-v3-512.png")) failures.push("service worker: BACKPACK PNG icons missing from app shell");
+if (!sw.includes("/backpack-os-icon-v3-192.png")) failures.push("service worker: BACKPACK PNG icons missing from app shell");
 if (/iteration13-icon-(?:180|192|512)\.(?:png|svg)/.test(JSON.stringify(manifest)) || /iteration13-icon-(?:180|192|512)\.(?:png|svg)/.test(appManifest) || /iteration13-icon-(?:180|192|512)\.(?:png|svg)/.test(layout)) failures.push("PWA identity: inherited Iteration 13 icon reference remains");
 if (!/backpack-os-shell-v\d+/.test(sw)) failures.push("service worker: BACKPACK cache namespace is not isolated");
 if (!sw.includes("/iphone-install") || !sw.includes("/iphone-install.svg")) failures.push("service worker: iPhone installation guide is not cached for offline use");

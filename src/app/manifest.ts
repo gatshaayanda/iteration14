@@ -17,8 +17,6 @@ export default function manifest(): MetadataRoute.Manifest {
     prefer_related_applications: false,
     icons: [
       { src: "/backpack-os-icon-v3-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: "/backpack-os-icon-v3-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
-      { src: "/backpack-os-icon-v3-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
       { src: "/backpack-os-icon-v3.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
     ],
     shortcuts: [
