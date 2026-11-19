@@ -12,6 +12,7 @@ const failures=[];
 const check=(condition,message)=>{if(!condition)failures.push(message);};
 check(page.includes("PersonalChannelOS"),"the root route must render the personal channel application");
 check(app.includes("START WITH AN ENGAGEMENT")&&app.includes("Engagement category")&&app.includes("Channel / engagement name")&&app.includes('mode:"selling"|"buying"')&&app.includes("Are you selling a service or buying one?")&&app.includes("Selling a service")&&app.includes("Buying a service")&&app.includes("bp-mode-confirmation"),"setup must let the owner choose selling a service or buying a service");
+check(app.includes('className="bp-storefront"')&&app.includes("Access customer account ↗")&&app.includes("Customer account ↗")&&app.includes("Buyer account ↗"),"selling mode must expose the service storefront and customer account entry while buying mode exposes buyer account access");
 check(app.includes("Useful link")&&app.includes('accept="image/*,video/*,application/pdf"'),"setup must accept useful links, images, video and PDF resources");
 check(app.includes('className="bp-file-drop"')&&app.includes("Attachment ready to publish")&&app.includes('aria-label="Remove attachment"')&&app.includes("16 MB · PDF up to 4 MB"),"publishing must mirror setup resource controls with visible file limits, progress-ready upload, and removal");
 check(app.includes("onUploadProgress")&&app.includes("Uploading · {progress}%"),"file uploads must expose truthful percentage progress");
