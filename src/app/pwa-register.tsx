@@ -48,10 +48,10 @@ export default function PwaRegister() {
   const [dismissed, setDismissed] = useState(true);
   const [updateReady, setUpdateReady] = useState(false);
   const [connection, setConnection] = useState<"online" | "offline" | "checking">("checking");
-  const [storageWarning, setStorageWarning] = useState(false);
+  const [storageWarning, setStorageWarning] = useState(false);\n  const [embeddedBrowser, setEmbeddedBrowser] = useState(false);\n  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
-    const standalone = isStandalone();
+    const standalone = isStandalone();\n    const userAgent = navigator.userAgent || "";\n    setEmbeddedBrowser(/FBAN|FBAV|Instagram|Line\\/|LinkedInApp|Twitter|TikTok|Snapchat|; wv\\)/i.test(userAgent));
     setDismissed(dismissedRecently() || standalone);
     setIosGuide(!standalone && isIosSafari());
 
@@ -206,7 +206,7 @@ export default function PwaRegister() {
       <span className="bp-connectivity-dot" aria-hidden="true" />
       <span>{connection === "offline" ? "OFFLINE · SAVED ON THIS DEVICE" : connection === "checking" ? "RECONNECTING · CHECKING CONNECTION" : "ONLINE · LIVE CONNECTION"}</span>
     </aside>
-    {storageWarning && <aside className="bp-storage-warning" role="status">Device storage is nearly full. Export or remove local data to protect your saved Backpack work.</aside>}
+    {embeddedBrowser && <aside className="bp-storage-warning" role="status"><strong>Open BACKPACK in your browser</strong><span>For the most reliable install and offline experience, use your device menu to open this page in Safari or Chrome.</span><button type="button" onClick={() => { void navigator.clipboard?.writeText(window.location.href).then(() => setLinkCopied(true)).catch(() => setLinkCopied(false)); }}> {linkCopied ? "Link copied" : "Copy page link"} </button></aside>}\n    {storageWarning && <aside className="bp-storage-warning" role="status">Browser storage is nearly full. Free device or browser storage to protect your saved Backpack work. Keep a separate copy of anything important.</aside>}
     {updateReady && <aside className="pwaUpdate" role="status" aria-live="polite">
       <div><strong>BACKPACK OS update ready</strong><span>Refresh to use the latest version.</span></div>
       <div className="pwaUpdateActions"><button className="button" type="button" onClick={applyUpdate}>Refresh</button><button className="pwaUpdateDismiss" type="button" onClick={() => setUpdateReady(false)}>Later</button></div>
