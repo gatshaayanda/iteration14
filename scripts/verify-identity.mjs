@@ -44,7 +44,7 @@ if (appManifest.includes("The Plug") || appManifest.includes("plug-icon")) failu
 if (!appManifest.includes("/backpack-os-icon-v3.svg")) failures.push("app manifest: BACKPACK PNG icon missing");
 if (!fs.existsSync(path.join(root, "public/backpack-os-icon-v3-192.png"))) failures.push("Backpack OS 192px PNG icon file missing");
 const layout = fs.readFileSync(path.join(root, "src/app/layout.tsx"), "utf8");
-if (!layout.includes('apple:{url:"/backpack-os-icon-v2.png"')) failures.push("Apple install metadata must retain the iOS touch icon");
+if (!layout.includes('apple:{url:"/backpack-os-icon-v3-192.png"')) failures.push("Apple install metadata must use the current BACKPACK iOS touch icon");
 if (!layout.includes('url:"/backpack-os-icon-v3-192.png"')) failures.push("browser/Android icon metadata must use the BACKPACK PNG");
 
 if (!fs.existsSync(path.join(root, "public/backpack-os-icon-v3-192.png"))) failures.push("BACKPACK Android install icon file missing");
