@@ -19,7 +19,6 @@ export default function manifest(): MetadataRoute.Manifest {
       { src: "/backpack-icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
       { src: "/backpack-icon-192.png", sizes: "192x192", type: "image/png", purpose: "maskable" },
       { src: "/backpack-icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
-      { src: "/backpack-icon-180.png", sizes: "180x180", type: "image/png", purpose: "any" }
     ],
     shortcuts: [
       {
@@ -34,7 +33,7 @@ export default function manifest(): MetadataRoute.Manifest {
         short_name: "Account",
         description: "Open your channel account",
         url: "/?view=account",
-        icons: [{ src: "/backpack-icon-192.png", sizes: "any", type: "image/svg+xml" }]
+        icons: [{ src: "/backpack-icon-192.png", sizes: "192x192", type: "image/png" }]
       },
       {
         name: "Backpack",
