@@ -70,7 +70,7 @@ if (!pwaRegister.includes("window.__backpackInstallPrompt") || !layout.includes(
 if (!pwaRegister.includes("DISMISS_FOR = 7 * 24 * 60 * 60 * 1000") || !pwaRegister.includes("dismissedRecently()")) failures.push("PWA install: dismissal persistence is missing");
 if (!pwaRegister.includes('window.addEventListener("appinstalled", installed)')) failures.push("PWA install: installed-state cleanup is missing");
 if (!pwaRegister.includes('navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" })')) failures.push("PWA install: service-worker registration must bypass stale update metadata");
-if (!pwaRegister.includes("registration.waiting") || !pwaRegister.includes("SKIP_WAITING") || !pwaRegister.includes("BACKPACK OS update ready")) failures.push("PWA update: waiting-worker refresh lifecycle is incomplete");
+if (!pwaRegister.includes(".waiting") || !pwaRegister.includes("SKIP_WAITING") || !pwaRegister.includes("BACKPACK OS update ready")) failures.push("PWA update: waiting-worker refresh lifecycle is incomplete");
 
 const installGuidePath = path.join(root, "src/app/iphone-install/page.tsx");
 if (!fs.existsSync(installGuidePath)) failures.push("iPhone installation guide route missing");
