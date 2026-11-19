@@ -36,12 +36,12 @@ export default function PwaRegister() {
     setInstallable(false);
   }
 
-  return <>{installable && !installCardDismissed && <aside className="i13-install-card" aria-label="Install BACKPACK OS">
-    <div className="i13-install-brand">
-      <span className="i13-install-mark" aria-hidden="true">🎒</span>
+  return <>{installable && !installCardDismissed && <aside className="bp-install-card" aria-label="Install BACKPACK OS">
+    <div className="bp-install-brand">
+      <img className="bp-install-mark" src="/backpack-os-icon-v4.svg" alt="" />
       <span><strong>BACKPACK OS</strong><small>YOUR PERSONAL CHANNEL</small></span>
     </div>
-    <button className="i13-install-close" type="button" aria-label="Dismiss install prompt" onClick={() => setInstallCardDismissed(true)}>×</button>
-    <button className="i13-install-action" type="button" onClick={() => void install()}>Install BACKPACK OS <span aria-hidden="true">↗</span></button>
+    <button className="bp-install-close" type="button" aria-label="Dismiss install prompt" onClick={() => setInstallCardDismissed(true)}>×</button>
+    <button className="bp-install-action" type="button" onClick={() => void install()}>Install BACKPACK OS <span aria-hidden="true">↗</span></button>
   </aside>}</>;
 }

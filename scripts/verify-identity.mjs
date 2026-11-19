@@ -49,6 +49,8 @@ if (!layout.includes('url:"/backpack-os-icon-v4-192.png"')) failures.push("brows
 
 if (!fs.existsSync(path.join(root, "public/backpack-os-icon-v4-192.png"))) failures.push("BACKPACK Android install icon file missing");
 const pwaRegister = fs.readFileSync(path.join(root, "src/app/pwa-register.tsx"), "utf8");
+if (!pwaRegister.includes('src="/backpack-os-icon-v4.svg"')) failures.push("PWA install card must display the approved BACKPACK artwork, not a generic symbol");
+if (pwaRegister.includes("i13-install")) failures.push("PWA install card must use BACKPACK-owned styles, not inherited Iteration 13 class names");
 for (const expected of ["BACKPACK OS | Your Personal Channel", "applicationName:\"BACKPACK OS\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
 // Validate Apple install metadata semantically; whitespace and additional metadata fields are harmless.
 if (!/appleWebApp\s*:\s*\{[^}]*\bcapable\s*:\s*true\b[^}]*\btitle\s*:\s*["']BACKPACK OS["']/s.test(layout)) failures.push('layout: missing appleWebApp capable=true and title="BACKPACK OS"');
