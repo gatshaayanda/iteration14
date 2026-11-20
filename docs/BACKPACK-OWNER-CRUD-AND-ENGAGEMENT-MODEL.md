@@ -19,7 +19,7 @@ The current browser-local registry represents this relationship with a stable `b
 5. **Structured category inputs:** the publishing form provides category-labelled line-item lists for projects, learning, household needs, travel, communities, hobbies, people, resources and creator programmes. Items render as a checklist; signed-in non-viewer participants can update completion from the channel in the current browser profile.
 6. **Creator / TV / Entertainment:** the built-in category accepts video/stream URLs, M3U/M3U8 playlist links, GitHub project links and website/portfolio links. The optional Free-TV preset points to the upstream public playlist:
    `https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8`.
-7. **Access roles:** invitations can be labelled Viewer, Participant, Contributor or Moderator; the owner is represented as Owner. The owner can change invite roles or revoke invitations. Viewer accounts do not receive comment/request forms; signed-in non-viewer participants can update structured checklist items in the current browser profile. These are prototype UI rules only, not server-enforced security.
+7. **Access roles:** invitations can be labelled Viewer, Participant, Contributor or Moderator; the owner is represented as Owner. The owner can change invite roles or revoke invitations. Role changes update existing local account records, and revoking an invitation preserves access granted independently by a VIP circle. Viewer accounts do not receive comment/request forms; signed-in non-viewer participants can update structured checklist items in the current browser profile. These are prototype UI rules only, not server-enforced security.
 
 ## Creator source facts
 
