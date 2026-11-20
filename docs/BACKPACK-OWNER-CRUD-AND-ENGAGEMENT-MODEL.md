@@ -70,7 +70,7 @@ Until that work is complete, the browser-local prototype remains the source of t
 7. Unpublish an item and confirm it disappears publicly but remains in the owner library as a draft. Republish it. Archive another item. Delete a test item and confirm the removal.
 8. Use Preview public channel. Confirm it contains personal-channel language and no service storefront/customer-account sections.
 9. Create a Home & Everyday Life update with several shopping items. Confirm they render as a checklist and owner completion state persists in the current browser.
-10. Create a Creator / TV / Entertainment engagement. Try the Free-TV preset, a GitHub project URL and a video URL as separate examples. Confirm each source is labelled correctly and the playlist link is described as requiring a compatible player.
+10. Create a Creator / TV / Entertainment engagement. Test YouTube, Vimeo, Google Drive and PeerTube links for embedded previews and visible original-link fallbacks; test a direct public MP4/WebM URL, GitHub project and M3U playlist separately. Add an image thumbnail and optional short clip. Confirm full-length video is linked, not uploaded, and the 16 MB UploadThing video cap is described only for short clips/reels.
 11. Invite test names with Viewer, Participant, Contributor and Moderator roles. Confirm roles are shown and viewer accounts do not see comment/request forms. Remember this is a same-browser demo, not a real security test.
 12. Test refresh and offline reload. Confirm the new shell is installed after the user-approved Refresh flow and existing local records remain intact.
 
@@ -79,7 +79,7 @@ Until that work is complete, the browser-local prototype remains the source of t
 - Category-specific list entries are currently simple text + done state. Household quantity/unit, brand, store/aisle, priority, purchase cycles and member attribution remain future work.
 - Projects need task assignment/due dates; learning needs modules/submissions; travel needs dated itinerary/packing/voting; communities need event/RSVP/volunteer capacity; creator needs programme/series/season catalogue, thumbnail metadata, player, EPG and moderation workflows.
 - Contributor submissions, approval queues, reactions, notifications, follow/subscription delivery, scheduling and multi-user collaboration are not yet implemented.
-- The current upload limits remain 4 MB images, 16 MB video and 4 MB PDF. This is not a streaming media pipeline.
+- UploadThing supports optional 4 MB images, 16 MB short clips/reels and 4 MB PDFs. Full-length creator videos are hosted externally and linked into BACKPACK; there is no BACKPACK full-video hosting or streaming pipeline.
 - Keep the mobile owner experience compact. The published library must remain discoverable and must not be replaced by a count-only card.
 - Do not change the protected BACKPACK PWA install journey or the paired 🎒 / 💼 dock while implementing these features.
 
