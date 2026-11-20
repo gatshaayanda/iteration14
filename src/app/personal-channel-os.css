@@ -105,3 +105,13 @@
 .bp-video-embed video{height:auto;max-height:560px;object-fit:contain}
 .bp-video-embed small{display:block;padding:7px 10px;color:#dbe5f2;font-size:.72rem}
 .bp-video-embed:focus-within{outline:3px solid #155eef;outline-offset:2px}
+
+/* Clear engagement CRUD controls in the owner workspace. */
+.bp-engagement-row{display:flex;align-items:center;gap:8px;padding:6px;border:1px solid #e1e6ee;border-radius:10px;background:#fff}
+.bp-engagement-row.is-current{border-color:#9bb5ef;background:#f1f5ff}
+.bp-engagement-row .bp-engagement-open{display:flex;flex:1;align-items:center;justify-content:space-between;gap:12px;min-width:0;padding:7px;border:0;background:transparent;color:#172033;text-align:left;cursor:pointer}
+.bp-engagement-row .bp-engagement-open span{font-weight:850;font-size:.83rem;overflow-wrap:anywhere}
+.bp-engagement-row .bp-engagement-open small{color:#64748b;font-size:.7rem}
+.bp-engagement-row .bp-engagement-delete{flex:0 0 auto;min-height:34px;padding:6px 10px;border:1px solid #e5c8c8;border-radius:8px;background:#fff;color:#a12b2b;font-size:.7rem;font-weight:850;cursor:pointer}
+.bp-engagement-row button:focus-visible{outline:3px solid #155eef;outline-offset:2px}
+@media(max-width:560px){.bp-engagement-row .bp-engagement-open{align-items:flex-start;flex-direction:column;gap:3px}}
