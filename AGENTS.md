@@ -2,7 +2,7 @@
 
 > **Golden base:** Iteration 14 main is the accepted BACKPACK OS foundation. Product owner approval recorded 18 November 2026. Preserve the P.O.S. model and its paired i13 B.O.S. navigation. Read [BACKPACK-OS-GOLDEN-BASE.md](./BACKPACK-OS-GOLDEN-BASE.md) before product changes. The canonical i13 demo is https://iteration13.vercel.app/ and its source is https://github.com/gatshaayanda/iteration13.
 
-> **Current truth:** browser-local prototype for engagement, channel, individual account, VIP circles and Backpack. UploadThing stores uploaded files remotely; the records referencing them remain local. No production authentication, shared records or cross-device sync is implied. Firebase rules/configuration are out of scope unless the product owner explicitly approves a change.
+> **Current truth (20 November 2026):** BACKPACK is a browser-local Personal OS. One Backpack groups multiple independent engagements; each engagement has its own channel, published material, people, circles and inbox. The owner has a published-content library with edit/unpublish/archive/delete, category-specific line-item inputs, Creator / TV / Entertainment source presets and local role labels. UploadThing stores uploaded files remotely; the records referencing them remain local. The owner word and name-based access are demo-only. There is no secure production authentication, server-enforced role permission, shared live data or cross-device sync. Do not add Firestore persistence or widen rules until the authentication/schema/security migration gate is explicitly reviewed.
 
 # Iteration 13 — Reusable PWA Foundation Contract
 
@@ -467,3 +467,20 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - Bump the independent BACKPACK shell and media cache versions together with offline verification whenever offline-critical worker behavior changes. Preserve i13 cache namespaces and the explicit user-approved service-worker Refresh lifecycle.
 - Offline verification must cover canonical-path fallback, root-shell recovery, storage-persistence request, cache version isolation, private-route protection and truthful offline limitations.
 - Offline does not make UploadThing uploads, external links, remote AI, cross-device sync, notifications or server delivery available. Do not silently claim these actions are queued; provide clear connectivity-aware feedback if such queuing is implemented in a future approved change.
+
+
+## BACKPACK owner CRUD and multi-engagement checkpoint — 20 November 2026
+
+**Current implementation source:** [BACKPACK Owner CRUD and Engagement Model](./docs/BACKPACK-OWNER-CRUD-AND-ENGAGEMENT-MODEL.md). Read this before extending the owner workflow.
+
+- **Data model:** a Backpack is the parent container; it can contain multiple engagements. The current browser-local index stores each engagement independently with a shared `backpackId`. Existing records without a parent ID are grouped by Backpack name + owner name and migrated in place. Do not revert to treating every engagement as a separate Backpack.
+- **Owner navigation:** Overview lists engagements and supports switching, adding an engagement and previewing its public channel. Engagement contains the category/identity editor, publishing form and published-content library.
+- **Published CRUD:** every item must remain discoverable in the owner library. Support edit, publish, unpublish-to-draft, archive, republish and delete. Public channel renders only published items. Never regress to a count-only “Published items” card.
+- **Personal channel identity:** do not reintroduce inherited Service Storefront, Customer account, buyer/seller or commerce copy as the default. The public surface is a personal engagement channel and the account is a personal account.
+- **Structured categories:** the current implementation supports category-labelled plain-text line items with a done state. This is a first layer only; do not claim it implements quantities, assignments, due dates, recurring schedules, RSVPs or full category-specific workflow engines until those exist.
+- **Creator / TV / Entertainment:** keep it as a built-in category. Source types include video/stream URL, M3U/M3U8 playlist, GitHub project and website/portfolio. The optional Free-TV preset is an external public playlist reference, not hosted media or a built-in player. Do not scrape, rehost or rebroadcast streams; verify rights, availability and geo restrictions.
+- **Roles:** Viewer, Participant, Contributor and Moderator are local demo labels; owner is derived from the owner name. Viewers do not receive comment/request forms. These controls are not security boundaries.
+- **Preview:** the owner must be able to open the same public channel surface visitors see. Keep preview and the engagement switcher discoverable.
+- **Cloud persistence gate:** do not silently add anonymous Firebase writes or weaken Firestore rules. Production sync requires real authentication, stable owner IDs, a documented Firestore schema, server-enforced per-engagement membership/role rules, rules tests, local-data migration/backup and offline conflict semantics. Until then, browser-local records remain the truth for that browser profile.
+- **Protected foundation:** preserve the Backpack-specific service-worker cache namespace and update both shell/media cache versions plus verification whenever offline-critical UI changes. Preserve i13 cache namespaces, the explicit Refresh handoff and protected install flow.
+- **QA acceptance:** follow the twelve-step flow in the linked owner CRUD document. Run `npm run verify:identity`, `npm run verify:offline`, `npm run verify:typography`, `npm run lint` and `npm run build`; report actual results. A GitHub push or pending Vercel build is not a passing verification.
