@@ -13,7 +13,7 @@ It pairs with the separate Iteration 13 Business Operating System. The bottom do
 - Use category-labelled line-item checklists for projects, learning, household needs, travel, communities, hobbies, people, resources and creator programmes.
 - Creator / TV / Entertainment supports video/stream, M3U/M3U8 playlist, GitHub project and website/portfolio source references. An optional Free-TV playlist preset is an external playlist, not a built-in streaming player.
 - Choose a public, VIP-circle or invite-only audience; invite people with Viewer, Participant, Contributor or Moderator demo roles.
-- Individual accounts can use enabled comments and requests; Viewer accounts are read-only in the demo.
+- Individual accounts can use enabled comments and requests; Viewer accounts are read-only, while signed-in non-viewer participants can update structured checklist items in the current browser profile.
 - Install as a PWA and use the cached application shell offline.
 
 ## First owner QA pass
