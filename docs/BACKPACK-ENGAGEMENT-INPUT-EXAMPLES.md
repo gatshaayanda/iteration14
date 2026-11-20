@@ -1,6 +1,8 @@
 # BACKPACK OS — Engagement input examples
 
-These are the first-pass, category-specific input presets for BACKPACK OS. They are product examples and implementation guidance; they do not claim that these forms or permission rules are already live in the app.
+This is the product design source for category-specific BACKPACK OS engagements. The 20 November 2026 implementation now includes a built-in Creator / TV / Entertainment category, source-type selection, a Free-TV M3U playlist preset, a published-content library with edit/unpublish/archive/delete, and category-labelled structured line-item checklists. These are a useful first layer, not the complete template experiences described below.
+
+**Implementation boundary:** the current checklist stores plain text items with a done state. It does not yet provide quantities/units, due dates, assignments, recurring schedules, RSVP workflows, programme catalogues, native M3U/HLS playback, EPG, or role-enforced multi-user collaboration. The current app stores engagement and access records in browser-local storage. Treat the remaining detailed inputs and actions below as the intended product design, not shipped functionality.
 
 The setup should ask for the minimum needed to create an engagement, then reveal the relevant inputs for the selected template. Do not show one giant generic form for every category.
 
@@ -23,6 +25,8 @@ The template then adds its own inputs and default actions.
 **Example:** “Kopano TV” — a creator-owned channel people can open from a shared link.
 
 ### Creator setup inputs
+- Optional source preset: **Free-TV public M3U playlist** (`https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8`). The preset is an external playlist reference, not hosted video or an embedded player. It must be opened with a compatible IPTV player; stream availability and geographic restrictions can change.
+- GitHub project / repository URL for source code, static creator pages, documentation or project assets. GitHub is not the video-streaming backend.
 - Channel title and short description.
 - Channel artwork / logo.
 - Featured programme or trailer (video upload or external video URL).
@@ -49,7 +53,7 @@ The template then adds its own inputs and default actions.
 - Contributor: submit programme ideas or media for approval.
 - Viewer: watch and interact only where enabled.
 
-**Important delivery note:** GitHub is suitable for the application source and small static assets, not as the video streaming/CDN backend. MP4 uploads need a proper video host that handles storage, encoding, playback and delivery, or use supported third-party embeds. Live broadcast, rights management and large-scale streaming are separate capabilities from a link-based VOD channel.
+**Important delivery note:** the optional Free-TV source points to a community-maintained M3U playlist whose README describes it as a playlist for compatible IPTV players and says it includes only channels officially provided free to the public. It does not guarantee each stream will remain available or work in every country. Review source terms, broadcaster rights and geographic restrictions before publishing. GitHub is suitable for application source, small static assets and repository links, not as the video streaming/CDN backend. MP4 uploads need a proper video host that handles storage, encoding, playback and delivery, or use supported third-party embeds. Live broadcast, rights management and large-scale streaming are separate capabilities from a link-based VOD channel.
 
 ## 2. Household / shared shopping list
 
