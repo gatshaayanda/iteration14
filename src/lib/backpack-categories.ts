@@ -13,7 +13,7 @@ const config = {
 export const isBackpackFirebaseConfigured = Boolean(config.apiKey && config.authDomain && config.projectId && config.appId);
 const app = isBackpackFirebaseConfigured ? (getApps().length ? getApp() : initializeApp(config)) : null;
 export const backpackDb = app ? getFirestore(app) : null;
-const auth = app ? getAuth(app) : null;
+const auth = app && typeof window !== "undefined" ? getAuth(app) : null;
 
 export type SharedEngagementCategory = {id:string;label:string;normalized:string};
 export async function listSharedEngagementCategories():Promise<SharedEngagementCategory[]> {
