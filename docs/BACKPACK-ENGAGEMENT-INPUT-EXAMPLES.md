@@ -1,6 +1,6 @@
 # BACKPACK OS — Engagement input examples
 
-This is the product design source for category-specific BACKPACK OS engagements. The 20 November 2026 implementation now includes a built-in Creator / TV / Entertainment category, source-type selection, a Free-TV M3U playlist preset, a published-content library with edit/unpublish/archive/delete, and category-labelled structured line-item checklists. These are a useful first layer, not the complete template experiences described below.
+This is the product design source for category-specific BACKPACK OS engagements. The 20 November 2026 implementation now includes a built-in Creator / TV / Entertainment category, source-type selection, a link-first creator media workflow with provider embed previews, a Free-TV M3U playlist preset, a published-content library with edit/unpublish/archive/delete, and category-labelled structured line-item checklists. These are a useful first layer, not the complete template experiences described below.
 
 **Implementation boundary:** the current checklist stores plain text items with a done state. It does not yet provide quantities/units, due dates, assignments, recurring schedules, RSVP workflows, programme catalogues, native M3U/HLS playback, EPG, or role-enforced multi-user collaboration. The current app stores engagement and access records in browser-local storage. Treat the remaining detailed inputs and actions below as the intended product design, not shipped functionality.
 
@@ -29,9 +29,9 @@ The template then adds its own inputs and default actions.
 - GitHub project / repository URL for source code, static creator pages, documentation or project assets. GitHub is not the video-streaming backend.
 - Channel title and short description.
 - Channel artwork / logo.
-- Featured programme or trailer (video upload or external video URL).
+- Featured programme or trailer (external hosted video URL; optional short teaser clip upload only).
 - Channel format: on-demand library, scheduled programme guide, or mixed.
-- Content source: upload MP4, paste an embeddable video URL, or add an external link.
+- Content source: paste a hosted video URL or add an external resource link. Full-length videos are never uploaded to BACKPACK.
 - Programme title, description, thumbnail, duration (optional), and content rating / audience note.
 - Series name and season (optional).
 - Publish state: draft, publish now, or schedule.
@@ -42,18 +42,18 @@ The template then adds its own inputs and default actions.
 ### Viewer experience
 - Open channel and browse featured content.
 - Browse programmes, series, seasons and playlists.
-- Play an uploaded or embedded video.
+- Play an embedded provider-hosted video where permitted; open the original link when embedding is unavailable.
 - Follow / receive channel announcements (opt-in).
 - React or comment if enabled.
 - Suggest a programme or submit a video link if enabled.
 
 ### Creator / moderator controls
-- Owner: upload, publish, schedule, edit, remove, manage access and appoint moderators.
+- Owner: add hosted links, upload optional short clips and artwork, publish, edit, remove, manage access and appoint moderators.
 - Moderator: review viewer submissions, moderate comments and manage programme metadata; no ownership or billing changes.
 - Contributor: submit programme ideas or media for approval.
 - Viewer: watch and interact only where enabled.
 
-**Important delivery note:** the optional Free-TV source points to a community-maintained M3U playlist whose README describes it as a playlist for compatible IPTV players and says it includes only channels officially provided free to the public. It does not guarantee each stream will remain available or work in every country. Review source terms, broadcaster rights and geographic restrictions before publishing. GitHub is suitable for application source, small static assets and repository links, not as the video streaming/CDN backend. MP4 uploads need a proper video host that handles storage, encoding, playback and delivery, or use supported third-party embeds. Live broadcast, rights management and large-scale streaming are separate capabilities from a link-based VOD channel.
+**Important delivery note:** the optional Free-TV source points to a community-maintained M3U playlist whose README describes it as a playlist for compatible IPTV players and says it includes only channels officially provided free to the public. It does not guarantee each stream will remain available or work in every country. Review source terms, broadcaster rights and geographic restrictions before publishing. GitHub is suitable for application source, small static assets and repository links, not as the video streaming/CDN backend. Full-length MP4/video files belong on the creator's chosen host, which handles storage, encoding, playback and delivery. BACKPACK stores only the link. UploadThing remains available for optional short clips/reels (16 MB max), artwork/thumbnails (4 MB) and PDFs (4 MB); the 16 MB cap is not for full videos. Live broadcast, rights management and large-scale streaming are separate capabilities from a link-based VOD channel.
 
 ## 2. Household / shared shopping list
 
