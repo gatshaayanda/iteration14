@@ -2,7 +2,7 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 
 const f = createUploadthing();
 
-// BACKPACK OS channel attachment limits.
+// BACKPACK OS supporting-media limits. Video uploads are for optional short clips/reels only; full creator videos stay on their external host and are linked into channels.
 export const ourFileRouter = {
   fileUploader: f({
     image: { maxFileSize: "4MB", maxFileCount: 1 },
