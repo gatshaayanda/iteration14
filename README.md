@@ -11,7 +11,7 @@ It pairs with the separate Iteration 13 Business Operating System. The bottom do
 - Manage published content with edit, unpublish-to-draft, archive, republish and delete actions.
 - Publish updates with links, images, video or PDF attachments.
 - Use category-labelled line-item checklists for projects, learning, household needs, travel, communities, hobbies, people, resources and creator programmes.
-- Creator / TV / Entertainment supports video/stream, M3U/M3U8 playlist, GitHub project and website/portfolio source references. An optional Free-TV playlist preset is an external playlist, not a built-in streaming player.
+- Creator / TV / Entertainment is link-first: paste a creator-hosted YouTube, Vimeo, Google Drive or PeerTube link for an embedded preview where permitted; direct public MP4/WebM links can play in-browser, and unsupported embeds retain an open-at-source fallback. M3U/M3U8, GitHub and website links remain external. UploadThing is optional for artwork/thumbnails, PDFs and short clips/reels only (4 MB images, 16 MB short clips, 4 MB PDFs); full videos are never uploaded to BACKPACK.
 - Choose a public, VIP-circle or invite-only audience; invite people with Viewer, Participant, Contributor or Moderator demo roles.
 - Individual accounts can use enabled comments and requests; Viewer accounts are read-only, while signed-in non-viewer participants can update structured checklist items in the current browser profile.
 - Install as a PWA and use the cached application shell offline.
@@ -25,7 +25,7 @@ It pairs with the separate Iteration 13 Business Operating System. The bottom do
 5. Unpublish an item, confirm it disappears from the public channel but remains in the owner library, then republish it.
 6. Archive and delete separate test items.
 7. Create a household list and confirm its line items render as a checklist.
-8. Create a Creator / TV / Entertainment example and test the optional Free-TV playlist, a GitHub repository and a video URL as distinct source types.
+8. Create a Creator / TV / Entertainment example. Test YouTube, Vimeo, Google Drive and PeerTube links for previews and original-link fallback; test a direct MP4/WebM URL, GitHub project and M3U playlist separately. Confirm an image thumbnail and an optional short clip can be attached, and that full-length video is linked rather than uploaded.
 9. Invite test names with different demo roles; verify Viewer accounts do not receive comment/request forms; signed-in non-viewer participants can update structured checklist items in the current browser profile.
 10. Confirm the channel contains no inherited Service Storefront or Customer account language.
 11. Use the bottom dock to open the paired i13 B.O.S.
