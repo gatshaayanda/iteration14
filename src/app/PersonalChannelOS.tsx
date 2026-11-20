@@ -20,22 +20,22 @@ type CreatorEmbed={kind:"iframe"|"video";src:string;provider:string};
 function getCreatorEmbed(value:string):CreatorEmbed|null{
  if(!isHttpUrl(value))return null;
  try{
-  const url=new URL(value.trim()),host=url.hostname.toLowerCase().replace(/^www\\./,"");
+  const url=new URL(value.trim()),host=url.hostname.toLowerCase().replace(/^www\./,"");
   if(host==="youtu.be"||host==="youtube.com"||host.endsWith(".youtube.com")){
-   const id=host==="youtu.be"?url.pathname.split("/").filter(Boolean)[0]:url.pathname.match(/^\\/(?:watch|shorts|live|embed)\\/([^/?]+)/)?.[1]||(url.pathname==="/watch"?url.searchParams.get("v"):null);
+   const id=host==="youtu.be"?url.pathname.split("/").filter(Boolean)[0]:url.pathname.match(/^\/(?:watch|shorts|live|embed)\/([^/?]+)/)?.[1]||(url.pathname==="/watch"?url.searchParams.get("v"):null);
    return id?{kind:"iframe",src:"https://www.youtube-nocookie.com/embed/"+encodeURIComponent(id),provider:"YouTube"}:null;
   }
   if(host==="vimeo.com"||host==="player.vimeo.com"||host.endsWith(".vimeo.com")){
-   const id=url.pathname.match(/(?:video\\/)?(\\d+)/)?.[1];
+   const id=url.pathname.match(/(?:video\/)?(\d+)/)?.[1];
    return id?{kind:"iframe",src:"https://player.vimeo.com/video/"+id,provider:"Vimeo"}:null;
   }
   if(host==="drive.google.com"){
-   const id=url.pathname.match(/\\/file\\/d\\/([^/]+)/)?.[1]||url.searchParams.get("id");
+   const id=url.pathname.match(/\/file\/d\/([^/]+)/)?.[1]||url.searchParams.get("id");
    return id?{kind:"iframe",src:"https://drive.google.com/file/d/"+encodeURIComponent(id)+"/preview",provider:"Google Drive"}:null;
   }
-  const peerTube=url.pathname.match(/^\\/(?:videos\\/(?:watch|embed)\\/|w\\/)([^/?]+)/);
+  const peerTube=url.pathname.match(/^\/(?:videos\/(?:watch|embed)\/|w\/)([^/?]+)/);
   if(peerTube)return{kind:"iframe",src:url.origin+"/videos/embed/"+encodeURIComponent(peerTube[1]),provider:"PeerTube"};
-  if(/\\.(?:mp4|webm|ogg)(?:$|\\?)/i.test(url.href))return{kind:"video",src:url.href,provider:"Hosted video"};
+  if(/\.(?:mp4|webm|ogg)(?:$|\?)/i.test(url.href))return{kind:"video",src:url.href,provider:"Hosted video"};
   return null;
  }catch{return null;}
 }
