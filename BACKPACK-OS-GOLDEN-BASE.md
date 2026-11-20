@@ -60,7 +60,7 @@ The product owner approved the current Iteration 14 main experience as the new g
 
 ## Owner CRUD and engagement model — 20 November 2026
 
-- A Backpack is the parent container; engagements are child workspaces with independent content and access records. The browser-local workspace index uses `backpackId` to group them and migrates existing entries using Backpack name + owner name where needed.
+- A Backpack is the parent container; engagements are child workspaces with independent content and access records. The browser-local workspace index uses `backpackId` to group them. Legacy records receive their own parent ID from the existing workspace ID, preserving boundaries; newly added engagements inherit the selected parent ID.
 - The owner Overview lists engagements, supports switching, adding an engagement and previewing the public channel.
 - The Engagement section contains engagement details, publishing and a published-content library. Content actions: edit, publish, unpublish to draft, archive, republish and delete. The public channel renders published items only.
 - Personal channels must not default to Service Storefront, Customer account, buyer/seller or other inherited commerce copy.
