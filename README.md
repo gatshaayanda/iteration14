@@ -26,7 +26,7 @@ It pairs with the separate Iteration 13 Business Operating System. The bottom do
 6. Archive and delete separate test items.
 7. Create a household list and confirm its line items render as a checklist.
 8. Create a Creator / TV / Entertainment example and test the optional Free-TV playlist, a GitHub repository and a video URL as distinct source types.
-9. Invite test names with different demo roles; verify Viewer accounts do not receive comment/request forms.
+9. Invite test names with different demo roles; verify Viewer accounts do not receive comment/request forms; signed-in non-viewer participants can update structured checklist items in the current browser profile.
 10. Confirm the channel contains no inherited Service Storefront or Customer account language.
 11. Use the bottom dock to open the paired i13 B.O.S.
 12. Test PWA installation and offline behavior separately.
