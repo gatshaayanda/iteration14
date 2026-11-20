@@ -3,7 +3,7 @@
 ## Product definition
 BACKPACK OS is the personal operating system (P.O.S.) paired with Iteration 13's Business Operating System (B.O.S.). They are complementary experiences on a shared participation model, not separate unrelated products.
 
-- **BACKPACK / P.O.S.**: personal engagements, a public or restricted channel, individual accounts, VIP circles and the private Backpack owner workspace.
+- **BACKPACK / P.O.S.**: one personal Backpack container can hold multiple independent engagements. Each engagement has its own category, public or restricted channel, published material, individual accounts, VIP circles and owner controls.
 - **i13 / B.O.S.**: business channel, customer accounts and owner Briefcase operations. Canonical demo: https://iteration13.vercel.app/ . Source repository: https://github.com/gatshaayanda/iteration13 .
 - **Admin Hub** builds, configures and sells these branded operating systems. Do not conflate Admin Hub's commercial website with either customer's daily workspace.
 
@@ -13,8 +13,8 @@ The Backpack 🎒 and i13 Briefcase 💼 destinations must be visibly paired in 
 ## Create or load a Backpack OS
 - Every fresh BACKPACK launch opens the workspace chooser, not a previously active channel or owner dashboard.
 - The chooser offers **Create new Backpack OS** and **Load an existing Backpack**.
-- Creating a workspace asks for its Backpack/OS name and engagement/channel setup, then saves it as a distinct workspace.
-- Loading an existing workspace restores its channel, people, circles, invitations, posts, comments and requests. Provide a switch-back-to-workspaces action from inside the app.
+- Creating a Backpack asks for its Backpack/OS identity and first engagement/channel. Adding an engagement from inside the owner workspace creates another child engagement under the same Backpack identity; it must not create a separate Backpack.\n- The chooser groups engagements beneath their parent Backpack. Separate Backpacks remain separate containers.
+- Loading a Backpack/engagement restores that engagement’s channel, people, circles, invitations, posts, comments and requests. Switching engagements must not mix records. Provide a switch-back-to-workspaces action from inside the app.
 - Existing single-workspace browser data must be migrated into the workspace list without clearing or overwriting it.
 - This prototype stores the workspace index and content in browser-local storage; it is not cross-device account sync or production authentication.
 
@@ -31,7 +31,7 @@ Keep the early beforeinstallprompt capture, one authoritative PWA controller, na
 Dominant genre: **Quiet**, with **Data** reserved for the Backpack control centre. Use compact, calm, mobile-first layouts, clear typography, restrained blue accent, neutral surfaces, strong contrast, visible focus and useful empty/loading/success/error states. Prioritise direct use over marketing copy. The engagement setup should be short and scannable; upload controls are grouped resources, not another long-form section.
 
 ## QA acceptance
-- Fresh launch always presents Create new Backpack OS / Load an existing Backpack.\n- Create two named Backpacks, verify both appear in the chooser, and load each to confirm their data remains separate.\n- Verify an existing single-workspace browser profile is migrated and remains loadable.\n- Create an engagement with a Backpack name, channel name and owner details; optional description/link/file remain optional.
+- Fresh launch always presents Create new Backpack OS / Load an existing Backpack.\n- Create one Backpack with two engagements; verify both engagements appear grouped under the same parent. Create a second Backpack and verify its records remain separate. Switch between engagements and confirm posts, people, circles, invitations, comments and requests do not mix.\n- In the owner workspace, verify the published-content library supports edit, unpublish, republish, archive and delete. Preview the public channel and confirm drafts/archives stay hidden.\n- Verify an existing single-workspace browser profile is migrated and remains loadable.\n- Create an engagement with a Backpack name, channel name and owner details; optional description/link/file remain optional.
 - Add a valid HTTP(S) link and upload image/video/PDF; verify progress, filename, remove action and seeded channel post.
 - Navigate Channel → Individual account → Backpack → i13 B.O.S. and back. Verify both 🎒 and 💼 are clearly discoverable.
 - Verify public/restricted channel gates, invitations, VIP circle access and comment/request toggles in the same browser.
@@ -56,3 +56,16 @@ The product owner approved the current Iteration 14 main experience as the new g
 ## Demo access names
 - Use simple **Public** / **Invite-only** labels. Add individuals by display name through a plain text field and a short **Add** action; show a count of invited people, not invited emails.
 - Match invited names and VIP-circle members case-insensitively after collapsing repeated spaces. Continue accepting existing email-based invitations as legacy compatibility. The account email remains a local account identifier; name matching is demo-only and not production authentication.
+
+
+## Owner CRUD and engagement model — 20 November 2026
+
+- A Backpack is the parent container; engagements are child workspaces with independent content and access records. The browser-local workspace index uses `backpackId` to group them and migrates existing entries using Backpack name + owner name where needed.
+- The owner Overview lists engagements, supports switching, adding an engagement and previewing the public channel.
+- The Engagement section contains engagement details, publishing and a published-content library. Content actions: edit, publish, unpublish to draft, archive, republish and delete. The public channel renders published items only.
+- Personal channels must not default to Service Storefront, Customer account, buyer/seller or other inherited commerce copy.
+- Creator / TV / Entertainment is a built-in category. It accepts external video/stream, M3U/M3U8 playlist, GitHub project and website/portfolio references. The Free-TV preset is only an external playlist link; BACKPACK does not host streams or include a full IPTV player.
+- Category-specific line-item inputs currently render as simple checklist items. Quantities, assignments, due dates, recurring tasks, RSVPs, programme catalogues and other advanced category workflows remain planned.
+- Viewer / Participant / Contributor / Moderator labels are prototype-local only. The owner word and name matching are not secure authentication; no cross-device sync or server-enforced access exists.
+- Do not add Firebase persistence or change rules as a shortcut. Production sync is gated on real authentication, a documented data model, per-engagement Firestore rules, rules tests, local-data migration and offline conflict handling.
+- Full implementation status and the twelve-step owner QA journey: [docs/BACKPACK-OWNER-CRUD-AND-ENGAGEMENT-MODEL.md](./docs/BACKPACK-OWNER-CRUD-AND-ENGAGEMENT-MODEL.md).
