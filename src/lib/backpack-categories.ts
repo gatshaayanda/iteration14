@@ -27,7 +27,7 @@ export async function createOrFindSharedEngagementCategory(value:string):Promise
   if (label.length>48) throw new Error("Category names must be 48 characters or fewer.");
   if (!backpackDb || !auth) throw new Error("Shared categories are not connected yet. Add the adhubmvp Firebase web configuration in Vercel and redeploy.");
   if (!auth.currentUser) await signInAnonymously(auth);
-  const normalized=label.toLocaleLowerCase();
+  const normalized=label.toLowerCase();
   const categories=collection(backpackDb,"backpackEngagementCategories");
   const existing=await getDocs(query(categories,where("normalized","==",normalized)));
   if (!existing.empty) return String(existing.docs[0].data().label||label);
