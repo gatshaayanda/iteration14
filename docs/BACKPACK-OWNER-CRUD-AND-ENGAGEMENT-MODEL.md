@@ -17,9 +17,17 @@ The current browser-local registry represents this relationship with a stable `b
 3. **Published library:** each engagement has a library of its posts/resources. The owner can edit, publish, unpublish to draft, archive, republish or delete an item. Existing posts without a status are treated as published.
 4. **Personal channel:** storefront and customer-account copy has been removed. The channel is a public or restricted personal engagement surface with a personal account entry.
 5. **Structured category inputs:** the publishing form provides category-labelled line-item lists for projects, learning, household needs, travel, communities, hobbies, people, resources and creator programmes. Items render as a checklist; signed-in non-viewer participants can update completion from the channel in the current browser profile.
-6. **Creator / TV / Entertainment:** the built-in category accepts video/stream URLs, M3U/M3U8 playlist links, GitHub project links and website/portfolio links. The optional Free-TV preset points to the upstream public playlist:
+6. **Creator / TV / Entertainment:** the built-in category is link-first. Creators host full videos on their chosen provider and paste shareable links into BACKPACK. Supported YouTube, Vimeo, Google Drive and PeerTube links show an embedded preview when the provider permits it; unsupported or blocked embeds retain an open-at-source link. Direct public MP4/WebM links can play in the browser. M3U/M3U8 playlists, GitHub projects and websites remain external references. The optional Free-TV preset points to the upstream public playlist:
    `https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8`.
 7. **Access roles:** invitations can be labelled Viewer, Participant, Contributor or Moderator; the owner is represented as Owner. The owner can change invite roles or revoke invitations. Role changes update existing local account records, and revoking an invitation preserves access granted independently by a VIP circle. Viewer accounts do not receive comment/request forms; signed-in non-viewer participants can update structured checklist items in the current browser profile. These are prototype UI rules only, not server-enforced security.
+
+## Creator source and media responsibility
+
+- BACKPACK is the creator's distribution and organisation layer, not a video host. It does not upload, transcode, store or stream full-length creator videos.
+- UploadThing remains optional for channel artwork, thumbnails, PDFs and short clips/reels. The limits are 4 MB for images, 16 MB for short video clips and 4 MB for PDFs. The 16 MB limit is not a full-video allowance; creators should paste a hosted video link instead.
+- Creator posts already have title, description, source link and optional uploaded image asset fields. The image asset can serve as channel artwork or a thumbnail; the provider-hosted video remains external.
+- Link validation accepts HTTP(S). Known YouTube, Vimeo, Google Drive and PeerTube URL patterns get embedded previews; direct public MP4/WebM links use the browser video element. Provider privacy settings, CORS, geo restrictions, account permissions and embed policies may prevent playback, so the original link remains available as fallback.
+- No third-party creator hosting subscription is mandated by BACKPACK. Creators choose their own host and its terms/limits.
 
 ## Creator source facts
 
