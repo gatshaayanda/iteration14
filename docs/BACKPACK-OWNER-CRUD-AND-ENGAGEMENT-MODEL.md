@@ -8,7 +8,7 @@
 
 A **Backpack** is the personal container and identity. It can contain multiple **engagements**. Each engagement has its own category, channel name, description, published material, people, circles, invitations, comments, requests and interaction settings.
 
-The current browser-local registry represents this relationship with a stable `backpackId` on each saved engagement record. Existing records without a parent ID are grouped using their Backpack name and owner name and written back to the existing workspace index. Each engagement retains its own content and access records. This is a migration-compatible first implementation; it is not yet a normalized cloud database.
+The current browser-local registry represents this relationship with a stable `backpackId` on each saved engagement record. Existing records without a parent ID are assigned their own parent ID using the existing workspace ID and written back to the index. This preserves historical boundaries instead of accidentally merging two same-named Backpacks. New engagements inherit the selected parent ID. Each engagement retains its own content and access records. This is a migration-compatible first implementation; it is not yet a normalized cloud database.
 
 ## Owner workflow implemented
 
