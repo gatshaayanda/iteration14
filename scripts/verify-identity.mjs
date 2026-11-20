@@ -55,7 +55,7 @@ const pwaRegister = fs.readFileSync(path.join(root, "src/app/pwa-register.tsx"),
 if (!pwaRegister.includes('src="/backpack-os-icon-v4.svg"')) failures.push("PWA install card must display the approved BACKPACK artwork, not a generic symbol");
 const offlinePage = fs.readFileSync(path.join(root, "src/app/offline/page.tsx"), "utf8");
 if (!offlinePage.includes('src="/backpack-os-icon-v4.svg"') || !offlinePage.includes("BACKPACK")) failures.push("offline screen: visible BACKPACK artwork and identity are required");
-if (!personalOS.includes("Are you selling a service or buying one?") || !personalOS.includes("bp-mode-confirmation") || !personalOS.includes("Access customer account")) failures.push("setup: selling/buying selection and customer-account storefront path must be explicit");
+if (!personalOS.includes("setupExamples") || !personalOS.includes("const setupCopy=setupExamples[s.category]") || !personalOS.includes("placeholder={setupCopy.backpack}") || !personalOS.includes("placeholder={setupCopy.engagement}") || !personalOS.includes("placeholder={setupCopy.about}")) failures.push("setup: category-aware engagement examples and placeholders must be explicit");
 if (pwaRegister.includes("i13-install")) failures.push("PWA install card must use BACKPACK-owned styles, not inherited Iteration 13 class names");
 for (const expected of ["BACKPACK OS | Your Personal Channel", "applicationName:\"BACKPACK OS\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
 // Validate Apple install metadata semantically; whitespace and additional metadata fields are harmless.
