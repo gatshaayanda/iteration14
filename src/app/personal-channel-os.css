@@ -99,3 +99,9 @@
 .bp-invite-chip select{max-width:130px;min-height:30px;padding:4px 7px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#243044;font-size:.68rem;font-weight:750}
 .bp-invite-chip button{display:grid;place-items:center;width:27px;height:27px;border:1px solid #d5dce6;border-radius:7px;background:#fff;color:#475569;font-weight:900;cursor:pointer}
 .bp-invite-chip select:focus-visible,.bp-invite-chip button:focus-visible{outline:3px solid #155eef;outline-offset:2px}
+
+.bp-video-embed{width:100%;margin:12px 0;overflow:hidden;border:1px solid var(--bp-line,#dbe2ea);border-radius:14px;background:#0b1220}
+.bp-video-embed iframe,.bp-video-embed video{display:block;width:100%;aspect-ratio:16/9;border:0;background:#0b1220}
+.bp-video-embed video{height:auto;max-height:560px;object-fit:contain}
+.bp-video-embed small{display:block;padding:7px 10px;color:#dbe5f2;font-size:.72rem}
+.bp-video-embed:focus-within{outline:3px solid #155eef;outline-offset:2px}
