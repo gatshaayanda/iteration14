@@ -49,7 +49,7 @@ export default function SpaceGenericEngagement({category,identity,role,canContri
  const defaults=Object.keys(templates[category]||{});
  const enabled=config?.enabledActions||defaults;
  const available=enabled.filter(name=>(config?.actionRoles?.[name]||["participant","contributor","moderator"]).includes(role));
- const custom=category==="Other / Something else";
+ const custom=!!config?.isCustom||category==="Other / Something else";
  const fields:Field[]=custom?(config?.customFields||[{id:"details",label:"Your contribution",type:"textarea"}]).map((f:EngagementField)=>({id:f.id,label:f.label,type:f.type==="textarea"?"textarea":f.type==="number"?"number":f.type==="date"?"date":f.type==="time"?"time":f.type==="url"?"url":f.type==="select"?"select":"text",required:f.required,options:f.options})):((templates[category]||{})[action]||[]);
  function submit(e:React.FormEvent){e.preventDefault();const missing=fields.filter(f=>f.required!==false&&!String(values[f.id]||"").trim());if(missing.length){setMessage("Complete "+missing.map(f=>f.label).join(", ")+".");return;}if(!action){setMessage("Choose an action first.");return;}const payload:Record<string,string>={};fields.forEach(f=>payload[f.label]=values[f.id]||"");payload["Submitted by"]=identity;payload["Review status"]=config?.approvalRequired?"Pending review":"Submitted";onSubmission(action,payload);setValues({});setMessage(config?.confirmation||"Your contribution has been saved on this device.");}
  if(!canContribute||!available.length)return <section className="bp-engagement-tools"><p className="bp-muted">This Space is currently read-only for your access level.</p></section>;
