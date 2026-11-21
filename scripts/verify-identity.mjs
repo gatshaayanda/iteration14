@@ -122,6 +122,14 @@ const shellVersion = sw.match(/const CACHE_VERSION = "(backpack-os-shell-v\d+)"/
 if (shellVersion !== "backpack-os-shell-v32") failures.push("service worker: shell cache version must advance for the current BACKPACK identity");
 if (!sw.includes('"/backpack-icon.svg?v=2"') || !sw.includes('"/icon.svg"')) failures.push("service worker: current branded backpack aliases must be precached");
 
+
+const engagementTools = fs.readFileSync(path.join(root, "src/app/SpaceEngagementTools.tsx"), "utf8");
+if (!personalOs.includes('import SpaceEngagementTools from "./SpaceEngagementTools"') || !personalOs.includes("recordStructured") || !personalOs.includes('category==="Home & Everyday Life"') || !personalOs.includes('category==="Creator / TV / Entertainment"')) failures.push("category engagement: grocery and creator tools must be connected to the customer account and owner settings");
+if (!engagementTools.includes("quantity") || !engagementTools.includes("brand") || !engagementTools.includes("confirmedBy") || !engagementTools.includes("purchasedBy") || !engagementTools.includes("Complete shopping cycle") || !engagementTools.includes("days overdue")) failures.push("grocery engagement: structured item fields, separate confirmation/purchase identities and owner-controlled cycle countdown are required");
+if (!engagementTools.includes("My Watchlist") || !engagementTools.includes("Creator programme suggestion") || !engagementTools.includes("Creator broken-link report") || !engagementTools.includes("Free TV") || !engagementTools.includes("External links")) failures.push("creator engagement: shelves, account watchlist, source suggestions and broken-link reports are required");
+if (!personalOs.includes("Channel titles and updates stay hidden until the Space access checks are completed.") || personalOs.includes('visiblePosts.map(post=><button type="button" className="bp-button" key={post.id} onClick={()=>selectPublishedItem(post.id)}>Select for My account: {post.title}')) failures.push("privacy gate: private Space post titles must not be exposed before access checks");
+if (!personalOs.includes('person?.role!=="viewer"') || !engagementTools.includes('role==="moderator"') || !engagementTools.includes('role==="contributor"')) failures.push("Space permissions: viewers must remain read-only and grocery purchase actions must be role-limited");
+if (!personalCss.includes(".bp-grocery-item") || !personalCss.includes(".bp-creator-shelves")) failures.push("category engagement: compact grocery and creator layouts must be styled");
 if (failures.length) {
   console.error("IDENTITY VERIFICATION FAILED");
   failures.forEach(failure => console.error(" - " + failure));
