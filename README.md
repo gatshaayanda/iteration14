@@ -25,7 +25,7 @@ It pairs with the separate Iteration 13 Business Operating System. The bottom do
 5. Unpublish an item, confirm it disappears from the public channel but remains in the owner library, then republish it.
 6. Archive and delete separate test items.
 7. Create a household list and confirm its line items render as a checklist.
-8. Create a Creator / TV / Entertainment example. Test YouTube, Vimeo, Google Drive and PeerTube links for previews and original-link fallback; test a direct MP4/WebM URL, GitHub project and M3U playlist separately. Confirm an image thumbnail and an optional short clip can be attached, and that full-length video is linked rather than uploaded.
+8. Create a Creator / TV / Entertainment example. Open Creator Studio and test channel name/description, colours, presets, section ordering, programme scheduling, audience levels, Explore/Watchlist/Suggestions/Reports/Comments/Reactions permissions and participant preview. Publish YouTube, Vimeo, Google Drive and PeerTube links for previews and original-link fallback; test a direct MP4/WebM URL, GitHub project and M3U playlist separately. Confirm an image thumbnail and an optional short clip can be attached, and that full-length video is linked rather than uploaded.
 9. Invite test names with different demo roles; verify Viewer accounts do not receive comment/request forms; signed-in non-viewer participants can update structured checklist items in the current browser profile.
 10. Confirm the channel contains no inherited Service Storefront or Customer account language.
 11. Use the bottom dock to open the paired i13 B.O.S.
@@ -46,3 +46,6 @@ npm run build
 ```
 
 The PWA installation behavior is protected by [docs/PWA-INSTALLATION-LOCK.md](docs/PWA-INSTALLATION-LOCK.md). The accepted product definition and navigation contract are in [BACKPACK-OS-GOLDEN-BASE.md](BACKPACK-OS-GOLDEN-BASE.md). The owner CRUD workflow and current implementation boundaries are in [docs/BACKPACK-OWNER-CRUD-AND-ENGAGEMENT-MODEL.md](docs/BACKPACK-OWNER-CRUD-AND-ENGAGEMENT-MODEL.md).
+
+
+The first Creator Studio QA milestone and its detailed owner/participant acceptance checklist are documented in [docs/BACKPACK-CREATOR-STUDIO-QA.md](docs/BACKPACK-CREATOR-STUDIO-QA.md). The Creator Studio is browser-local; it does not yet provide shared channel sync, an IPTV/M3U player or third-party EPG integration.
