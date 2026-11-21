@@ -19,13 +19,13 @@ const roles=["viewer","participant","contributor","moderator"];
 const field=(id:string,label:string,type:EngagementField["type"]="text",required=true,help?:string,options?:string[]):EngagementField=>({id,label,type,required,help,options});
 export function defaultsForCategory(category:string):EngagementConfig{
  const actions=definitions[category]?.actions||definitions["Other / Something else"].actions;
- const isCustomCategory=category==="Other / Something else"||!definitions[category];
  return {enabledActions:[...actions],actionRoles:Object.fromEntries(actions.map(a=>[a,a==="Save to My Watchlist"?[...roles]:roles.filter(r=>r!=="viewer")])),approvalRequired:false,allowParticipantEdits:true,customAction:"Send a contribution",customFields:[field("details","Tell us more","textarea",true)],confirmation:"Your contribution has been saved on this device.",isCustom:category==="Other / Something else"||!definitions[category]};
 }
 export default function SpaceEngagementConfig({category,value,onChange}:Props){
  const defaults=useMemo(()=>defaultsForCategory(category),[category]);
  const config:EngagementConfig={...defaults,...value,enabledActions:value?.enabledActions||defaults.enabledActions,actionRoles:value?.actionRoles||defaults.actionRoles,customFields:value?.customFields||defaults.customFields};
  const actions=definitions[category]?.actions||definitions["Other / Something else"].actions;
+ const isCustomCategory=category==="Other / Something else"||!definitions[category];
  const [requestName,setRequestName]=useState(""),[requestPurpose,setRequestPurpose]=useState(""),[requestActions,setRequestActions]=useState(""),[requestGap,setRequestGap]=useState(""),[requestMessage,setRequestMessage]=useState("");
  function update(patch:Partial<EngagementConfig>){onChange({...config,...patch});}
  function toggleAction(action:string,enabled:boolean){const next=enabled?[...config.enabledActions,action]:config.enabledActions.filter(x=>x!==action);update({enabledActions:next,actionRoles:{...config.actionRoles,[action]:config.actionRoles[action]||[...roles]}});}
