@@ -6,7 +6,7 @@ type Props={category:string;value?:Partial<EngagementConfig>;onChange:(value:Eng
 const definitions:Record<string,{intro:string;actions:string[]}>={
  "Projects & Ideas":{intro:"Move a shared project forward with ideas, tasks and offers of help.",actions:["Submit an idea","Suggest a task","Offer help","Ask for help"]},
  "Learning & Growth":{intro:"Support lessons, practice and shared learning.",actions:["Ask a lesson question","Submit a reflection","Submit practice","Share a learning resource","Mark lesson complete"]},
- "Home & Everyday Life":{intro:"Coordinate shopping, household tasks and everyday needs.",actions:["Add grocery item","Confirm household need","Mark purchased","Suggest substitute"]},
+ "Home & Everyday Life":{intro:"Coordinate shopping, household tasks and everyday needs.",actions:["Add grocery item","Confirm household need","Mark purchased","Suggest substitute","Add a household chore","Complete a chore"]},
  "Travel & Experiences":{intro:"Plan trips and shared experiences together.",actions:["Suggest destination","Add itinerary entry","Add packing item","Vote in a poll","RSVP to an event"]},
  "Communities & Causes":{intro:"Coordinate events, volunteering and community action.",actions:["RSVP to an event","Volunteer for a shift","Propose an activity","Report a community issue","Share a resource"]},
  "Shared Interests & Hobbies":{intro:"Discover activities and organise shared interests.",actions:["Recommend something","Suggest an activity","Vote in a poll","RSVP to a meetup"]},
