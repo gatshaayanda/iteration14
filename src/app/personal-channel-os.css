@@ -289,3 +289,6 @@
 .bp-creator-configured-section>header small{color:#647084;font-size:.75rem}
 .bp-creator-configured-section .bp-creator-library{margin:0}
 .bp-creator-configured-section .bp-creator-library:empty{display:none}
+
+.bp-creator-card-image,.bp-creator-card-video{display:block;width:100%;max-height:280px;object-fit:cover;border-radius:10px;border:1px solid var(--bp-creator-border,#d8dee8);background:#111827}
+.bp-creator-card-video{object-fit:contain}
