@@ -462,3 +462,63 @@ This snapshot describes the guided-engagement implementation branch and must be 
 | Category request global publishing/review | Local capture only; central review and catalogue publication require database integration |
 
 **Important:** Owner role controls and approval states are prototype UI/data behavior stored in the browser. They are not a security boundary. Do not use sensitive information or treat local approvals as server-enforced workflow. Participant edit/withdraw is explicitly deferred until authenticated shared persistence exists.
+
+
+## 13. Published-item engagement contract — owner controls and participant behaviour
+
+A Space and each item published inside it are separate engagement scopes. The owner must be able to configure both. A setting at item level overrides the Space default; it must never silently change other items.
+
+### 13.1 Space-wide defaults
+
+In the selected Space's Settings → Engagement area, expose:
+- General Space discussion: enabled/disabled (existing Space-level comments switch).
+- Published-item reactions: enabled/disabled.
+- Available reaction vocabulary: Like, Love, Celebrate, Interesting and Helpful; owners select which reactions are available when reactions are enabled.
+- Existing category actions, eligible roles and approval policy remain independent controls.
+
+The Space-wide setting is a default for new published items and a fallback for older items that do not yet contain an item override. It is not a substitute for item-specific settings.
+
+### 13.2 Per-published-item controls
+
+Every item, regardless of category, must have an engagement section in its create/edit publishing form:
+- Allow comments on this item (defaults to the Space's general-comments setting).
+- Allow reactions on this item (defaults to the Space's reaction setting).
+- Future extensions: eligible roles, visibility/audience override, approval/moderation and item-specific action affordances.
+
+The owner can revisit these settings by editing the item in the Published Material library. Changing one item must not modify another item or the Space defaults. Unpublishing or archiving an item must not erase its engagement records.
+
+### 13.3 Participant behaviour
+
+- Show only the interactions enabled for the item and permitted by the participant's Space role.
+- Comments belong to the item they were written on, not only to a generic Space discussion thread.
+- Reactions are selectable, visibly counted and toggleable; a participant may have at most one active reaction per item in this prototype. Selecting another reaction replaces the previous one; selecting the active reaction removes it.
+- If the visitor is not signed in, show that an account is required rather than presenting a working-looking disabled action.
+- Creator / TV retains its media shelves, item-specific watchlist, programme suggestions and broken-link reports. The item comment control is governed by that item's comment setting.
+- A watchlist is personal to the participant and is not a public like or view count. Saving an item does not claim that it has been watched.
+- Do not imply that a reaction or comment is shared across devices in the browser-local prototype.
+
+### 13.4 Item interaction record contract for shared persistence
+
+When the shared backend is implemented, use records scoped by backpackId, spaceId and publishedItemId:
+- Reaction: id, backpackId, spaceId, publishedItemId, stable actorId, reactionType, createdAt, updatedAt.
+- Comment: id, backpackId, spaceId, publishedItemId, stable actorId, body, status, createdAt, updatedAt, optional reviewedBy and reviewedAt.
+- Item engagement policy: allowComments, allowReactions, reactionTypes, optional eligible roles and moderation policy.
+- Space defaults: allowGeneralComments, allowItemReactions, reactionTypes.
+
+Enforce one reaction per actor per item using a server-side uniqueness constraint or transactional upsert. Enforce role, visibility, moderation and ownership on the server; localStorage and client-side role checks are never a security boundary.
+
+### 13.5 Status and release truth
+
+| Capability | State after item-engagement milestone |
+| --- | --- |
+| Space-wide reaction default and reaction vocabulary | Configured in browser-local owner settings |
+| Per-published-item comment/reaction switches | Configured in item create/edit form |
+| Participant item comments | Browser-local; visible against the matching item in this browser |
+| Participant item reactions and counts | Browser-local; one active reaction per identity per item |
+| Creator shelves and personal watchlist | Existing prototype retained |
+| Per-item visibility, audience and role overrides | Designed; not implemented |
+| Shared moderation queue for item comments/reactions | Designed; not implemented |
+| Cross-device shared reactions/comments and server-enforced permissions | Database/authentication dependent; not implemented |
+| View counts, watch progress and verified viewing | Not implemented; do not imply these exist |
+
+Update this table whenever implementation changes. Never label a database-dependent capability as live merely because its local prototype control exists.
