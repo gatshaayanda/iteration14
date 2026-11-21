@@ -186,3 +186,12 @@ Owner must define a clear action label, prompt and a small set of fields before 
 ## 7. Prototype and release truth
 
 Current BACKPACK engagement records and customer submissions are browser-local. This specification does not turn them into multi-device collaboration. UploadThing stores uploaded file bytes remotely, while references and most Space state remain local. Owner role/access controls are demo UI rules, not server-enforced security. Cross-device delivery, authenticated membership, real notifications and offline outbox semantics remain separate release gates.
+
+
+## 8. Published-item engagement — additional implementation contract
+
+The owner must control engagement at two distinct levels: Space defaults and individual published items. The published-item editor must expose independent switches for comments and reactions. Each item's values override the Space defaults without changing other items. The Space settings expose the default reaction enablement and the selected reaction vocabulary (Like, Love, Celebrate, Interesting, Helpful). General Space comments remain a separate Space-level setting.
+
+Every participant-facing published item must render only its enabled interactions. Item comments must remain associated with the item title/ID in the local prototype; reactions must show counts and allow one active reaction per participant identity per item, with switching/removal. Creator / TV's comment action toggle and role eligibility must also gate item comments. Watchlist remains a private save-for-later action, separate from reactions and verified viewing.
+
+Current prototype implementation is browser-local: per-item comment records are saved in the Space's local comment list and rendered against the matching item; reaction selections/counts are stored in localStorage per Space, item and participant identity. This is not cross-device shared engagement or server-enforced permission. Per-item audience/visibility overrides, moderation queue and shared authenticated records remain future database-dependent work.
