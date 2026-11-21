@@ -36,7 +36,7 @@ export default function SpaceEngagementConfig({category,value,onChange}:Props){
    <div className="bp-config-actions">{actions.map(action=><label className="bp-check" key={action}><input type="checkbox" checked={config.enabledActions.includes(action)} onChange={e=>toggleAction(action,e.target.checked)}/><span>{action}</span></label>)}</div>
   </div>
   <details className="bp-config-advanced"><summary>2. Set participation rules <small>Roles, approvals and editing</small></summary>
-   <label className="bp-check"><input type="checkbox" checked={config.approvalRequired} onChange={e=>update({approvalRequired:e.target.checked})}/> Mark new contributions for owner review</label>
+   <label className="bp-check"><input type="checkbox" checked={config.approvalRequired} onChange={e=>update({approvalRequired:e.target.checked})}/> Mark new contributions for owner review</label><small className="bp-muted">Reviewed submissions are marked Pending in the local Inbox. This prototype does not enforce approval on a shared server.</small>
    <p className="bp-muted">Participant editing and withdrawal will be enabled with authenticated shared records. This local prototype does not yet provide secure ownership checks.</p>
    {config.enabledActions.map(action=><fieldset className="bp-action-roles" key={action}><legend>{action}</legend>{roles.map(role=><label className="bp-check" key={role}><input type="checkbox" checked={(config.actionRoles[action]||roles).includes(role)} onChange={e=>{const current=config.actionRoles[action]||roles;update({actionRoles:{...config.actionRoles,[action]:e.target.checked?[...current,role]:current.filter(x=>x!==role)}});}}/>{role}</label>)}</fieldset>)}
   </details>
