@@ -141,3 +141,42 @@
 @keyframes bp-transition-in{from{opacity:0}to{opacity:1}}
 @keyframes bp-emblem-arrive{from{opacity:0;transform:translateY(18px) scale(.82)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(prefers-reduced-motion:reduce){.bp-system-transition,.bp-transition-emblem{animation:none!important}.bp-bottom-dock button,.bp-bottom-dock a{transition:none!important}.bp-bottom-dock button:hover,.bp-bottom-dock a:hover{transform:none}}
+
+
+/* Category-specific customer engagement surfaces. */
+.bp-engagement-tools{display:grid;gap:14px;margin:18px 0;padding:15px;border:1px solid #dce3ed;border-radius:15px;background:#f8fafc;color:#172033}
+.bp-engagement-tools>header h2{margin:5px 0;font-size:1.12rem}
+.bp-engagement-tools>header p,.bp-engagement-tools .bp-muted{margin:0;color:#526174;font-size:.78rem;line-height:1.5}
+.bp-cycle-card{display:grid;gap:12px;padding:13px;border:1px solid #dbe4f0;border-radius:12px;background:#fff}
+.bp-cycle-card>div:first-child{display:grid;gap:4px}
+.bp-cycle-card>div:first-child small{color:#64748b;font-size:.68rem;font-weight:850;text-transform:uppercase;letter-spacing:.08em}
+.bp-cycle-card>div:first-child strong{font-size:1.4rem;letter-spacing:-.04em}
+.bp-cycle-card>div:first-child span{color:#64748b;font-size:.75rem}
+.bp-cycle-card .bp-form{margin:0}
+.bp-grocery-list{display:grid;gap:9px}
+.bp-grocery-list>header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.bp-grocery-list>header h3,.bp-grocery-form h3{margin:0;font-size:.95rem}
+.bp-grocery-list>header small{color:#64748b;font-size:.7rem;font-weight:800}
+.bp-grocery-item{display:grid;gap:10px;padding:12px;border:1px solid #dce3ed;border-radius:11px;background:#fff}
+.bp-grocery-item>div:first-child{display:grid;gap:4px;min-width:0}
+.bp-grocery-item strong{font-size:.88rem;overflow-wrap:anywhere}
+.bp-grocery-item span,.bp-grocery-item small{color:#526174;font-size:.72rem;line-height:1.45;overflow-wrap:anywhere}
+.bp-grocery-actions{display:flex;flex-wrap:wrap;gap:6px}
+.bp-grocery-actions button,.bp-creator-item>button{min-height:34px;padding:6px 10px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#1e293b;font-size:.7rem;font-weight:800;cursor:pointer}
+.bp-creator-shelves{display:flex;gap:6px;overflow-x:auto;padding:2px 0 7px}
+.bp-creator-shelves button{flex:0 0 auto;min-height:34px;padding:7px 10px;border:1px solid #cbd5e1;border-radius:20px;background:#fff;color:#334155;font-size:.7rem;font-weight:800;cursor:pointer}
+.bp-creator-shelves button.is-active{border-color:#1d4ed8;background:#eaf1ff;color:#153e9b}
+.bp-creator-library{display:grid;gap:10px}
+.bp-creator-item{display:grid;gap:8px;padding:13px;border:1px solid #dce3ed;border-radius:12px;background:#fff}
+.bp-creator-item>small{color:#64748b;font-size:.68rem;font-weight:800}
+.bp-creator-item h3{margin:0;font-size:.94rem;overflow-wrap:anywhere}
+.bp-creator-item p{margin:0;color:#526174;font-size:.78rem;line-height:1.5}
+.bp-creator-item a{font-size:.78rem;font-weight:800;overflow-wrap:anywhere}
+.bp-creator-item>button{justify-self:start}
+.bp-creator-item .bp-form{margin:0}
+.bp-creator-actions{display:grid;gap:12px}
+.bp-creator-actions .bp-form{margin:0}
+.bp-tool-message{margin:0;padding:9px 11px;border-radius:8px;background:#eaf1ff;color:#173b7a;font-size:.75rem;font-weight:750}
+.bp-engagement-tools button:focus-visible{outline:3px solid #155eef;outline-offset:2px}
+@media(min-width:700px){.bp-grocery-item{grid-template-columns:minmax(0,1fr) auto;align-items:center}.bp-creator-actions{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.bp-engagement-tools{padding:12px}.bp-cycle-card{padding:11px}}
