@@ -32,6 +32,7 @@ export const CREATOR_PRESETS:Record<string,string[]> = {
   "Community television":["Live now","Programme guide","Featured programmes","Videos","External projects"],
   "My own mix":[...CREATOR_SECTIONS]
 };
+export function readableForeground(hex:string){const value=hex.replace("#","");if(!/^[0-9a-fA-F]{6}$/.test(value))return "#18202b";const channels=[0,2,4].map(i=>parseInt(value.slice(i,i+2),16)/255).map(v=>v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2));const luminance=0.2126*channels[0]+0.7152*channels[1]+0.0722*channels[2];return luminance>0.179?"#18202b":"#ffffff";}
 export const defaultCreatorChannelConfig:CreatorChannelConfig={
   preset:"My own mix",accentColor:"#155eef",borderColor:"#d8dee8",backgroundColor:"#f4f5f7",
   sections:[...CREATOR_SECTIONS],allowExplore:true,allowWatchlist:true,allowSuggestions:true,
@@ -46,6 +47,7 @@ export default function CreatorChannelStudio({title,description,value,posts,onTi
  const config={...defaultCreatorChannelConfig,...value,sections:value?.sections?.length?[...value.sections]:[...defaultCreatorChannelConfig.sections],schedule:value?.schedule||[]};
  const [postId,setPostId]=useState("");const [startsAt,setStartsAt]=useState("");const [duration,setDuration]=useState("60");const [audience,setAudience]=useState<CreatorProgramme["audience"]>("everyone");const [notice,setNotice]=useState("");
  const published=useMemo(()=>posts.filter(p=>(p.status||"published")==="published"),[posts]);
+ const previewText=readableForeground(config.backgroundColor),accentText=readableForeground(config.accentColor);
  function update(patch:Partial<CreatorChannelConfig>){onChange({...config,...patch});}
  function addProgramme(e:React.FormEvent){e.preventDefault();const post=published.find(p=>p.id===postId);if(!post||!startsAt){setNotice("Choose a published programme and its start date and time.");return;}const start=new Date(startsAt);if(Number.isNaN(start.getTime())||start.getTime()<Date.now()-60000){setNotice("Choose a future start time for this programme.");return;}const minutes=Math.max(5,Math.min(1440,Number(duration)||60));const next=[...config.schedule,{id:"programme-"+Date.now(),postId,startsAt:start.toISOString(),durationMinutes:minutes,audience}].sort((a,b)=>a.startsAt.localeCompare(b.startsAt));update({schedule:next});setPostId("");setStartsAt("");setDuration("60");setAudience("everyone");setNotice("Programme added to your channel schedule.");}
  function moveSection(index:number,direction:-1|1){const next=[...config.sections],target=index+direction;if(target<0||target>=next.length)return;[next[index],next[target]]=[next[target],next[index]];update({sections:next});}
@@ -67,7 +69,7 @@ export default function CreatorChannelStudio({title,description,value,posts,onTi
      <label>Channel background<input type="color" value={config.backgroundColor} onChange={e=>update({backgroundColor:e.target.value})}/><small>Channel surface tint</small></label>
     </div>
     <div className="bp-creator-live-preview" style={{background:config.backgroundColor,borderColor:config.borderColor}}>
-     <span style={{color:config.accentColor}}>CHANNEL PREVIEW</span><strong>{title.trim()||"Your channel name"}</strong><p>{description.trim()||"Your channel description will appear here."}</p><div>{config.sections.slice(0,4).map(x=><span key={x} style={{borderColor:config.borderColor}}>{x}</span>)}</div>
+     <span style={{color:accentText}}>CHANNEL PREVIEW</span><strong style={{color:previewText}}>{title.trim()||"Your channel name"}</strong><p style={{color:previewText}}>{description.trim()||"Your channel description will appear here."}</p><div>{config.sections.slice(0,4).map(x=><span key={x} style={{borderColor:config.borderColor}}>{x}</span>)}</div>
     </div>
     <small className="bp-muted">The interface protects readable text contrast even when you choose a custom palette.</small>
    </section>
