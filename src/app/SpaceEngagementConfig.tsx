@@ -15,11 +15,11 @@ const definitions:Record<string,{intro:string;actions:string[]}>={
  "Creator / TV / Entertainment":{intro:"Curate a channel and invite viewers to shape its catalogue.",actions:["Save to My Watchlist","Suggest something to add","Report a broken link","Comment on a media item"]},
  "Other / Something else":{intro:"Define an experience that fits your Space.",actions:["Send a custom contribution"]}
 };
-const roles=["participant","contributor","moderator"];
+const roles=["viewer","participant","contributor","moderator"];
 const field=(id:string,label:string,type:EngagementField["type"]="text",required=true,help?:string,options?:string[]):EngagementField=>({id,label,type,required,help,options});
 export function defaultsForCategory(category:string):EngagementConfig{
  const actions=definitions[category]?.actions||definitions["Other / Something else"].actions;
- return {enabledActions:[...actions],actionRoles:Object.fromEntries(actions.map(a=>[a,[...roles]])),approvalRequired:false,allowParticipantEdits:true,customAction:"Send a contribution",customFields:[field("details","Tell us more","textarea",true)],confirmation:"Your contribution has been saved on this device.",isCustom:category==="Other / Something else"};
+ return {enabledActions:[...actions],actionRoles:Object.fromEntries(actions.map(a=>[a,a==="Save to My Watchlist"?[...roles]:roles.filter(r=>r!=="viewer")])),approvalRequired:false,allowParticipantEdits:true,customAction:"Send a contribution",customFields:[field("details","Tell us more","textarea",true)],confirmation:"Your contribution has been saved on this device.",isCustom:category==="Other / Something else"};
 }
 export default function SpaceEngagementConfig({category,value,onChange}:Props){
  const defaults=useMemo(()=>defaultsForCategory(category),[category]);
