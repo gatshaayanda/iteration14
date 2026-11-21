@@ -1,7 +1,7 @@
 "use client";
 import {useEffect,useMemo,useState} from "react";
 
-type Post={id:string;title:string;body:string;link:string;sourceType?:string;asset?:{name:string;url:string;type:string}};
+type Post={id:string;title:string;body:string;link:string;sourceType?:string;status?:"published"|"draft"|"archived";asset?:{name:string;url:string;type:string}};
 type GroceryItem={id:string;name:string;quantity:string;unit:string;brand:string;store:string;note:string;forWhom:string;status:"needed"|"confirmed"|"in-cart"|"purchased"|"unavailable"|"substitute";confirmedBy?:string;purchasedBy?:string;substitute?:string;createdAt:string};
 type Cycle={interval:number;nextDate:string;label:string};
 type Submission=(kind:string,payload:Record<string,string>)=>void;
@@ -23,7 +23,7 @@ export default function SpaceEngagementTools({spaceId,category,identity,role,can
  useEffect(()=>{if(loaded){try{localStorage.setItem(key(spaceId)+":watch:"+identity,JSON.stringify(watchlist));}catch{}}},[watchlist,loaded,spaceId,identity]);
  const daysLeft=useMemo(()=>{if(!cycle.nextDate)return null;const target=new Date(cycle.nextDate+"T00:00:00");if(Number.isNaN(target.getTime()))return null;const today=new Date();today.setHours(0,0,0,0);return Math.ceil((target.getTime()-today.getTime())/86400000);},[cycle.nextDate]);
  function addGrocery(e:React.FormEvent){e.preventDefault();if(!itemName.trim()){setMessage("Add an item name first.");return;}const item:GroceryItem={id:"grocery-"+Date.now(),name:itemName.trim(),quantity:quantity.trim()||"1",unit:unit.trim(),brand:brand.trim(),store:store.trim(),note:note.trim(),forWhom:forWhom.trim(),status:"needed",createdAt:new Date().toISOString()};setItems(old=>[item,...old]);onSubmission("Grocery item",{"Item":item.name,"Quantity":item.quantity+" "+item.unit,"Brand":item.brand,"Store / aisle":item.store,"For":item.forWhom,"Note":item.note});setItemName("");setQuantity("1");setUnit("");setBrand("");setStore("");setNote("");setForWhom("");setMessage("Added to this Space's grocery list.");}
- function setItemStatus(item:GroceryItem,status:GroceryItem["status"]){setItems(old=>old.map(x=>x.id===item.id?{...x,status,confirmedBy:status==="confirmed"?identity:x.confirmedBy,purchasedBy:status==="purchased"?identity:x.purchasedBy}:x));if(status==="unavailable"||status==="substitute")onSubmission(status==="unavailable"?"Grocery item unavailable":"Grocery substitute suggested",{"Item":item.name,"By":identity});}
+ function setItemStatus(item:GroceryItem,status:GroceryItem["status"]){setItems(old=>old.map(x=>x.id===item.id?{...x,status,confirmedBy:status==="confirmed"?identity:x.confirmedBy,purchasedBy:status==="purchased"?identity:x.purchasedBy}:x));if(status==="confirmed"||status==="purchased"||status==="unavailable"||status==="substitute")onSubmission("Grocery item "+status,{"Item":item.name,"By":identity,"Status":status});}
  function completeCycle(){if(!cycle.nextDate||!cycle.interval||cycle.interval<1){setMessage("Set a valid next shop date and an interval of at least 1 day.");return;}const current=new Date(cycle.nextDate+"T12:00:00");current.setDate(current.getDate()+Math.max(1,Math.floor(cycle.interval)));const nextDate=current.toISOString().slice(0,10);setCycle(old=>({...old,nextDate}));setMessage("Shopping cycle completed. The next date has advanced; the list was not reset.");}
  const creatorPosts=posts.filter(p=>(p.status||"published")==="published");
  const shelves=["All","Videos","Reels","Live","Playlists","Free TV","External links","My Watchlist"];
