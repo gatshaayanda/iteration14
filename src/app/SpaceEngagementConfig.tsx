@@ -6,7 +6,7 @@ type Props={category:string;value?:Partial<EngagementConfig>;onChange:(value:Eng
 const definitions:Record<string,{intro:string;actions:string[]}>={
  "Projects & Ideas":{intro:"Move a shared project forward with ideas, tasks and offers of help.",actions:["Submit an idea","Suggest a task","Offer help","Ask for help","Comment on an item"]},
  "Learning & Growth":{intro:"Support lessons, practice and shared learning.",actions:["Ask a lesson question","Submit a reflection","Submit practice","Share a learning resource","Mark lesson complete"]},
- "Home & Everyday Life":{intro:"Coordinate shopping, household tasks and everyday needs.",actions:["Add grocery item","Confirm household need","Mark purchased","Suggest substitute"]},
+ "Home & Everyday Life":{intro:"Coordinate shopping, household tasks and everyday needs.",actions:["Add grocery item","Confirm household need","Mark purchased","Suggest substitute","Add a household chore","Complete a chore"]},
  "Travel & Experiences":{intro:"Plan trips and shared experiences together.",actions:["Suggest destination","Add itinerary entry","Add packing item","Vote in a poll","RSVP to an event"]},
  "Communities & Causes":{intro:"Coordinate events, volunteering and community action.",actions:["RSVP to an event","Volunteer for a shift","Propose an activity","Report a community issue","Share a resource"]},
  "Shared Interests & Hobbies":{intro:"Discover activities and organise shared interests.",actions:["Recommend something","Suggest an activity","Vote in a poll","RSVP to a meetup","Comment on an item"]},
@@ -36,7 +36,7 @@ export default function SpaceEngagementConfig({category,value,onChange}:Props){
    <div className="bp-config-actions">{actions.map(action=><label className="bp-check" key={action}><input type="checkbox" checked={config.enabledActions.includes(action)} onChange={e=>toggleAction(action,e.target.checked)}/><span>{action}</span></label>)}</div>
   </div>
   <details className="bp-config-advanced"><summary>2. Set participation rules <small>Roles, approvals and editing</small></summary>
-   <label className="bp-check"><input type="checkbox" checked={config.approvalRequired} onChange={e=>update({approvalRequired:e.target.checked})}/> Owner approval required before contributions are accepted</label>
+   <label className="bp-check"><input type="checkbox" checked={config.approvalRequired} onChange={e=>update({approvalRequired:e.target.checked})}/> Mark new contributions for owner review</label>
    <p className="bp-muted">Participant editing and withdrawal will be enabled with authenticated shared records. This local prototype does not yet provide secure ownership checks.</p>
    {config.enabledActions.map(action=><fieldset className="bp-action-roles" key={action}><legend>{action}</legend>{roles.map(role=><label className="bp-check" key={role}><input type="checkbox" checked={(config.actionRoles[action]||roles).includes(role)} onChange={e=>{const current=config.actionRoles[action]||roles;update({actionRoles:{...config.actionRoles,[action]:e.target.checked?[...current,role]:current.filter(x=>x!==role)}});}}/>{role}</label>)}</fieldset>)}
   </details>
