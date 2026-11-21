@@ -210,3 +210,11 @@
 .bp-generic-tools form label{display:grid;gap:6px}
 .bp-generic-tools input,.bp-generic-tools select,.bp-generic-tools textarea{width:100%;min-width:0}
 @media(max-width:560px){.bp-config-actions{grid-template-columns:1fr}.bp-custom-field{grid-template-columns:1fr 1fr}.bp-custom-field button{justify-self:start}}
+
+
+.bp-category-request-list{display:grid;gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid var(--bp-line,#e4e7ec)}
+.bp-category-request-list h3{margin:0;font-size:1rem}
+.bp-category-request-list article{padding:13px;border:1px solid var(--bp-line,#e4e7ec);border-radius:12px;background:var(--bp-soft,#f8fafc)}
+.bp-category-request-list article>div{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.bp-category-request-list article small{display:block;color:var(--bp-muted,#667085);font-size:.76rem}
+.bp-category-request-list article p{margin:8px 0;font-size:.88rem;line-height:1.45}
