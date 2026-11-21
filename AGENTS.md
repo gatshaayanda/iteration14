@@ -32,6 +32,16 @@
 - Visitor identity remains name-only; do not add an email requirement. Access words and name matching are browser-local demo controls, not secure production authentication or cross-device access.
 - Keep the separate private owner login and owner workspace flow unchanged. The customer account entry link opens the relevant Channel first; it must not jump directly into the owner control centre or a generic account.
 
+## BACKPACK input ownership and customer engagement handoff — 21 November 2026
+
+- Backpack-wide identity inputs are Backpack / OS name, owner name and the optional connected i13 B.O.S. address. Keep them in Settings and propagate changes to sibling Spaces under the same parent Backpack.
+- Space-level inputs are category, Space name, description and optional welcome resource. Do not duplicate Backpack identity fields in the Space editor.
+- Publishing inherits the active Space category; do not expose a second category selector on every update. Existing legacy posts retain their stored category when edited. Category-specific line items, links and optional attachments belong to the published item.
+- People/access inputs remain per Space: visibility, Access word, invites, roles and VIP circles. Comment and contribution permissions remain owner-controlled per Space.
+- Customer journey remains Channel → published item → “Select for My account” → Space access checks → name-only account → selected item context/resources → permitted comment or category-aware contribution. Do not create separate accounts per post.
+- Customer contribution prompts must match the Space category; comments and contributions use separate input state. Inbox records remain Space-specific and browser-local.
+- This placement pass does not imply typed quantities, due dates, assignments, RSVPs, cloud sync or server-enforced permissions. Do not change the data/security boundary without explicit approval.
+
 ## Purpose
 Iteration 13 is the standards/reference repository and a working prototype that demonstrates responsive customer journeys, browser-local demo workflows, protected PWA installation, iPhone guidance, offline behavior, and staff/admin patterns. It is not the mandatory cloning source for new projects. The service catalogue is sample content, not a real business offering.
 
