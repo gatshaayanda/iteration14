@@ -42,7 +42,7 @@ const templates:Record<string,Record<string,Field[]>>={
  "Submit a resource":[{id:"title",label:"Resource title"},{id:"url",label:"URL or file link",type:"url"},{id:"type",label:"Resource type"},{id:"description",label:"Description",type:"textarea",required:false},{id:"tags",label:"Tags",required:false}],
  "Suggest a correction":[{id:"resource",label:"Resource title or reference"},{id:"correction",label:"What should change?",type:"textarea"}],
  "Report a broken link":[{id:"resource",label:"Resource title or reference"},{id:"issue",label:"What is wrong?"}],
- "Recommend a collection item":[{id:"title",label:"Item title"},{id:"reason",label:"Why include it?",type:"textarea"},{id:"url",label:"Link",type:"url",required:false}]}
+ "Recommend a collection item":[{id:"title",label:"Item title"},{id:"reason",label:"Why include it?",type:"textarea"},{id:"url",label:"Link",type:"url",required:false}],"Comment on a resource":[{id:"resource",label:"Which resource?"},{id:"comment",label:"Your comment",type:"textarea"}]}
 };
 export default function SpaceGenericEngagement({category,identity,role,canContribute,config,onSubmission}:Props){
  const [action,setAction]=useState(""),[values,setValues]=useState<Record<string,string>>({}),[message,setMessage]=useState("");
