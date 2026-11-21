@@ -1,25 +1,25 @@
 "use client";
 import {useMemo,useState} from "react";
 export type EngagementField={id:string;label:string;type:"text"|"textarea"|"number"|"date"|"time"|"url"|"select"|"multiselect"|"file"|"checkbox";required:boolean;options?:string[];help?:string};
-export type EngagementConfig={enabledActions:string[];actionRoles:Record<string,string[]>;approvalRequired:boolean;allowParticipantEdits:boolean;customAction:string;customFields:EngagementField[];confirmation:string};
+export type EngagementConfig={enabledActions:string[];actionRoles:Record<string,string[]>;approvalRequired:boolean;allowParticipantEdits:boolean;customAction:string;customFields:EngagementField[];confirmation:string;isCustom?:boolean};
 type Props={category:string;value?:Partial<EngagementConfig>;onChange:(value:EngagementConfig)=>void};
 const definitions:Record<string,{intro:string;actions:string[]}>={
  "Projects & Ideas":{intro:"Move a shared project forward with ideas, tasks and offers of help.",actions:["Submit an idea","Suggest a task","Offer help","Ask for help","Comment on an item"]},
  "Learning & Growth":{intro:"Support lessons, practice and shared learning.",actions:["Ask a lesson question","Submit a reflection","Submit practice","Share a learning resource","Mark lesson complete"]},
- "Home & Everyday Life":{intro:"Coordinate shopping, household tasks and everyday needs.",actions:["Add grocery item","Confirm household need","Suggest substitute","Add a household chore","Complete a chore"]},
+ "Home & Everyday Life":{intro:"Coordinate shopping, household tasks and everyday needs.",actions:["Add grocery item","Confirm household need","Mark purchased","Suggest substitute"]},
  "Travel & Experiences":{intro:"Plan trips and shared experiences together.",actions:["Suggest destination","Add itinerary entry","Add packing item","Vote in a poll","RSVP to an event"]},
  "Communities & Causes":{intro:"Coordinate events, volunteering and community action.",actions:["RSVP to an event","Volunteer for a shift","Propose an activity","Report a community issue","Share a resource"]},
  "Shared Interests & Hobbies":{intro:"Discover activities and organise shared interests.",actions:["Recommend something","Suggest an activity","Vote in a poll","RSVP to a meetup","Comment on an item"]},
  "People & Connections":{intro:"Coordinate invitations, celebrations and memories.",actions:["Respond to an invitation","RSVP to an occasion","Send a greeting","Share a memory","Suggest an arrangement"]},
  "Resources & Collections":{intro:"Build and maintain a shared library.",actions:["Submit a resource","Suggest a correction","Report a broken link","Recommend a collection item","Comment on a resource"]},
- "Creator / TV / Entertainment":{intro:"Curate a channel and invite viewers to shape its catalogue.",actions:["Save to My Watchlist","Suggest a programme or source","Report a broken link","Comment on a media item"]},
+ "Creator / TV / Entertainment":{intro:"Curate a channel and invite viewers to shape its catalogue.",actions:["Save to My Watchlist","Suggest something to add","Report a broken link","Comment on a media item"]},
  "Other / Something else":{intro:"Define an experience that fits your Space.",actions:["Send a custom contribution"]}
 };
 const roles=["participant","contributor","moderator"];
 const field=(id:string,label:string,type:EngagementField["type"]="text",required=true,help?:string,options?:string[]):EngagementField=>({id,label,type,required,help,options});
 export function defaultsForCategory(category:string):EngagementConfig{
  const actions=definitions[category]?.actions||definitions["Other / Something else"].actions;
- return {enabledActions:[...actions],actionRoles:Object.fromEntries(actions.map(a=>[a,[...roles]])),approvalRequired:false,allowParticipantEdits:true,customAction:"Send a contribution",customFields:[field("details","Tell us more","textarea",true)],confirmation:"Your contribution has been saved on this device."};
+ return {enabledActions:[...actions],actionRoles:Object.fromEntries(actions.map(a=>[a,[...roles]])),approvalRequired:false,allowParticipantEdits:true,customAction:"Send a contribution",customFields:[field("details","Tell us more","textarea",true)],confirmation:"Your contribution has been saved on this device.",isCustom:category==="Other / Something else"};
 }
 export default function SpaceEngagementConfig({category,value,onChange}:Props){
  const defaults=useMemo(()=>defaultsForCategory(category),[category]);
