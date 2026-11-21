@@ -522,3 +522,14 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - A Space/engagement selector may only be added or repositioned when explicitly requested. Do not invent a new selector or move navigation as a side effect of fixing another issue.
 - The existing Backpack/B.O.S. paired switchers remain in the fixed bottom dock. Preserve this placement and all established navigation behavior unless explicitly instructed otherwise.
 
+
+
+## Creator Studio — first complete category QA milestone
+
+- Creator / TV / Entertainment now has a dedicated owner **Creator Studio** workspace tab. The Creator controls the channel's existing Space name and description, accent/border/background colours, starting layout preset, visible section order, Creator-authored programme schedule and channel-wide viewer permissions.
+- The participant Channel renders the Creator's configured programme guide and enabled shelves. Published items retain **Select for My account**; per-item comments/reactions combine with channel-wide settings and existing role checks.
+- Creator schedule audience levels are everyone who can enter the Space, signed-in participants and above, or moderators/owner. These are browser-local demo rules, not secure authorization.
+- Preserve the existing Creator link-first media boundary: full videos stay hosted by the Creator's selected platform; UploadThing is limited to existing artwork, short clips/reels and document limits. M3U/M3U8, GitHub and websites remain external sources in this milestone. Do not claim an IPTV/HLS player, playlist parser, XMLTV/EPG integration or rebroadcast capability.
+- The detailed acceptance plan and limitations live in [docs/BACKPACK-CREATOR-STUDIO-QA.md](./docs/BACKPACK-CREATOR-STUDIO-QA.md). Keep this document, README and QA status aligned when the implementation changes.
+- Existing Creator Spaces without a saved Creator channel configuration receive defaults on load. Do not seed or overwrite existing Creator content, channel names or descriptions.
+- All settings, schedules, comments, reactions, watchlists and access checks remain browser-local. Do not add Firebase persistence, authentication or Firestore rules without explicit approval of the authentication/schema/security migration gate.
