@@ -21,6 +21,19 @@ The current browser-local registry represents this relationship with a stable `b
    `https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8`.
 7. **Access roles:** invitations can be labelled Viewer, Participant, Contributor or Moderator; the owner is represented as Owner. The owner can change invite roles or revoke invitations. Role changes update existing local account records, and revoking an invitation preserves access granted independently by a VIP circle. Viewer accounts do not receive comment/request forms; signed-in non-viewer participants can update structured checklist items in the current browser profile. These are prototype UI rules only, not server-enforced security.
 
+## Customer Space selection and account access
+
+The customer-facing account entry is separate from the owner's workspace selector. Opening the customer account entry link presents **Select a Space**, allowing a visitor to choose the Space they intend to visit. The visitor then enters that Space's Channel and opens its own My account area.
+
+Access sequence:
+1. Select a Space from the customer-facing list.
+2. View that Space's Channel and published material.
+3. Open My account. If an Access word is required, enter the word configured by the owner for that Space.
+4. Enter the visitor's assigned name. Existing Public/VIP/Access only eligibility rules continue to apply.
+5. Participate only within the selected Space.
+
+Public Spaces without an Access word continue directly to name-only account entry. Public Spaces with a configured Access word ask for it. VIP and Access only Spaces require their configured Access word before the existing VIP/invitation name check. Switching Spaces clears the previous visitor identity and word verification. Access words are Space-specific and browser-local demo controls, not production security or cross-device authentication.
+
 ## Creator source and media responsibility
 
 - BACKPACK is the creator's distribution and organisation layer, not a video host. It does not upload, transcode, store or stream full-length creator videos.
