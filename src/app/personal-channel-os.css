@@ -296,3 +296,7 @@
 
 .bp-creator-tools{background:var(--bp-creator-background,#f4f5f7);border:1px solid var(--bp-creator-border,#d8dee8);border-radius:16px;padding:12px}
 .bp-creator-configured-section{border-top:1px solid var(--bp-creator-border,#d8dee8);padding-top:10px}
+
+.bp-creator-channel-hero p,.bp-creator-channel-hero small,.bp-creator-channel-hero .bp-eyebrow{color:inherit}
+.bp-creator-tools>.bp-muted,.bp-creator-configured-section>header h3{color:var(--bp-creator-foreground,#18202b)}
+.bp-creator-configured-section>header small{color:var(--bp-creator-foreground,#18202b);opacity:.82}
