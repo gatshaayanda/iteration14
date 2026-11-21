@@ -21,18 +21,17 @@ The current browser-local registry represents this relationship with a stable `b
    `https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8`.
 7. **Access roles:** invitations can be labelled Viewer, Participant, Contributor or Moderator; the owner is represented as Owner. The owner can change invite roles or revoke invitations. Role changes update existing local account records, and revoking an invitation preserves access granted independently by a VIP circle. Viewer accounts do not receive comment/request forms; signed-in non-viewer participants can update structured checklist items in the current browser profile. These are prototype UI rules only, not server-enforced security.
 
-## Customer Space selection and account access
+## Customer Channel selection and account access
 
-The customer-facing account entry is separate from the owner's workspace selector. Opening the customer account entry link presents **Select a Space**, allowing a visitor to choose the Space they intend to visit. The visitor then enters that Space's Channel and opens its own My account area.
+The visitor enters a Space's Channel first, selects a published item/resource/activity, completes the applicable access checks, and then enters **My account** for that item's Space. The account is the participation area for the selected Space, not a separate account for every post.
 
-Access sequence:
-1. Select a Space from the customer-facing list.
-2. View that Space's Channel and published material.
-3. Open My account. If an Access word is required, enter the word configured by the owner for that Space.
-4. Enter the visitor's assigned name. Existing Public/VIP/Access only eligibility rules continue to apply.
-5. Participate only within the selected Space.
+1. In the Channel, each published item has a **Select for My account** action.
+2. Selecting an item triggers the Space's access check.
+3. A Public Space with no Access word continues directly. A Public Space with a configured Access word asks for it. VIP and Access only Spaces require the owner's configured Access word.
+4. After the Access word, the visitor enters their assigned name; existing VIP/invitation eligibility rules still apply.
+5. The visitor participates within the selected Space's account. Switching Spaces clears the selected item, visitor identity and previous Access-word verification.
 
-Public Spaces without an Access word continue directly to name-only account entry. Public Spaces with a configured Access word ask for it. VIP and Access only Spaces require their configured Access word before the existing VIP/invitation name check. Switching Spaces clears the previous visitor identity and word verification. Access words are Space-specific and browser-local demo controls, not production security or cross-device authentication.
+The Access word is configured per Space under **People → Who can enter?** and applies only to that Space. Visitor identity remains name-only. Access words and name matching are browser-local demo controls, not production security or cross-device authentication. The owner header's SELECT SPACE dropdown remains a separate owner/navigation control, not the customer item-selection affordance.
 
 ## Creator source and media responsibility
 
