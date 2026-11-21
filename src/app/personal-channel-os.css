@@ -262,8 +262,9 @@
 .bp-creator-studio-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .bp-creator-studio-footer small{max-width:420px;color:#647084;line-height:1.45}
 .bp-creator-viewer-head{padding:15px;border:1px solid var(--bp-creator-border,#d8dee8);border-radius:14px;background:var(--bp-creator-background,#f4f5f7)}
-.bp-creator-viewer-head h2{margin:5px 0;color:#18202b}
-.bp-creator-viewer-head .bp-eyebrow{color:var(--bp-creator-accent,#155eef)}
+.bp-creator-viewer-head h2{margin:5px 0;color:var(--bp-creator-foreground,#18202b)}
+.bp-creator-viewer-head .bp-eyebrow{color:var(--bp-creator-accent-text,#18202b)}
+.bp-creator-viewer-head p{color:var(--bp-creator-foreground,#18202b)}
 .bp-creator-viewer-guide{margin:14px 0;border:1px solid var(--bp-creator-border,#d8dee8);border-radius:13px;padding:13px;background:#fff}
 .bp-creator-viewer-guide>header{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .bp-creator-viewer-guide h3{margin:0;font-size:1rem}
@@ -276,10 +277,10 @@
 .bp-creator-viewer-guide article>span{font-size:.72rem;font-weight:800;color:#475569}
 .bp-creator-viewer-guide article>span.is-live{color:#b42318}
 .bp-creator-viewer-guide article>a{color:var(--bp-creator-accent,#155eef);font-size:.8rem;font-weight:800}
-.bp-creator-tools .bp-creator-shelves button.is-active{border-color:var(--bp-creator-accent,#155eef);background:var(--bp-creator-accent,#155eef);color:#fff}
+.bp-creator-tools .bp-creator-shelves button.is-active{border-color:var(--bp-creator-accent,#155eef);background:var(--bp-creator-accent,#155eef);color:var(--bp-creator-accent-text,#fff)}
 .bp-creator-item{border-color:var(--bp-creator-border,#d8dee8)}
 .bp-creator-item h3{overflow-wrap:anywhere}
-.bp-creator-item>a{color:var(--bp-creator-accent,#155eef)}
+.bp-creator-item>a{color:var(--bp-creator-accent-text,#155eef)}
 @media(max-width:680px){.bp-creator-studio-grid{grid-template-columns:1fr}.bp-creator-studio-panel{padding:13px}.bp-creator-colours{gap:7px}.bp-creator-studio-footer{align-items:stretch}.bp-creator-studio-footer .bp-button{width:100%}}
 
 .bp-creator-programming{display:grid;gap:14px}
