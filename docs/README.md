@@ -33,7 +33,7 @@ Then open only the relevant task-specific documents below. Read the actual code 
 | PWA install behavior, install regression or install-related identity work | [PWA Installation Lock](./PWA-INSTALLATION-LOCK.md) |
 | New app selection, cloning, adaptation or infrastructure reset | [Cloning guide](../CLONING.md), [App Factory SOP](./ADMIN-HUB-APP-FACTORY-SOP.md), [Clone/reset checklist](./CLONE-RESET-CHECKLIST.md), and [Golden Baseline](../GOLDEN-BASELINE.md) |
 | Chat widget / guided assistant | [Chat Widget Research](../CHAT-WIDGET-RESEARCH.md), then inspect the current component and handlers |
-| Customer account workspace | [Account adaptation contract](../AGENTS.md#customer-account-workspace-adaptation-contract), plus the account/data sections in [Foundation Blueprint](../FOUNDATION-BLUEPRINT.md) and [Cloning guide](../CLONING.md) |
+| BACKPACK category configuration, owner journey or participant engagement inputs | [Master Engagement Input Catalogue](./BACKPACK-MASTER-ENGAGEMENT-INPUT-CATALOGUE.md) and [Category-specific Engagement Input Spec](./BACKPACK-CATEGORY-ENGAGEMENT-INPUT-SPEC.md) |\n| Customer account workspace | [Account adaptation contract](../AGENTS.md#customer-account-workspace-adaptation-contract), plus the account/data sections in [Foundation Blueprint](../FOUNDATION-BLUEPRINT.md) and [Cloning guide](../CLONING.md) |
 | Build, identity or release verification | [START-HERE](../START-HERE.md), [AGENTS](../AGENTS.md), `package.json`, verifier, CI workflow and actual check output |
 
 ## 4. What each root document owns
@@ -55,7 +55,7 @@ Then open only the relevant task-specific documents below. Read the actual code 
 - **BUSINESS-IDENTITY-AND-COLOUR-STANDARD.md** — first-run business identity, coupled Store · Account · Briefcase preview, maximum three brand colours, contrast and evidence-led colour psychology.
 - **OPERATIONAL-TRANSPARENCY-STANDARD.md** — truthful activity, status and outcomes across real workflows.\n- **BUSINESS-OS-COMMERCIAL-TRANSPARENCY-STANDARD.md** — proposed separation of infrastructure contributions, business-value evidence and optional owner-directed growth investment; includes integration-fit and monthly-review guidance.
 - **INTERACTION-CLARITY-AND-FEEDBACK-STANDARD.md** — clear affordances, accessible interaction, customer accounts and persistent/contextual feedback; toasts are supplementary only.
-- **PWA-INSTALLATION-LOCK.md** — protected installation state machine and recovery rules.
+- **PWA-INSTALLATION-LOCK.md** — protected installation state machine and recovery rules.\n- **BACKPACK-MASTER-ENGAGEMENT-INPUT-CATALOGUE.md** — canonical field/action inventory for all ten Space categories, owner setup journey, Custom category requests, participant experience and QA acceptance criteria.\n- **BACKPACK-CATEGORY-ENGAGEMENT-INPUT-SPEC.md** — focused implementation contract for category-specific engagement tools.
 - **ADMIN-HUB-APP-FACTORY-SOP.md** — end-to-end new-project operating procedure.
 - **CLONE-RESET-CHECKLIST.md** — actionable checklist for new-project reset and handoff.
 
