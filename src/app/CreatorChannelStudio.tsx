@@ -36,7 +36,7 @@ export function readableForeground(hex:string){const value=hex.replace("#","");i
 export const defaultCreatorChannelConfig:CreatorChannelConfig={
   preset:"My own mix",accentColor:"#155eef",borderColor:"#d8dee8",backgroundColor:"#f4f5f7",
   sections:[...CREATOR_SECTIONS],allowExplore:true,allowWatchlist:true,allowSuggestions:true,
-  allowBrokenLinkReports:true,allowComments:true,allowReactions:true,schedule:[]
+  allowBrokenLinkReports:true,allowComments:true,allowReactions:false,schedule:[]
 };
 type Props={
   title:string;description:string;value?:Partial<CreatorChannelConfig>;posts:CreatorPublishedItem[];
