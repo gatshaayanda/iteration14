@@ -94,3 +94,7 @@ For staff/admin login changes, the authoritative contract is the **One-word staf
 
 ## 8. Iteration13 product identity and guided experience
 Iteration13 is the reusable Business Operating System itself, with the proposition **Your business in your pocket**. Its visual metaphor is a briefcase and its keys: the public Store is the customer-facing door, while the private Briefcase contains customers, jobs, money, records, store controls and insights. The default first-use route teaches this model through live identity preview and a short optional guided exploration. Keep the reference generic and editable; niche-specific refinements belong in their own project clones.
+
+
+## BACKPACK OS
+- [Creator Studio QA milestone](./BACKPACK-CREATOR-STUDIO-QA.md) — Creator-owned channel identity, programming layout, schedule, viewer permissions, participant experience, QA acceptance and known limitations.
