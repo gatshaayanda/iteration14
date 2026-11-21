@@ -484,3 +484,21 @@ The product owner has approved a top-down, screen-by-screen redesign of the Iter
 - **Cloud persistence gate:** do not silently add anonymous Firebase writes or weaken Firestore rules. Production sync requires real authentication, stable owner IDs, a documented Firestore schema, server-enforced per-engagement membership/role rules, rules tests, local-data migration/backup and offline conflict semantics. Until then, browser-local records remain the truth for that browser profile.
 - **Protected foundation:** preserve the Backpack-specific service-worker cache namespace and update both shell/media cache versions plus verification whenever offline-critical UI changes. Preserve i13 cache namespaces, the explicit Refresh handoff and protected install flow.
 - **QA acceptance:** follow the twelve-step flow in the linked owner CRUD document. Run `npm run verify:identity`, `npm run verify:offline`, `npm run verify:typography`, `npm run lint` and `npm run build`; report actual results. A GitHub push or pending Vercel build is not a passing verification.
+
+## Product-owner change boundary — mandatory, 21 November 2026
+
+- **Do not change working behavior unless the product owner explicitly asks for that behavior to change.** A report about one missing or broken control is not permission to redesign navigation, alter entry flows, move controls, reinterpret labels, change data behavior or “improve” adjacent screens.
+- Before editing, read this file, `START-HERE.md`, the relevant golden-base/feature contract and the applicable change-safety standard. Also check the recorded product-owner decisions in the project context. Do not make the user repeat decisions already recorded.
+- Diagnose the exact reported problem first. Make the smallest possible targeted change. Preserve every unrelated working journey and its existing behavior. Do not bundle speculative enhancements or cleanup.
+- If the intended behavior is not explicitly established, stop and ask one focused question before changing it. Never infer product behavior from an internal function, a label, or what is easiest to implement.
+- Review the full diff for unintended changes and verify the reported journey plus its neighboring working journeys before pushing. If the requested fix cannot be isolated safely, explain the blocker instead of making an unapproved change.
+
+### Correct BACKPACK entry and destination behavior
+
+- The approved startup journey is **Create or Load first → complete setup when applicable → enter BACKPACK OS**. The workspace chooser is the entry point; do not silently reopen a previous channel or jump directly into an owner dashboard.
+- **Load an existing Backpack** means restore the selected Backpack and its saved records into BACKPACK OS. It does **not** mean open the Backpack admin/owner workspace, Overview, or any particular Space/channel by default.
+- **My Life / My Channel** are destinations within the loaded Backpack, not the entry screen and not synonyms for the owner/admin workspace.
+- Do not change what **Load Backpack**, **My Life**, **My Channel**, the channel preview, or any existing navigation action opens unless the product owner explicitly requests that exact change.
+- A Space/engagement selector may only be added or repositioned when explicitly requested. Do not invent a new selector or move navigation as a side effect of fixing another issue.
+- The existing Backpack/B.O.S. paired switchers remain in the fixed bottom dock. Preserve this placement and all established navigation behavior unless explicitly instructed otherwise.
+
