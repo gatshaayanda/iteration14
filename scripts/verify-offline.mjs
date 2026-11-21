@@ -4,6 +4,9 @@ const read = file => fs.readFileSync(path.resolve(process.cwd(), file), "utf8");
 const sw=read("public/sw.js");
 const page=read("src/app/page.tsx");
 const app=read("src/app/PersonalChannelOS.tsx");
+const engagementConfig=read("src/app/SpaceEngagementConfig.tsx");
+const engagementTools=read("src/app/SpaceEngagementTools.tsx");
+const genericEngagement=read("src/app/SpaceGenericEngagement.tsx");
 const css=read("src/app/personal-channel-os.css");
 const pwaCss=read("src/app/pwa.css");
 const pwa=read("src/app/pwa-register.tsx");
@@ -26,8 +29,8 @@ check(app.includes("personKey(p.name)===key")&&app.includes("personKey(item)===k
 check(app.includes("Access only")&&app.includes("Invite someone")&&app.includes('type="text"')&&app.includes("{s.invites.length} invited")&&!app.includes("invited emails"),"demo invitations must use simple names and a plain text field, not email addresses");
 check(app.includes("(restricted||vipOnly)&&(!signed||!allowed)")&&app.includes("PRIVATE CHANNEL"),"VIP and access-only channel posts must remain hidden until access is verified");
 check(app.includes("VIP CIRCLES")&&app.includes("Create VIP circle")&&app.includes("Member names")&&app.includes("function addCircle")&&app.includes("setNotice(\"VIP circle created.\")"),"Backpack must support creating and managing VIP circles by member name");
-check(app.includes("Allow comments")&&app.includes("Allow requests")&&app.includes("s.comments&&")&&app.includes("s.requests&&"),"Backpack must configure which channel interactions accounts can use");
-check(app.includes("Post comment")&&app.includes("Send contribution")&&app.includes("requests")&&app.includes("comments"),"individual accounts must support permitted comments and requests");
+check(app.includes("Allow general Space comments")&&app.includes("s.comments&&")&&app.includes("SpaceEngagementConfig")&&app.includes("engagement={s.engagement}"),"Backpack must configure category-specific participant actions and optional Space comments");
+check(engagementConfig.includes("Choose participant actions")&&engagementConfig.includes("actionRoles")&&engagementTools.includes("engagement?.enabledActions")&&genericEngagement.includes("Submit contribution ↗")&&genericEngagement.includes("Take part in this Space"),"individual accounts must receive structured category-specific forms governed by owner action and role settings");
 check(app.includes("PRIVATE CONTROL CENTRE")&&app.includes("Publish a Space update")&&app.includes("Who can enter?")&&app.includes("Publish")&&app.includes("Access"),"owner workspace must retain publishing and audience-access controls for personal engagements");
 check(app.includes("bp-admin-nav")&&app.includes("Overview")&&app.includes("Spaces")&&app.includes("People")&&app.includes("Inbox")&&app.includes("Settings")&&app.includes("setAdminTab"),"owner workspace must provide section navigation instead of one long stacked control centre");
 check(app.includes("spacePrompts")&&app.includes("const adminCopy=spacePrompts[s.category]")&&app.includes("placeholder={adminCopy.backpack}")&&app.includes("placeholder={adminCopy.about}")&&app.includes("const postCopy=spacePrompts[postCategory]")&&app.includes("placeholder={postCopy.title}")&&app.includes("placeholder={postCopy.message}"),"owner identity and selected publishing category must use category-aware examples and placeholders");
@@ -82,6 +85,6 @@ check(sw.includes("Cache maintenance is best-effort")&&sw.includes("still let th
 check(app.includes("function saveBackpackIdentity")&&app.includes("Backpack identity saved across its Spaces.")&&app.includes("Your Backpack details"),"Backpack-wide identity inputs must be grouped separately from child Space details");
 check(app.includes("Space details")&&app.includes("Updates are filed under")&&!app.includes("<label>Space category<select value={postCategory}"),"Space category belongs to Space details and publishing inherits that Space category");
 check(app.includes("Select for My account")&&app.includes("selectedPost.items.map")&&app.includes("Open selected resource"),"the customer account must carry the selected published item and its structured resources through the Channel-to-account handoff");
-check(app.includes("participationPrompts")&&app.includes("Project contribution")&&app.includes("Household update")&&app.includes("Trip contribution")&&app.includes("Programme or content contribution")&&app.includes("value={requestDraft}")&&app.includes("value={commentDraft}"),"customer contribution inputs must be category-aware and separate from comments");
+check(app.includes("SpaceEngagementConfig")&&app.includes("engagement={s.engagement}")&&genericEngagement.includes("Projects & Ideas")&&genericEngagement.includes("Learning & Growth")&&genericEngagement.includes("Travel & Experiences")&&genericEngagement.includes("Communities & Causes")&&genericEngagement.includes("Resources & Collections")&&app.includes("value={commentDraft}"),"customer contribution inputs must be category-aware and separate from optional comments");
 if(failures.length){console.error("PERSONAL CHANNEL VERIFICATION FAILED");failures.forEach(x=>console.error(" - "+x));process.exit(1);}
 console.log("PERSONAL CHANNEL VERIFIED — setup resources, audience gates, individual interactions, Backpack controls and protected offline/PWA foundation.");

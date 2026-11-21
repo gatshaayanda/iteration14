@@ -441,3 +441,24 @@ This catalogue describes the intended complete system. It must not be used to im
 - **Database-dependent:** requires authenticated shared persistence or server-side enforcement.
 
 Update this status as implementation changes. Do not expose a control labelled as configured if it does not change the participant experience.
+
+
+## 12. Implementation snapshot — guided engagement milestone
+
+This snapshot describes the guided-engagement implementation branch and must be refreshed after merge/release:
+
+| Capability | Current prototype state |
+| --- | --- |
+| Category-specific setup at Space creation | Implemented for the ten standard choices; selected category loads its action defaults |
+| Owner action toggles and role eligibility | Implemented and stored with the Space |
+| Owner approval setting | Implemented for typed contributions; pending contributions can be approved/declined in the local owner Inbox |
+| Grocery participant experience | Existing dedicated grocery list, confirmations, purchase states, substitutes and cycle controls retained; major actions now respect owner configuration |
+| Creator participant experience | Existing shelves, watchlist, suggestions, broken-link reports and item comments retained; configured actions and roles gate these tools |
+| Other standard categories | Category-specific structured participant forms implemented for Projects, Learning, Travel, Communities, Interests, People and Resources |
+| Custom Space builder | Custom action and typed fields implemented, including required flags and choice options |
+| New category request | Structured request saved locally with Pending status and surfaced in owner Inbox |
+| Participant edit/withdraw | Not implemented in this local prototype; requires stable identity and shared records |
+| Cross-device collaboration and server-enforced privacy | Not implemented; requires database/authentication integration |
+| Category request global publishing/review | Local capture only; central review and catalogue publication require database integration |
+
+**Important:** Owner role controls and approval states are prototype UI/data behavior stored in the browser. They are not a security boundary. Do not use sensitive information or treat local approvals as server-enforced workflow. Participant edit/withdraw is explicitly deferred until authenticated shared persistence exists.
