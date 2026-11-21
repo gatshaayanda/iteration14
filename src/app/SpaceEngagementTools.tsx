@@ -8,10 +8,10 @@ type GroceryItem={id:string;name:string;quantity:string;unit:string;brand:string
 type Cycle={interval:number;nextDate:string;label:string};
 type Chore={id:string;title:string;details:string;assignee:string;due:string;status:"open"|"completed";completedBy?:string};
 type Submission=(kind:string,payload:Record<string,string>)=>void;
-type Props={spaceId:string;category:string;identity:string;role:string;canContribute:boolean;canComment:boolean;posts:Post[];ownerMode?:boolean;engagement?:Partial<EngagementConfig>;onSubmission:Submission;onComment:(text:string,postTitle:string)=>void};
+type Props={spaceId:string;category:string;identity:string;role:string;canContribute:boolean;posts:Post[];ownerMode?:boolean;engagement?:Partial<EngagementConfig>;onSubmission:Submission};
 const key=(id:string)=>"backpack-os:engagement-tools:v1:"+id;
 const dateText=(value:string)=>{if(!value)return "Not scheduled";const d=new Date(value+"T12:00:00");return Number.isNaN(d.getTime())?"Not scheduled":d.toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"});};
-export default function SpaceEngagementTools({spaceId,category,identity,role,canContribute,canComment,posts,ownerMode=false,engagement,onSubmission,onComment}:Props){
+export default function SpaceEngagementTools({spaceId,category,identity,role,canContribute,posts,ownerMode=false,engagement,onSubmission}:Props){
  const [items,setItems]=useState<GroceryItem[]>([]);
  const [chores,setChores]=useState<Chore[]>([]);
  const [choreTitle,setChoreTitle]=useState(""),[choreDetails,setChoreDetails]=useState(""),[choreAssignee,setChoreAssignee]=useState(""),[choreDue,setChoreDue]=useState("");
