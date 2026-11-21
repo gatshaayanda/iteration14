@@ -281,3 +281,11 @@
 .bp-creator-item h3{overflow-wrap:anywhere}
 .bp-creator-item>a{color:var(--bp-creator-accent,#155eef)}
 @media(max-width:680px){.bp-creator-studio-grid{grid-template-columns:1fr}.bp-creator-studio-panel{padding:13px}.bp-creator-colours{gap:7px}.bp-creator-studio-footer{align-items:stretch}.bp-creator-studio-footer .bp-button{width:100%}}
+
+.bp-creator-programming{display:grid;gap:14px}
+.bp-creator-configured-section{min-width:0}
+.bp-creator-configured-section>header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:3px 0 8px}
+.bp-creator-configured-section>header h3{margin:0;font-size:1.02rem}
+.bp-creator-configured-section>header small{color:#647084;font-size:.75rem}
+.bp-creator-configured-section .bp-creator-library{margin:0}
+.bp-creator-configured-section .bp-creator-library:empty{display:none}
