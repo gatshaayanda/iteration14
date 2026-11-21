@@ -22,6 +22,16 @@
 - Read CHAT-WIDGET-RESEARCH.md before adding a chat helper. The current deterministic adaptation lives in src/app/ServiceGuide.tsx; that file separates the Sparkle Legacy reference from research-backed recommendations.
 - Before claiming a fix is complete, run the repository's available checks, inspect their actual output, and verify the exact commit/deployment state. A GitHub edit or merge alone is not a build verification. Never weaken or remove install regression checks to make a build pass.
 - README is the customer/admin demo walkthrough. Do not assume an earlier conversation summary is newer than the repository.
+## Customer Space selection and account access — approved workflow
+
+- Visitor entry through the customer account link (`?view=account`) opens a customer-facing **Select a Space** screen. It lists the available Spaces; it must not silently open the first Space or expose the owner control centre.
+- Visitor journey: **Select a Space → Channel → Open personal account → Access word when required → name-only account entry → Space-specific participation**.
+- The owner's header Space selector is a separate control and is not a substitute for customer-facing Space selection.
+- Access words are configured per Space in **People → Who can enter?**. A Public Space with no Access word remains open; a Public Space with a configured word asks for it. VIP and Access only Spaces always require their configured Access word before account entry, followed by the existing name/VIP/invitation eligibility check.
+- An Access word grants entry only to its own Space. Switching Spaces clears the visitor's signed-in name and prior Access-word verification; access to one Space must never carry into another.
+- Visitor identity remains name-only; do not add an email requirement. Access words and name matching are browser-local demo controls, not secure production authentication or cross-device access.
+- Keep the separate private owner login and owner workspace flow unchanged.
+
 ## Purpose
 Iteration 13 is the standards/reference repository and a working prototype that demonstrates responsive customer journeys, browser-local demo workflows, protected PWA installation, iPhone guidance, offline behavior, and staff/admin patterns. It is not the mandatory cloning source for new projects. The service catalogue is sample content, not a real business offering.
 
