@@ -31,7 +31,7 @@ const templates:Record<string,Record<string,Field[]>>={
  "Recommend something":[{id:"title",label:"Recommendation"},{id:"reason",label:"Why recommend it?",type:"textarea"},{id:"url",label:"Link",type:"url",required:false}],
  "Suggest an activity":[{id:"activity",label:"Activity"},{id:"date",label:"Suggested date",type:"date",required:false},{id:"place",label:"Place",required:false}],
  "Vote in a poll":[{id:"poll",label:"Poll or question"},{id:"choice",label:"Your choice"}],
- "RSVP to a meetup":[{id:"meetup",label:"Meetup"},{id:"response",label:"Response",type:"select",options:["Going","Not going","Maybe"]}]},
+ "RSVP to a meetup":[{id:"meetup",label:"Meetup"},{id:"response",label:"Response",type:"select",options:["Going","Not going","Maybe"]}],"Comment on an item":[{id:"item",label:"Which item?"},{id:"comment",label:"Your comment",type:"textarea"}]},
  "People & Connections":{
  "Respond to an invitation":[{id:"invitation",label:"Invitation"},{id:"response",label:"Response",type:"select",options:["Accept","Decline","Maybe"]}],
  "RSVP to an occasion":[{id:"occasion",label:"Occasion"},{id:"response",label:"Response",type:"select",options:["Going","Not going","Maybe"]},{id:"guests",label:"Number of guests",type:"number",required:false}],
