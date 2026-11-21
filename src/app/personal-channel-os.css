@@ -123,21 +123,3 @@
 .bp-space-picker select{width:100%;min-width:0;min-height:40px;border:1px solid #b9c9e5;border-radius:9px;padding:8px 32px 8px 10px;background:#f5f8ff;color:#172033;font-size:.78rem;font-weight:850}
 .bp-space-picker select:focus-visible{outline:3px solid #155eef;outline-offset:2px}
 @media(max-width:700px){.bp-nav{gap:8px}.bp-space-picker{order:3;flex:1 0 100%;max-width:none;padding:0}.bp-nav nav{order:4;width:100%}}
-
-
-/* Flagship system-entry transition and always-visible dock labels. */
-.bp-bottom-dock button,.bp-bottom-dock a{grid-template-rows:36px auto auto;gap:3px;min-height:76px;padding:7px 5px}
-.bp-bottom-dock button>strong,.bp-bottom-dock a>strong{color:#202a39;font-size:.68rem;font-weight:900}
-.bp-bottom-dock button>small,.bp-bottom-dock a>small{color:#657185;font-size:.56rem;font-weight:700}
-.bp-bottom-dock button:hover,.bp-bottom-dock a:hover{background:#eaf0fb;transform:translateY(-2px)}
-.bp-bottom-dock button,.bp-bottom-dock a{transition:background .2s ease,transform .2s ease,box-shadow .2s ease}
-.bp-bottom-dock button:hover>span,.bp-bottom-dock a:hover>span{box-shadow:0 0 0 5px #155eef12}
-.bp-system-transition{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;background:radial-gradient(circle at 50% 42%,#243e68 0%,#101827 54%,#080d16 100%);color:#fff;text-align:center;animation:bp-transition-in .32s ease both}
-.bp-transition-emblem{display:grid;place-items:center;width:112px;height:112px;margin-bottom:8px;border:1px solid #ffffff45;border-radius:30px;background:linear-gradient(145deg,#ffffff26,#ffffff08);box-shadow:0 0 0 12px #ffffff0b,0 24px 70px #0008;animation:bp-emblem-arrive .48s cubic-bezier(.2,.8,.2,1) both}
-.bp-transition-emblem img{width:74px;height:74px;object-fit:contain;filter:drop-shadow(0 10px 16px #0007)}
-.bp-system-transition>span{color:#a9c9ff;font-size:.65rem;font-weight:900;letter-spacing:.2em}
-.bp-system-transition>strong{font-size:clamp(1.45rem,5vw,2.3rem);font-weight:900;letter-spacing:-.045em}
-.bp-system-transition>small{color:#c5cedc;font-size:.82rem}
-@keyframes bp-transition-in{from{opacity:0}to{opacity:1}}
-@keyframes bp-emblem-arrive{from{opacity:0;transform:translateY(18px) scale(.82)}to{opacity:1;transform:translateY(0) scale(1)}}
-@media(prefers-reduced-motion:reduce){.bp-system-transition,.bp-transition-emblem{animation:none!important}.bp-bottom-dock button,.bp-bottom-dock a{transition:none!important}.bp-bottom-dock button:hover,.bp-bottom-dock a:hover{transform:none}}

@@ -21,19 +21,6 @@ The current browser-local registry represents this relationship with a stable `b
    `https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8`.
 7. **Access roles:** invitations can be labelled Viewer, Participant, Contributor or Moderator; the owner is represented as Owner. The owner can change invite roles or revoke invitations. Role changes update existing local account records, and revoking an invitation preserves access granted independently by a VIP circle. Viewer accounts do not receive comment/request forms; signed-in non-viewer participants can update structured checklist items in the current browser profile. These are prototype UI rules only, not server-enforced security.
 
-## Input ownership and customer engagement handoff — 21 November 2026
-
-Keep each input with the record it describes; do not duplicate parent Backpack identity fields inside an individual Space editor.
-
-- **Backpack identity (shared by sibling Spaces):** Backpack / OS name, owner name and the optional connected i13 B.O.S. address. Save these together and propagate the shared identity across that Backpack's Spaces. The B.O.S. address is a local shortcut only, not data sync.
-- **Space identity (one engagement):** category, Space name, description and optional welcome resource. The category is selected in setup or Space details, not independently reselected on every published update.
-- **Publishing (one Channel item):** title, message, category-specific line items, optional source link and optional UploadThing attachment. New updates inherit the Space category. Existing legacy posts retain their saved category when edited. The public Channel shows published items only.
-- **People and access (one Space):** visibility, Access word, invitations, roles and VIP circles. These settings do not belong to the Backpack parent.
-- **Participation settings (one Space):** comment and contribution/request permissions remain owner-controlled. The customer Account exposes separate comment and contribution fields; contribution wording and examples follow the Space category and submissions remain in that Space's Inbox.
-- **Customer handoff:** Channel item → “Select for My account” → applicable Space access checks → name-only account entry → selected item's full context/resources and permitted participation controls. Keep this Space-specific; switching Spaces clears prior identity and access verification.
-
-This is a placement and handoff pass over the existing browser-local model. It does not add typed quantities, due dates, assignments, RSVPs, payment, cloud sync or server-enforced permissions. Those remain separate future capabilities requiring their own schema and verification.
-
 ## Customer Channel selection and account access
 
 The visitor enters a Space's Channel first, selects a published item/resource/activity, completes the applicable access checks, and then enters **My account** for that item's Space. The account is the participation area for the selected Space, not a separate account for every post.

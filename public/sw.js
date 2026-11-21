@@ -1,5 +1,5 @@
-// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v32";
-const MEDIA_CACHE = "backpack-os-media-v14";
+// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v30";
+const MEDIA_CACHE = "backpack-os-media-v12";
 const SHELL_CACHE = CACHE_VERSION;
 const STATIC_LIMIT = 100;
 const PUBLIC_PAGE_LIMIT = 12;
@@ -63,9 +63,7 @@ async function precacheShell() {
     await shell.put(request, response);
   }
 
-  // Cache maintenance is best-effort: a cleanup failure must not discard a
-  // successfully prepared app shell or prevent the worker from installing.
-  try { await trimCache(SHELL_CACHE, STATIC_LIMIT, APP_SHELL); } catch {}
+  await trimCache(SHELL_CACHE, STATIC_LIMIT, APP_SHELL);
 }
 
 self.addEventListener("message", event => {
@@ -102,9 +100,8 @@ async function cacheMediaUrl(value) {
   // Use a readable CORS response so storage can be bounded by actual declared size.
   // If a host does not permit CORS, its image still works online but is not prefetched.
   const request = new Request(value, { mode: "cors", credentials: "omit", cache: "reload" });
-  let cache;
-  try { cache = await caches.open(MEDIA_CACHE); } catch { return; }
-  if (await safeCacheMatch(cache, request)) return;
+  const cache = await caches.open(MEDIA_CACHE);
+  if (await cache.match(request)) return;
   try {
     const response = await fetch(request);
     const declaredSize = Number(response.headers.get("content-length") || 0);
@@ -119,12 +116,8 @@ async function cacheMediaUrl(value) {
 
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {
-    // Old-cache cleanup is housekeeping. If storage inspection is temporarily
-    // unavailable, still let the current worker activate and claim its clients.
-    try {
-      const keys = await caches.keys();
-      await Promise.all(keys.filter(key => (key.startsWith("backpack-os-shell-") && key !== SHELL_CACHE) || (key.startsWith("backpack-os-media-") && key !== MEDIA_CACHE)).map(key => caches.delete(key)));
-    } catch {}
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(key => (key.startsWith("backpack-os-shell-") && key !== SHELL_CACHE) || (key.startsWith("backpack-os-media-") && key !== MEDIA_CACHE)).map(key => caches.delete(key)));
     // Navigation preload overlaps the network request with worker startup. It is
     // optional and must never prevent activation on browsers that do not support it.
     try {
@@ -247,7 +240,7 @@ async function cacheMediaRequest(request, event) {
   } catch {
     try { return await fetch(request); } catch { return Response.error(); }
   }
-  const cached = await safeCacheMatch(cache, request);
+  const cached = await cache.match(request);
   const refresh = async () => {
     // Convert the browser's often-opaque image request to CORS where supported.
     // Opaque responses cannot be size-checked and are deliberately not persisted.
@@ -277,10 +270,6 @@ async function cacheMediaRequest(request, event) {
   }
 }
 
-async function safeCacheMatch(cache, request) {
-  try { return await cache.match(request); } catch { return undefined; }
-}
-
 async function cacheFirst(request) {
   let cache;
   try {
@@ -288,7 +277,7 @@ async function cacheFirst(request) {
   } catch {
     try { return await fetch(request); } catch { return Response.error(); }
   }
-  const cached = await safeCacheMatch(cache, request);
+  const cached = await cache.match(request);
   if (cached) return cached;
   try {
     const response = await fetch(request);

@@ -56,6 +56,7 @@ if (!pwaRegister.includes('src="/backpack-os-icon-v4.svg"')) failures.push("PWA 
 const offlinePage = fs.readFileSync(path.join(root, "src/app/offline/page.tsx"), "utf8");
 if (!offlinePage.includes('src="/backpack-os-icon-v4.svg"') || !offlinePage.includes("BACKPACK")) failures.push("offline screen: visible BACKPACK artwork and identity are required");
 if (!personalOS.includes("setupExamples") || !personalOS.includes("const setupCopy=setupExamples[s.category]") || !personalOS.includes("placeholder={setupCopy.backpack}") || !personalOS.includes("placeholder={setupCopy.space}") || !personalOS.includes("placeholder={setupCopy.about}")) failures.push("setup: category-aware Space examples and placeholders must be explicit");
+if (!personalOS.includes("{!activeBackpackId&&<label>Backpack / OS name") || !personalOS.includes("{!activeBackpackId&&<label>Your name") || !personalOS.includes("activeBackpackId?\"Create Space ↗\":\"Create Backpack OS ↗\"")) failures.push("setup: adding a Space must inherit parent Backpack identity instead of asking for parent name and owner again");
 if (pwaRegister.includes("i13-install")) failures.push("PWA install card must use BACKPACK-owned styles, not inherited Iteration 13 class names");
 for (const expected of ["BACKPACK OS | Your Personal Channel", "applicationName:\"BACKPACK OS\""]) if (!layout.includes(expected)) failures.push("layout: missing " + expected);
 // Validate Apple install metadata semantically; whitespace and additional metadata fields are harmless.
