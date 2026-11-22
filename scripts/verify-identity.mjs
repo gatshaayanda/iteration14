@@ -110,6 +110,7 @@ if (personalOs.includes('className="bp-backpack-link"') || /iteration13\.vercel\
 if (!personalCss.includes(".bp-bottom-dock{position:fixed") || !personalCss.includes("env(safe-area-inset-bottom)")) failures.push("workspace navigation: fixed bottom dock must respect the device safe area");
 if (!personalOs.includes('setScreen("chooser")') || !personalOs.includes('Create new Backpack OS') || !personalOs.includes('OR LOAD AN EXISTING BACKPACK')) failures.push("workspace launcher: create-or-load choice must appear on app launch");
 if (!personalOs.includes('Load Backpack ↗') || !personalOs.includes('INDEX_KEY') || !personalOs.includes('backpackName')) failures.push("workspace launcher: named existing Backpacks must be saved and loadable");
+if (!personalOs.includes('<div className="bp-backpack-spaces">{group.items.map(w=>') || !personalOs.includes('<div className="bp-backpack-load">') || !personalOs.includes('onClick={()=>loadWorkspace(group.items[0],"channel")}') || personalOs.includes('onClick={()=>loadWorkspace(w,"channel")}')) failures.push("workspace launcher: one Load Backpack action must open the parent and list child Spaces without presenting each Space as a separate Backpack");
 if (!personalOs.includes('backpack-legacy') || !personalOs.includes('backpack-os:workspaces:v1')) failures.push("workspace launcher: legacy single-Backpack data must migrate without loss");
 
 
@@ -119,7 +120,7 @@ for (const legacyAlias of ["public/icon.svg", "public/backpack-icon.svg"]) {
   if (!/shoulder straps/i.test(alias) || !alias.includes("fbbf24")) failures.push(legacyAlias + ": legacy install artwork must resolve to the dedicated BACKPACK mark");
 }
 const shellVersion = sw.match(/const CACHE_VERSION = "(backpack-os-shell-v\d+)"/)?.[1];
-if (shellVersion !== "backpack-os-shell-v32") failures.push("service worker: shell cache version must advance for the current BACKPACK identity");
+if (shellVersion !== "backpack-os-shell-v33") failures.push("service worker: shell cache version must match the current BACKPACK offline shell");
 if (!sw.includes('"/backpack-icon.svg?v=2"') || !sw.includes('"/icon.svg"')) failures.push("service worker: current branded backpack aliases must be precached");
 
 
