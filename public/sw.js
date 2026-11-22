@@ -1,4 +1,4 @@
-// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v32";
+// BACKPACK OS offline app shell. Push providers are intentionally not coupled to The Plug or another business project.\n\nconst CACHE_VERSION = "backpack-os-shell-v33";
 const MEDIA_CACHE = "backpack-os-media-v14";
 const SHELL_CACHE = CACHE_VERSION;
 const STATIC_LIMIT = 100;
@@ -37,9 +37,10 @@ async function precacheShell() {
     }
     await shell.put(request, response.clone());
     const html = await response.text();
-    // Match ordinary Next.js asset URLs directly; do not depend on escaped HTML attributes.
-    for (const assetPath of html.match(/\/_next\/static\/[^"'\s<>]+/g) || []) {
-      discovered.add(new URL(assetPath.replaceAll("&amp;", "&"), self.location.origin).href);
+    // Read actual script/stylesheet references from the HTML. Other Next.js
+    // static resources are useful, but must not be allowed to block installation.
+    for (const match of html.matchAll(/(?:src|href)=["'](\\/_next\\/static\\/[^"']+)["']/g)) {
+      discovered.add(new URL(match[1].replaceAll("&amp;", "&"), self.location.origin).href);
     }
   }
 
@@ -54,14 +55,33 @@ async function precacheShell() {
     }
   }
 
-  // Store every script and stylesheet referenced by the server-rendered home
-  // and offline pages before allowing the new worker to finish installation.
-  for (const url of discovered) {
+  // JavaScript and CSS are the executable app shell. They are mandatory:
+  // without them the cached HTML would only render an empty Next.js document.
+  // Fonts, manifests and other discovered resources are useful but optional.
+  const criticalAssets = [...discovered].filter(url => /\\.(?:js|css)(?:[?#]|$)/i.test(url));
+  if (!criticalAssets.some(url => /\\.js(?:[?#]|$)/i.test(url)) || !criticalAssets.some(url => /\\.css(?:[?#]|$)/i.test(url))) {
+    throw new Error("BACKPACK home screen did not expose its required JavaScript and CSS assets");
+  }
+
+  await Promise.all(criticalAssets.map(async url => {
     const request = new Request(url, { cache: "reload" });
     const response = await fetch(request);
     if (!response.ok) throw new Error("A required BACKPACK app-shell asset could not be precached");
     await shell.put(request, response);
-  }
+  }));
+
+  const optionalAssets = [...discovered].filter(url => !criticalAssets.includes(url));
+  await Promise.all(optionalAssets.map(async url => {
+    try {
+      const request = new Request(url, { cache: "reload" });
+      const response = await fetch(request);
+      if (response.ok) {
+        try { await shell.put(request, response); } catch {}
+      }
+    } catch {
+      // Optional assets must never prevent the offline app shell from installing.
+    }
+  }));
 
   // Cache maintenance is best-effort: a cleanup failure must not discard a
   // successfully prepared app shell or prevent the worker from installing.
