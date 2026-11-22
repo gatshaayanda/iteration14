@@ -39,7 +39,7 @@ async function precacheShell() {
     const html = await response.text();
     // Read actual script/stylesheet references from the HTML. Other Next.js
     // static resources are useful, but must not be allowed to block installation.
-    for (const match of html.matchAll(/(?:src|href)=["'](\\/_next\\/static\\/[^"']+)["']/g)) {
+    for (const match of html.matchAll(/(?:src|href)=["'](\/_next\/static\/[^"']+)["']/g)) {
       discovered.add(new URL(match[1].replaceAll("&amp;", "&"), self.location.origin).href);
     }
   }
@@ -58,8 +58,8 @@ async function precacheShell() {
   // JavaScript and CSS are the executable app shell. They are mandatory:
   // without them the cached HTML would only render an empty Next.js document.
   // Fonts, manifests and other discovered resources are useful but optional.
-  const criticalAssets = [...discovered].filter(url => /\\.(?:js|css)(?:[?#]|$)/i.test(url));
-  if (!criticalAssets.some(url => /\\.js(?:[?#]|$)/i.test(url)) || !criticalAssets.some(url => /\\.css(?:[?#]|$)/i.test(url))) {
+  const criticalAssets = [...discovered].filter(url => /\.(?:js|css)(?:[?#]|$)/i.test(url));
+  if (!criticalAssets.some(url => /\.js(?:[?#]|$)/i.test(url)) || !criticalAssets.some(url => /\.css(?:[?#]|$)/i.test(url))) {
     throw new Error("BACKPACK home screen did not expose its required JavaScript and CSS assets");
   }
 
